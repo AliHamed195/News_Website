@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Configuration;
+using NewsWebsiteBackEnd.POCO;
 using NewsWebsiteBackEnd.Services.Interfaces;
 using NewsWebsiteBackEnd.Services.Repositories;
 
@@ -12,6 +14,9 @@ builder.Services.AddSwaggerGen();
 
 //Services
 builder.Services.AddScoped<IFoldersServices, FoldersServicesRepository>();
+
+//POCO
+builder.Services.Configure<FolderSettings>(builder.Configuration.GetSection("FoldersName"));
 
 var app = builder.Build();
 
