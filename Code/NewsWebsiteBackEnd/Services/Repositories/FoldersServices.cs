@@ -3,10 +3,10 @@ using NewsWebsiteBackEnd.Services.Interfaces;
 
 namespace NewsWebsiteBackEnd.Services.Repositories
 {
-    public class FoldersServicesRepository : IFoldersServices
+    public class FoldersServices : IFoldersServices
     {
         /// <inheritdoc />
-        public FolderOperationResult CreateFolder(string folderName, string path, string iconPath = null)
+        public FolderOperationResult CreateFolder(string folderName, string path)
         {
             try
             {
@@ -14,20 +14,6 @@ namespace NewsWebsiteBackEnd.Services.Repositories
                 if (!Directory.Exists(fullPath))
                 {
                     Directory.CreateDirectory(fullPath);
-
-                    if (!string.IsNullOrEmpty(iconPath))
-                    {
-                        var desktopIniPath = Path.Combine(fullPath, "desktop.ini");
-                        using (var writer = new StreamWriter(desktopIniPath, false))
-                        {
-                            writer.WriteLine("[.ShellClassInfo]");
-                            writer.WriteLine($"IconResource={iconPath},0");
-                        }
-
-                        File.SetAttributes(desktopIniPath, FileAttributes.Hidden | FileAttributes.System);
-                        File.SetAttributes(fullPath, FileAttributes.System);
-                    }
-
                     return new FolderOperationResult(true, "Folder created successfully.", fullPath);
                 }
                 else

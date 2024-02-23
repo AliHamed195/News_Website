@@ -13,7 +13,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //Services
-builder.Services.AddScoped<IFoldersServices, FoldersServicesRepository>();
+builder.Services.AddScoped<IFoldersServices, FoldersServices>();
+builder.Services.AddScoped<IFileServices, FileServices>();
 
 //POCO
 builder.Services.Configure<FolderSettings>(builder.Configuration.GetSection("FoldersName"));

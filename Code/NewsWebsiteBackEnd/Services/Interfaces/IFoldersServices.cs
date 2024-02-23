@@ -9,9 +9,8 @@ namespace NewsWebsiteBackEnd.Services.Interfaces
         /// </summary>
         /// <param name="folderName">The name of the folder to create.</param>
         /// <param name="path">The path where the folder will be created.</param>
-        /// <param name="iconPath">Optional path to an icon file.</param>
         /// <returns>A FolderOperationResult object detailing the outcome.</returns>
-        FolderOperationResult CreateFolder(string folderName, string path, string iconPath = null);
+        FolderOperationResult CreateFolder(string folderName, string path);
 
         /// <summary>
         /// Deletes a folder at the specified path.
