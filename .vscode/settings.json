@@ -1,0 +1,11 @@
+{
+    "workbench.layoutControl.enabled": true,
+    "workbench.editor.enablePreview": false,
+    "workbench.editor.limit.enabled": true,
+    "editor.scrollBeyondLastLine": true,
+    "output.smartScroll.enabled": true,
+    "interactiveWindow.alwaysScrollOnNewCell": true,
+    "workbench.tree.enableStickyScroll": true,
+    "editor.stickyScroll.scrollWithEditor": true,
+    "editor.stickyScroll.enabled": false
+}

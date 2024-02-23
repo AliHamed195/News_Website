@@ -1,0 +1,29 @@
+<div class="login-page-bg">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 login-container">
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+                    <div class="text-center mb-4">
+                        <h2 class="login-title">News Portal Login</h2>
+                        <p class="login-subtitle">Access your dashboard to get the latest updates</p>
+                    </div>
+                    <div *ngIf="errorMessage" class="alert alert-danger login-error-alert" role="alert">
+                        {{ errorMessage }}
+                        <button type="button" class="close alert-close-btn" aria-label="Close" (click)="clearErrorMessage()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>                    
+                    <div class="mb-3 login-input-group">
+                        <label for="username" class="form-label login-label">Username<span class="required-star">*</span></label>
+                        <input type="text" class="form-control login-input" id="username" formControlName="username" placeholder="Enter your username">
+                    </div>
+                    <div class="mb-3 login-input-group">
+                        <label for="password" class="form-label login-label">Password<span class="required-star">*</span></label>
+                        <input type="password" class="form-control login-input" id="password" formControlName="password" placeholder="Enter your password">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 login-button" [disabled]="!loginForm.valid">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
