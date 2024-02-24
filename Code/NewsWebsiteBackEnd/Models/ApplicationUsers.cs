@@ -12,7 +12,7 @@ namespace NewsWebsiteBackEnd.Models
         [StringLength(255)]
         public string? ProfileImagePath { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public DateTime UpdatedAt { get; set; } = DateTime.Now;
+        public DateTime? UpdatedAt { get; set; }
         public bool IsDeleted { get; set; } = false;
         public bool IsBlocked { get; set; } = false;
         [StringLength(10)]

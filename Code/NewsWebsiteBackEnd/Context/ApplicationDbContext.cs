@@ -13,5 +13,6 @@ namespace NewsWebsiteBackEnd.Context
 
         public DbSet<ApplicationUsers> Users { get; set; }
         public DbSet<Categories> Categories { get; set; }
+        public DbSet<Comments> Comments { get; set; }
     }
 }
