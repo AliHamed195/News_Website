@@ -17,5 +17,6 @@ namespace NewsWebsiteBackEnd.Context
         public DbSet<HashTags> HashTags { get; set; }
         public DbSet<Posts> Posts { get; set; }
         public DbSet<QuestionsAnswers> QuestionsAnswers { get; set; }
+        public DbSet<Ratings> Ratings { get; set; }
     }
 }
