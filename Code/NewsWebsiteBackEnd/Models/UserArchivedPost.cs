@@ -10,6 +10,6 @@ namespace NewsWebsiteBackEnd.Models
         //public int PostId { get; set; }
         //public Posts Post { get; set; }
 
-        public DateTime ArchivedDate { get; set; }
+        public DateTime ArchivedDate { get; set; } = DateTime.Now;
     }
 }
