@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 
@@ -9,20 +9,23 @@ import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angula
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
-  loginForm: FormGroup;
+export class LoginComponent implements OnInit{
+  loginForm!: FormGroup;
   errorMessage: string | undefined;
 
   constructor(private fb: FormBuilder) {
+    this.errorMessage = "Please enter";
+  }
+
+  ngOnInit(): void {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
-    this.errorMessage = "Please enter";
   }
 
   onSubmit(): void {
-    if (this.loginForm.valid) {
+    if (this.loginForm && this.loginForm.valid) {
       console.log('Form Value', this.loginForm.value);
     }
   }

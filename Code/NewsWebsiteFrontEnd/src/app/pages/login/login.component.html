@@ -12,15 +12,21 @@
                         <button type="button" class="close alert-close-btn" aria-label="Close" (click)="clearErrorMessage()">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                    </div>                    
+                    </div>  
+                         
+                    <!-- Username Field -->             
                     <div class="mb-3 login-input-group">
                         <label for="username" class="form-label login-label">Username<span class="required-star">*</span></label>
                         <input type="text" class="form-control login-input" id="username" formControlName="username" placeholder="Enter your username">
                     </div>
+
+                    <!-- Password Field -->
                     <div class="mb-3 login-input-group">
                         <label for="password" class="form-label login-label">Password<span class="required-star">*</span></label>
                         <input type="password" class="form-control login-input" id="password" formControlName="password" placeholder="Enter your password">
                     </div>
+
+                    <!-- Submit Button --> 
                     <button type="submit" class="btn btn-primary w-100 login-button" [disabled]="!loginForm.valid">Login</button>
                 </form>
             </div>

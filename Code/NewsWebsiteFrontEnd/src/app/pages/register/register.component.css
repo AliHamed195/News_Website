@@ -1,0 +1,54 @@
+.register-page-bg {
+    background: url('../../Images/11a8d9b7-c3a0-4cba-8bd9-2e3d354fcefc.webp') no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.register-form {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 60px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    border: 1px solid #dee2e6;
+    max-width: 90%;
+    width: 600px;
+}
+
+.register-title {
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.register-input-group {
+    margin-bottom: 2rem;
+}
+
+.register-input {
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+}
+
+.register-button {
+    border-radius: 5px;
+    background-color: #007bff;
+    border: none;
+    padding: 15px 0;
+    font-weight: bold;
+    width: 100%;
+}
+
+.register-button:hover {
+    background-color: #0056b3;
+}
+
+.required-star{
+    color: red;
+}
+
+.text-danger {
+    margin-top: 0.5rem;
+}
