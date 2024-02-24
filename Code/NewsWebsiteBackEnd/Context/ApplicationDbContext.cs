@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using NewsWebsiteBackEnd.Models;
 
 namespace NewsWebsiteBackEnd.Context
 {
@@ -9,5 +10,7 @@ namespace NewsWebsiteBackEnd.Context
         : base(options)
         {
         }
+
+        public DbSet<ApplicationUsers> Users { get; set; }
     }
 }
