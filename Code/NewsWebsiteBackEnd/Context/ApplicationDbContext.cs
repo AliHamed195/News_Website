@@ -15,5 +15,6 @@ namespace NewsWebsiteBackEnd.Context
         public DbSet<Categories> Categories { get; set; }
         public DbSet<Comments> Comments { get; set; }
         public DbSet<HashTags> HashTags { get; set; }
+        public DbSet<Posts> Posts { get; set; }
     }
 }
