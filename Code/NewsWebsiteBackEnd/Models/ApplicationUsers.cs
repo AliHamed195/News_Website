@@ -8,6 +8,8 @@ namespace NewsWebsiteBackEnd.Models
     public class ApplicationUsers : IdentityUser
     {
         [StringLength(100)]
+        public string FullName { get; set; }
+        [StringLength(100)]
         public string? Country { get; set; }
         [StringLength(255)]
         public string? ProfileImagePath { get; set; }
