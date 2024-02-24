@@ -15,7 +15,7 @@ namespace NewsWebsiteBackEnd.Context
         public DbSet<UserTypes> UserTypes { get; set; }
         public DbSet<QuestionsAnswers> QuestionsAnswers { get; set; }
         public DbSet<Categories> Categories { get; set; }
-        public DbSet<Posts> Posts { get; set; }
+        public DbSet<Article> Articles { get; set; }
         public DbSet<HashTags> HashTags { get; set; }
         public DbSet<Comments> Comments { get; set; }
         public DbSet<Ratings> Ratings { get; set; }
