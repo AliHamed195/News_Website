@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using NewsWebsiteBackEnd.Context;
 using NewsWebsiteBackEnd.POCO;
 using NewsWebsiteBackEnd.Services.Interfaces;
 using NewsWebsiteBackEnd.Services.Repositories;
@@ -11,6 +13,14 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//Context
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
+    )
+);
 
 //Services
 builder.Services.AddScoped<IFoldersServices, FoldersServices>();
