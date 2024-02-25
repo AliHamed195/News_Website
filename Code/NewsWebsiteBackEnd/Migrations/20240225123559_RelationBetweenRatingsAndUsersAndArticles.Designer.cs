@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NewsWebsiteBackEnd.Context;
 
@@ -10,9 +11,11 @@ using NewsWebsiteBackEnd.Context;
 namespace NewsWebsiteBackEnd.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240225123559_RelationBetweenRatingsAndUsersAndArticles")]
+    partial class RelationBetweenRatingsAndUsersAndArticles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -554,31 +557,6 @@ namespace NewsWebsiteBackEnd.Migrations
                     b.ToTable("Ratings");
                 });
 
-            modelBuilder.Entity("NewsWebsiteBackEnd.Models.UserArchivedArticles", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ArchivedDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("ArticleId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ArticleId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserArchivedArticles");
-                });
-
             modelBuilder.Entity("NewsWebsiteBackEnd.Models.UserTypes", b =>
                 {
                     b.Property<int>("Id")
@@ -623,15 +601,10 @@ namespace NewsWebsiteBackEnd.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("UserTypeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("WebsiteLanguage")
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("varchar(10)");
-
-                    b.HasIndex("UserTypeId");
 
                     b.HasDiscriminator().HasValue("ApplicationUsers");
                 });
@@ -799,36 +772,6 @@ namespace NewsWebsiteBackEnd.Migrations
                     b.Navigation("CreatedByUser");
                 });
 
-            modelBuilder.Entity("NewsWebsiteBackEnd.Models.UserArchivedArticles", b =>
-                {
-                    b.HasOne("NewsWebsiteBackEnd.Models.Article", "Article")
-                        .WithMany("UserArchivedArticles")
-                        .HasForeignKey("ArticleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("NewsWebsiteBackEnd.Models.ApplicationUsers", "User")
-                        .WithMany("UserArchivedArticles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Article");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("NewsWebsiteBackEnd.Models.ApplicationUsers", b =>
-                {
-                    b.HasOne("NewsWebsiteBackEnd.Models.UserTypes", "UserType")
-                        .WithMany("ApplicationUsers")
-                        .HasForeignKey("UserTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("UserType");
-                });
-
             modelBuilder.Entity("NewsWebsiteBackEnd.Models.Article", b =>
                 {
                     b.Navigation("ArticleBodyStructures");
@@ -836,8 +779,6 @@ namespace NewsWebsiteBackEnd.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Ratings");
-
-                    b.Navigation("UserArchivedArticles");
                 });
 
             modelBuilder.Entity("NewsWebsiteBackEnd.Models.Categories", b =>
@@ -848,11 +789,6 @@ namespace NewsWebsiteBackEnd.Migrations
             modelBuilder.Entity("NewsWebsiteBackEnd.Models.Notifications", b =>
                 {
                     b.Navigation("ApplicationUsersNotifications");
-                });
-
-            modelBuilder.Entity("NewsWebsiteBackEnd.Models.UserTypes", b =>
-                {
-                    b.Navigation("ApplicationUsers");
                 });
 
             modelBuilder.Entity("NewsWebsiteBackEnd.Models.ApplicationUsers", b =>
@@ -870,8 +806,6 @@ namespace NewsWebsiteBackEnd.Migrations
                     b.Navigation("QuestionsAnswers");
 
                     b.Navigation("Ratings");
-
-                    b.Navigation("UserArchivedArticles");
                 });
 #pragma warning restore 612, 618
         }

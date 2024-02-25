@@ -10,5 +10,8 @@
         public string? Title { get; set; }
         public string? BodyText { get; set; }
         public bool IsContainDivider { get; set; } = false;
+
+        public int ArticleId { get; set; }
+        public Article Article { get; set; }
     }
 }

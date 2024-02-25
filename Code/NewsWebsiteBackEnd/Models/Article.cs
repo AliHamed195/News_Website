@@ -15,5 +15,16 @@
         public int TotalNumberOfViews { get; set; } = 0;
         public string? Tags { get; set; }
         public string UrlAsText { get; set; }
+
+        public string CreatedById { get; set; }
+        public ApplicationUsers CreatedBy { get; set; }
+
+        public int CategoryId { get; set; }
+        public Categories Categories { get; set; }
+
+        public ICollection<ArticleBodyStructure>? ArticleBodyStructures { get; set; }
+        public ICollection<Comments>? Comments { get; set; }
+        public ICollection<Ratings>? Ratings { get; set; }
+        public ICollection<UserArchivedArticles>? UserArchivedArticles { get; set; }
     }
 }

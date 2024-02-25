@@ -12,5 +12,7 @@ namespace NewsWebsiteBackEnd.Models
         public bool IsDeleted { get; set; } = false;
         public string CreatedById { get; set; }
         public ApplicationUsers User { get; set; }
+        public ICollection<Article>? Articles { get; set; }
+
     }
 }

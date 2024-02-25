@@ -8,5 +8,8 @@
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? UpdatedAt { get; set; }
         public bool IsDeleted { get; set; } = false;
+
+        public string CreatedById { get; set; }
+        public ApplicationUsers CreatedByUser { get; set; }
     }
 }

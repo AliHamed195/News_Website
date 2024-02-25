@@ -21,6 +21,8 @@ namespace NewsWebsiteBackEnd.Context
         public DbSet<Comments> Comments { get; set; }
         public DbSet<Ratings> Ratings { get; set; }
         public DbSet<Notifications> Notifications { get; set; }
+        public DbSet<ApplicationUsersNotifications> ApplicationUsersNotifications { get; set; }
+        public DbSet<UserArchivedArticles> UserArchivedArticles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

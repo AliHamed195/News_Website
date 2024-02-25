@@ -19,8 +19,17 @@ namespace NewsWebsiteBackEnd.Models
         public bool IsBlocked { get; set; } = false;
         [StringLength(10)]
         public string WebsiteLanguage { get; set; } = LanguageOptions.English;
+
+        public int UserTypeId { get; set; }
+        public UserTypes UserType { get; set; }
+
         public ICollection<Categories>? Categories { get; set; }
         public ICollection<ApplicationUsersNotifications>? ApplicationUsersNotificationsFromUser { get; set; }
         public ICollection<ApplicationUsersNotifications>? ApplicationUsersNotificationsToUser { get; set; }
+        public ICollection<Article>? Articles { get; set; }
+        public ICollection<HashTags>? HashTags { get; set; }
+        public ICollection<QuestionsAnswers>? QuestionsAnswers { get; set; }
+        public ICollection<Ratings>? Ratings { get; set; }
+        public ICollection<UserArchivedArticles>? UserArchivedArticles { get; set; }
     }
 }
