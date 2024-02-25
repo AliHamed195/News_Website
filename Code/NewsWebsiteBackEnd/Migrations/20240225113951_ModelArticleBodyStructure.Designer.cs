@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NewsWebsiteBackEnd.Context;
 
@@ -10,9 +11,11 @@ using NewsWebsiteBackEnd.Context;
 namespace NewsWebsiteBackEnd.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240225113951_ModelArticleBodyStructure")]
+    partial class ModelArticleBodyStructure
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -219,46 +222,6 @@ namespace NewsWebsiteBackEnd.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("NewsWebsiteBackEnd.Models.ApplicationUsersNotifications", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("FromUserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<bool>("IsArchived")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("IsRead")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<int>("NotificationsId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ToUserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FromUserId");
-
-                    b.HasIndex("NotificationsId");
-
-                    b.HasIndex("ToUserId");
-
-                    b.ToTable("ApplicationUsersNotifications");
-                });
-
             modelBuilder.Entity("NewsWebsiteBackEnd.Models.Article", b =>
                 {
                     b.Property<int>("Id")
@@ -351,10 +314,6 @@ namespace NewsWebsiteBackEnd.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("CreatedById")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
@@ -366,12 +325,7 @@ namespace NewsWebsiteBackEnd.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Categories");
                 });
@@ -426,25 +380,6 @@ namespace NewsWebsiteBackEnd.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("HashTags");
-                });
-
-            modelBuilder.Entity("NewsWebsiteBackEnd.Models.Notifications", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Body")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("NewsWebsiteBackEnd.Models.QuestionsAnswers", b =>
@@ -599,56 +534,6 @@ namespace NewsWebsiteBackEnd.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("NewsWebsiteBackEnd.Models.ApplicationUsersNotifications", b =>
-                {
-                    b.HasOne("NewsWebsiteBackEnd.Models.ApplicationUsers", "FromUser")
-                        .WithMany("ApplicationUsersNotificationsFromUser")
-                        .HasForeignKey("FromUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("NewsWebsiteBackEnd.Models.Notifications", "Notification")
-                        .WithMany("ApplicationUsersNotifications")
-                        .HasForeignKey("NotificationsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("NewsWebsiteBackEnd.Models.ApplicationUsers", "ToUser")
-                        .WithMany("ApplicationUsersNotificationsToUser")
-                        .HasForeignKey("ToUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("FromUser");
-
-                    b.Navigation("Notification");
-
-                    b.Navigation("ToUser");
-                });
-
-            modelBuilder.Entity("NewsWebsiteBackEnd.Models.Categories", b =>
-                {
-                    b.HasOne("NewsWebsiteBackEnd.Models.ApplicationUsers", "User")
-                        .WithMany("Categories")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("NewsWebsiteBackEnd.Models.Notifications", b =>
-                {
-                    b.Navigation("ApplicationUsersNotifications");
-                });
-
-            modelBuilder.Entity("NewsWebsiteBackEnd.Models.ApplicationUsers", b =>
-                {
-                    b.Navigation("ApplicationUsersNotificationsFromUser");
-
-                    b.Navigation("ApplicationUsersNotificationsToUser");
-
-                    b.Navigation("Categories");
                 });
 #pragma warning restore 612, 618
         }

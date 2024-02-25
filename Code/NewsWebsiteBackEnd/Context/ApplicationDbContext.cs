@@ -16,8 +16,34 @@ namespace NewsWebsiteBackEnd.Context
         public DbSet<QuestionsAnswers> QuestionsAnswers { get; set; }
         public DbSet<Categories> Categories { get; set; }
         public DbSet<Article> Articles { get; set; }
+        public DbSet<ArticleBodyStructure> ArticleBodyStructure { get; set; }
         public DbSet<HashTags> HashTags { get; set; }
         public DbSet<Comments> Comments { get; set; }
         public DbSet<Ratings> Ratings { get; set; }
+        public DbSet<Notifications> Notifications { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<ApplicationUsers>()
+                .HasMany(e => e.ApplicationUsersNotificationsFromUser)
+                .WithOne(e => e.FromUser)
+                .HasForeignKey(e => e.FromUserId)
+                .IsRequired();
+
+            modelBuilder.Entity<ApplicationUsers>()
+                .HasMany(e => e.ApplicationUsersNotificationsToUser)
+                .WithOne(e => e.ToUser)
+                .HasForeignKey(e => e.ToUserId)
+                .IsRequired();
+
+            modelBuilder.Entity<Notifications>()
+                .HasMany(n => n.ApplicationUsersNotifications)
+                .WithOne(aun => aun.Notification)
+                .HasForeignKey(aun => aun.NotificationsId)
+                .IsRequired();
+        }
+
     }
 }

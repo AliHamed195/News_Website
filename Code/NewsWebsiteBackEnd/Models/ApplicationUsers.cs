@@ -19,5 +19,8 @@ namespace NewsWebsiteBackEnd.Models
         public bool IsBlocked { get; set; } = false;
         [StringLength(10)]
         public string WebsiteLanguage { get; set; } = LanguageOptions.English;
+        public ICollection<Categories>? Categories { get; set; }
+        public ICollection<ApplicationUsersNotifications>? ApplicationUsersNotificationsFromUser { get; set; }
+        public ICollection<ApplicationUsersNotifications>? ApplicationUsersNotificationsToUser { get; set; }
     }
 }
