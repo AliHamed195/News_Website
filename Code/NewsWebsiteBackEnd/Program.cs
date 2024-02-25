@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using NewsWebsiteBackEnd.Context;
+using NewsWebsiteBackEnd.Models;
 using NewsWebsiteBackEnd.POCO;
 using NewsWebsiteBackEnd.Services.Interfaces;
 using NewsWebsiteBackEnd.Services.Repositories;
@@ -8,6 +10,11 @@ using NewsWebsiteBackEnd.Services.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+// Add Identity services
+builder.Services.AddIdentity<ApplicationUsers, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -40,6 +47,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
