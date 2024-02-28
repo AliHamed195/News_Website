@@ -6,6 +6,12 @@ using NewsWebsiteBackEnd.Models;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.AspNetCore.Http.HttpResults;
 using NewsWebsiteBackEnd.Context;
+using Microsoft.AspNetCore.Authorization;
+using NewsWebsiteBackEnd.POCO;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 
 namespace NewsWebsiteBackEnd.Controllers
 {
@@ -15,14 +21,17 @@ namespace NewsWebsiteBackEnd.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUsers> _userManager;
+        private readonly SignInManager<ApplicationUsers> _signInManager;
 
-        public AccountController(ApplicationDbContext context, UserManager<ApplicationUsers> userManager)
+        public AccountController(ApplicationDbContext context, UserManager<ApplicationUsers> userManager, SignInManager<ApplicationUsers> signInManager)
         {
             _context = context;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
             try
@@ -62,6 +71,21 @@ namespace NewsWebsiteBackEnd.Controllers
             {
                 return Ok(new { success = false, message = "Registration failed due to an internal error.", errors = ex.Message });
             }
+        }
+
+        [HttpPost("login")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login([FromBody] LoginModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        [HttpPost("logout")]
+        [Authorize]
+        public async Task<IActionResult> Logout()
+        {
+           throw new NotImplementedException();
         }
     }
 }

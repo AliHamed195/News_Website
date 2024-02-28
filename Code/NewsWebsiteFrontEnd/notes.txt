@@ -1,0 +1,5 @@
+bootstrap
+datatables
+jquery
+fontawesome-free
+sweetalert2
