@@ -1,4 +1,4 @@
-﻿namespace NewsWebsiteBackEnd.Models.ViewModels
+﻿namespace NewsWebsiteBackEnd.Models.ViewModels.Account
 {
     public class LoginModel
     {

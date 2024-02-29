@@ -2,14 +2,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.IdentityModel.Tokens;
 using NewsWebsiteBackEnd.Hubs;
 using NewsWebsiteBackEnd.Models;
+using NewsWebsiteBackEnd.Models.ViewModels.Role;
+using System.Data;
 
 namespace NewsWebsiteBackEnd.Controllers
 {
-    //==========================================================
-    //TODO: Need to add the permissions when creat/edit ... role.
-    //==========================================================
     [Route("api/[controller]")]
     [ApiController]
     public class RoleController : ControllerBase
@@ -25,10 +25,6 @@ namespace NewsWebsiteBackEnd.Controllers
             _hubContext = hubContext;
         }
 
-        /// <summary>
-        /// Retrieves all roles from the database.
-        /// </summary>
-        /// <returns>A list of all roles within the database along with a success status.</returns>
         [HttpGet("all")]
         public async Task<IActionResult> GetAllRoles()
         {
@@ -36,25 +32,50 @@ namespace NewsWebsiteBackEnd.Controllers
             return Ok(new { success = true, data = roles });
         }
 
-        /// <summary>
-        /// Adds a new role to the system if it does not already exist.
-        /// </summary>
-        /// <param name="roleName">The name of the role to add.</param>
-        /// <returns>
-        /// A response indicating whether the role was successfully added, 
-        /// including a success status and a message.
-        /// </returns>
-        [HttpPost("add")]
-        public async Task<IActionResult> AddRole(string roleName)
+        [HttpGet("{roleId}/permissions")]
+        public async Task<IActionResult> GetRolePermissions(string roleId)
         {
-            var roleExists = await _roleManager.RoleExistsAsync(roleName);
+            var role = await _roleManager.FindByIdAsync(roleId);
+            if (role == null)
+            {
+                return Ok(new { success = false, message = "Role not found." });
+            }
+
+            var claims = await _roleManager.GetClaimsAsync(role);
+            var permissions = claims.Where(c => c.Type == "permission").Select(c => c.Value).ToList();
+
+            var roleDetails = new RoleDetailsViewModel
+            {
+                RoleId = role.Id,
+                RoleName = role.Name,
+                Permissions = permissions
+            };
+
+            return Ok(new { success = true, data = roleDetails });
+        }
+
+        [HttpPost("add")]
+        public async Task<IActionResult> AddRole([FromBody] AddRoleViewModel model)
+        {
+            if(string.IsNullOrEmpty(model.RoleName))
+            {
+                return Ok(new { success = false, message = "Role name can not be null." });
+            }
+
+            var roleExists = await _roleManager.RoleExistsAsync(model.RoleName);
             if (!roleExists)
             {
-                var result = await _roleManager.CreateAsync(new IdentityRole(roleName));
+                var result = await _roleManager.CreateAsync(new IdentityRole(model.RoleName));
                 if (result.Succeeded)
                 {
-                    await _hubContext.Clients.All.SendAsync("RoleAdded", roleName);
-                    return Ok(new {success = true, message = $"Role {roleName} added successfully." });
+                    var role = await _roleManager.FindByNameAsync(model.RoleName);
+                    foreach (var permission in model.Permissions)
+                    {
+                        await _roleManager.AddClaimAsync(role, new System.Security.Claims.Claim("permission", permission));
+                    }
+
+                    await _hubContext.Clients.All.SendAsync("RoleAdded", role);
+                    return Ok(new {success = true, message = $"Role {model.RoleName} added successfully.", data = role });
                 }
                 else
                 {
@@ -64,73 +85,80 @@ namespace NewsWebsiteBackEnd.Controllers
             return Ok(new { success = false, message = "Role already exists." });
         }
 
-        /// <summary>
-        /// Edits an existing role's name to a new name if the new name does not already exist.
-        /// </summary>
-        /// <param name="oldRoleName">The current name of the role.</param>
-        /// <param name="newRoleName">The new name for the role.</param>
-        /// <returns>
-        /// A response indicating whether the role was successfully edited, 
-        /// including a success status and a message.
-        /// </returns>
         [HttpPost("edit")]
-        public async Task<IActionResult> EditRole(string oldRoleName, string newRoleName)
+        public async Task<IActionResult> EditRole([FromBody] EditRoleViewModel model)
         {
-            var role = await _roleManager.FindByNameAsync(oldRoleName);
+            if (string.IsNullOrEmpty(model.RoleId) || string.IsNullOrEmpty(model.NewRoleName))
+            {
+                return Ok(new { success = false, message = "Role name can not be null." });
+            }
+
+            var role = await _roleManager.FindByIdAsync(model.RoleId);
             if (role is null)
             {
                 return Ok(new { success = false, message = "Role not found." });
             }
 
-            if (await _roleManager.RoleExistsAsync(newRoleName))
+            if (await _roleManager.RoleExistsAsync(model.NewRoleName))
             {
                 return Ok(new { success = false, message = "New role name already exists." });
             }
 
-            role.Name = newRoleName;
+            role.Name = model.NewRoleName;
             var result = await _roleManager.UpdateAsync(role);
             if (result.Succeeded)
             {
-                await _hubContext.Clients.All.SendAsync("RoleEdited", oldRoleName, newRoleName);
-                return Ok(new { success = true, message = "Role updated successfully." });
+                var currentClaims = await _roleManager.GetClaimsAsync(role);
+                foreach (var claim in currentClaims)
+                {
+                    await _roleManager.RemoveClaimAsync(role, claim);
+                }
+                foreach (var permission in model.Permissions)
+                {
+                    await _roleManager.AddClaimAsync(role, new System.Security.Claims.Claim("permission", permission));
+                }
+
+                await _hubContext.Clients.All.SendAsync("RoleEdited", role);
+                return Ok(new { success = true, message = "Role updated successfully.", data = role });
             }
 
             return Ok(new { success = false, message = "Failed to update role." });
         }
 
-        /// <summary>
-        /// Deletes a role if no users are associated with it.
-        /// </summary>
-        /// <param name="roleName">The name of the role to delete.</param>
-        /// <returns>
-        /// A response indicating success or failure, 
-        /// including a success status and a message.
-        /// </returns>
+
         [HttpPost("delete")]
-        public async Task<IActionResult> DeleteRole(string roleName)
+        public async Task<IActionResult> DeleteRole(string roleId)
         {
-            var role = await _roleManager.FindByNameAsync(roleName);
+            var role = await _roleManager.FindByIdAsync(roleId);
             if (role == null)
             {
                 return Ok(new { success = false, message = "Role not found." });
             }
 
-            var usersInRole = await _userManager.GetUsersInRoleAsync(roleName);
+            var usersInRole = await _userManager.GetUsersInRoleAsync(role.Name);
             if (usersInRole.Count > 0)
             {
                 return Ok(new { success = false, message = "Cannot delete role because it has associated users." });
             }
 
+            var roleClaims = await _roleManager.GetClaimsAsync(role);
+            foreach (var claim in roleClaims)
+            {
+                var removalResult = await _roleManager.RemoveClaimAsync(role, claim);
+                if (!removalResult.Succeeded)
+                {
+                    return Ok(new { success = false, message = $"Failed to remove associated claims. Claim Type: {claim.Type}, Value: {claim.Value}" });
+                }
+            }
+
             var result = await _roleManager.DeleteAsync(role);
             if (result.Succeeded)
             {
-                await _hubContext.Clients.All.SendAsync("RoleDeleted", roleName);
+                await _hubContext.Clients.All.SendAsync("RoleDeleted", roleId);
                 return Ok(new { success = true, message = "Role deleted successfully." });
             }
 
             return Ok(new { success = false, message = "Failed to delete role." });
         }
-
-
     }
 }

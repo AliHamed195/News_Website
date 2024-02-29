@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using NewsWebsiteBackEnd.Models.ViewModels;
 using NewsWebsiteBackEnd.Models;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -12,6 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using NewsWebsiteBackEnd.Models.ViewModels.Account;
 
 namespace NewsWebsiteBackEnd.Controllers
 {
