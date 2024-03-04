@@ -25,6 +25,7 @@ namespace NewsWebsiteBackEnd.Controllers
             try
             {
                 var usersQuery = _userManager.Users
+                    .AsNoTracking()
                     .Where(u => !u.IsDeleted) 
                     .Select(u => new UserDetailsViewModel
                     {
@@ -45,9 +46,9 @@ namespace NewsWebsiteBackEnd.Controllers
 
                 return Ok(new { success = true, message = "Done.", data = users });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return Ok(new { success = false, message = $"Exception Error: {ex.Message}." });
+                return Ok(new { success = false, message = "Exception Error" });
             }
         }
 
