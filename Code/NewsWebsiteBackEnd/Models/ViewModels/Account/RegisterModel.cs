@@ -15,5 +15,11 @@ namespace NewsWebsiteBackEnd.Models.ViewModels.Account
         public string Password { get; set; }
 
         public string FullName { get; set; }
+
+        // Optional RoleId
+        public string RoleId { get; set; }
+
+        // Optional UserTypeId
+        public int UserTypeId { get; set; }
     }
 }

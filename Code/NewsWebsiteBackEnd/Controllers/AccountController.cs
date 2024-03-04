@@ -12,6 +12,8 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using NewsWebsiteBackEnd.Models.ViewModels.Account;
+using NewsWebsiteBackEnd.Classes;
+using Microsoft.EntityFrameworkCore;
 
 namespace NewsWebsiteBackEnd.Controllers
 {
@@ -22,12 +24,14 @@ namespace NewsWebsiteBackEnd.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUsers> _userManager;
         private readonly SignInManager<ApplicationUsers> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AccountController(ApplicationDbContext context, UserManager<ApplicationUsers> userManager, SignInManager<ApplicationUsers> signInManager)
+        public AccountController(ApplicationDbContext context, UserManager<ApplicationUsers> userManager, SignInManager<ApplicationUsers> signInManager, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
 
         [HttpPost("register")]
@@ -41,8 +45,17 @@ namespace NewsWebsiteBackEnd.Controllers
                     return Ok(new { success = false, message = "Registration failed.", errors = "Model not valid." });
                 }
 
-                var visitorType = _context.UserTypes.FirstOrDefault(ut => ut.Name == "Visitor");
-                if (visitorType == null)
+                UserTypes userType = null;
+                if(model.UserTypeId == 0)
+                {
+                    userType = await _context.UserTypes.FirstOrDefaultAsync(ut => ut.Name == DefaultSystemUserTypes.Visitor);
+                }
+                else
+                {
+                    userType = await _context.UserTypes.FirstOrDefaultAsync(ut => ut.Id == model.UserTypeId);
+                }
+
+                if (userType is null)
                 {
                     return Ok(new { success = false, message = "Registration failed.", errors = "Unable to find Visitor user type." });
                 }
@@ -52,7 +65,7 @@ namespace NewsWebsiteBackEnd.Controllers
                     UserName = model.UserName,
                     Email = model.Email,
                     FullName = model.FullName,
-                    UserTypeId = visitorType.Id,
+                    UserTypeId = userType.Id,
                     EmailConfirmed = true
                 };
 
@@ -60,6 +73,22 @@ namespace NewsWebsiteBackEnd.Controllers
 
                 if (result.Succeeded)
                 {
+                    string roleName;
+                    if (!string.IsNullOrEmpty(model.RoleId))
+                    {
+                        var role = await _roleManager.FindByIdAsync(model.RoleId);
+                        roleName = role?.Name;
+                    }
+                    else
+                    {
+                        roleName = DefaultSystemRoles.Visitor;
+                    }
+
+                    if (!string.IsNullOrEmpty(roleName))
+                    {
+                        await _userManager.AddToRoleAsync(user, roleName);
+                    }
+
                     return Ok(new { success = true, message = "Registration successful" });
                 }
                 else
@@ -73,8 +102,8 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+
         [HttpPost("login")]
-        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
             throw new NotImplementedException();
@@ -82,7 +111,6 @@ namespace NewsWebsiteBackEnd.Controllers
 
 
         [HttpPost("logout")]
-        [Authorize]
         public async Task<IActionResult> Logout()
         {
            throw new NotImplementedException();
