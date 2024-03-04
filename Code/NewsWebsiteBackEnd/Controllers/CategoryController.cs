@@ -42,7 +42,7 @@ namespace NewsWebsiteBackEnd.Controllers
 
                 return Ok(new { success = true, message = "Done.", data = categories });
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Ok(new { success = false, message = "Exception Error" });
             }   

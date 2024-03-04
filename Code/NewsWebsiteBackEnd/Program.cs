@@ -58,6 +58,44 @@ builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"))
 
 // ==============================================================================================
 
+//JWT
+var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtSettings>();
+var key = Encoding.ASCII.GetBytes(jwtSettings.Secret);
+
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(x =>
+{
+    x.RequireHttpsMetadata = false;
+    x.SaveToken = true;
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidIssuer = jwtSettings.Issuer, // Optional
+        ValidAudience = jwtSettings.Audience // Optional
+    };
+});
+
+// ==============================================================================================
+
+// CORS policy for the client app
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("EnableCORS", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+});
+
+// ==============================================================================================
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -68,6 +106,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("EnableCORS");
 
 app.UseAuthentication();
 app.UseAuthorization();

@@ -25,13 +25,17 @@ namespace NewsWebsiteBackEnd.Controllers
         private readonly UserManager<ApplicationUsers> _userManager;
         private readonly SignInManager<ApplicationUsers> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IConfiguration _configuration;
+        private readonly JwtSettings _jwtSettings;
 
-        public AccountController(ApplicationDbContext context, UserManager<ApplicationUsers> userManager, SignInManager<ApplicationUsers> signInManager, RoleManager<IdentityRole> roleManager)
+        public AccountController(ApplicationDbContext context, UserManager<ApplicationUsers> userManager, SignInManager<ApplicationUsers> signInManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
         {
             _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _configuration = configuration;
+            _jwtSettings = configuration.GetSection("Jwt").Get<JwtSettings>();
         }
 
         [HttpPost("register")]
@@ -106,14 +110,68 @@ namespace NewsWebsiteBackEnd.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var user = await _userManager.FindByNameAsync(model.UserName);
+                if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+                {
+                    var userRoles = await _userManager.GetRolesAsync(user);
+                    var roleClaims = new List<Claim>();
+                    foreach (var userRole in userRoles)
+                    {
+                        roleClaims.Add(new Claim(ClaimTypes.Role, userRole));
+                        var role = await _roleManager.FindByNameAsync(userRole);
+                        if (role != null)
+                        {
+                            var roleClaimsList = await _roleManager.GetClaimsAsync(role);
+                            roleClaims.AddRange(roleClaimsList);
+                        }
+                    }
+
+                    var authClaims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, user.UserName),
+                        new Claim(ClaimTypes.NameIdentifier, user.Id),
+                        new Claim(ClaimTypes.Email, user.Email),
+                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    };
+
+                    authClaims.AddRange(roleClaims);
+
+                    var token = GenerateJwtToken(authClaims);
+
+                    return Ok(new
+                    {
+                        token = new JwtSecurityTokenHandler().WriteToken(token),
+                        expiration = token.ValidTo
+                    });
+                }
+                return Unauthorized();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
+            }
         }
 
 
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
-           throw new NotImplementedException();
+            return Ok(new { message = "Logout successful" });
+        }
+
+        private JwtSecurityToken GenerateJwtToken(List<Claim> authClaims)
+        {
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret));
+            var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
+            return new JwtSecurityToken(
+                issuer: _jwtSettings.Issuer,
+                audience: _jwtSettings.Audience,
+                expires: DateTime.Now.AddHours(2),
+                claims: authClaims,
+                signingCredentials: signIn
+            );
         }
     }
 }
