@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using NewsWebsiteBackEnd.Classes;
+using NewsWebsiteBackEnd.Classes.Names;
 using System.ComponentModel.DataAnnotations;
 
 namespace NewsWebsiteBackEnd.Models

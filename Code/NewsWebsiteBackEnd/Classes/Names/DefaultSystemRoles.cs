@@ -1,4 +1,4 @@
-﻿namespace NewsWebsiteBackEnd.Classes
+﻿namespace NewsWebsiteBackEnd.Classes.Names
 {
     public class DefaultSystemRoles
     {
