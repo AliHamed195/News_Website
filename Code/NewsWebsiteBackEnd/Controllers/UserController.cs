@@ -110,7 +110,7 @@ namespace NewsWebsiteBackEnd.Controllers
                     })
                     .FirstOrDefaultAsync();
 
-                if (user == null)
+                if (user is null)
                 {
                     return Ok(new { success = false, message = "User not found." });
                 }
@@ -126,15 +126,15 @@ namespace NewsWebsiteBackEnd.Controllers
         [HttpPut("update/{id}")] // PUT: api/User/update/{id}
         public async Task<IActionResult> UpdateUser(string id, [FromBody] UpdateUserViewModel model)
         {
-            if (model == null || string.IsNullOrEmpty(id))
+            if (model is null || string.IsNullOrEmpty(id))
             {
                 return Ok(new { success = false, message = "Invalid request." });
             }
 
             var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
+            if (user is null)
             {
-                return NotFound(new { success = false, message = "User not found." });
+                return Ok(new { success = false, message = "User not found." });
             }
 
             if (model.UserName != user.UserName)
@@ -155,7 +155,6 @@ namespace NewsWebsiteBackEnd.Controllers
                     return Ok(new { success = false, message = "Email is already in use." });
                 }
                 user.Email = model.Email;
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             }
 
             user.UserName = model.UserName; 
@@ -184,7 +183,7 @@ namespace NewsWebsiteBackEnd.Controllers
             {
                 var user = await _userManager.FindByIdAsync(id);
 
-                if (user == null)
+                if (user is null)
                 {
                     return Ok(new { success = false, message = "User not found." });
                 }
@@ -214,7 +213,7 @@ namespace NewsWebsiteBackEnd.Controllers
             {
                 var user = await _userManager.FindByIdAsync(id);
 
-                if (user == null)
+                if (user is null)
                 {
                     return Ok(new { success = false, message = "User not found." });
                 }
@@ -244,7 +243,7 @@ namespace NewsWebsiteBackEnd.Controllers
             {
                 var user = await _userManager.FindByIdAsync(id);
 
-                if (user == null)
+                if (user is null)
                 {
                     return Ok(new { success = false, message = "User not found." });
                 }
@@ -274,7 +273,7 @@ namespace NewsWebsiteBackEnd.Controllers
             {
                 var user = await _userManager.FindByIdAsync(id);
 
-                if (user == null)
+                if (user is null)
                 {
                     return Ok(new { success = false, message = "User not found." });
                 }
@@ -300,13 +299,13 @@ namespace NewsWebsiteBackEnd.Controllers
         [HttpPut("update-password/{id}")] // PUT: api/User/update-password/{id}
         public async Task<IActionResult> UpdateUserPassword(string id, [FromBody] UpdateUserPasswordViewModel model)
         {
-            if (model == null || string.IsNullOrEmpty(id))
+            if (model is null || string.IsNullOrEmpty(id))
             {
                 return Ok(new { success = false, message = "Invalid request." });
             }
 
             var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
+            if (user is null)
             {
                 return Ok(new { success = false, message = "User not found." });
             }
