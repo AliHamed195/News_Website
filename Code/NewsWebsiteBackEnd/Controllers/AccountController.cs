@@ -38,7 +38,7 @@ namespace NewsWebsiteBackEnd.Controllers
             _jwtSettings = configuration.GetSection("Jwt").Get<JwtSettings>();
         }
 
-        [HttpPost("register")]
+        [HttpPost("register")] // api/account/register
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
@@ -49,6 +49,20 @@ namespace NewsWebsiteBackEnd.Controllers
                     return Ok(new { success = false, message = "Registration failed.", errors = "Model not valid." });
                 }
 
+                var userNameExists = await _userManager.FindByNameAsync(model.UserName);
+                if (userNameExists != null)
+                {
+                      return Ok(new { success = false, message = "Registration failed.", errors = "Username already exists." });
+                }
+
+                var emailExists = await _userManager.FindByEmailAsync(model.Email);
+                if (emailExists != null)
+                {
+                    return Ok(new { success = false, message = "Registration failed.", errors = "Email already exists." });
+                }
+
+                // TODO:
+                // Need to check if the user permission if the user type is not visitor.
                 UserTypes userType = null;
                 if(model.UserTypeId == 0)
                 {
@@ -107,7 +121,7 @@ namespace NewsWebsiteBackEnd.Controllers
         }
 
 
-        [HttpPost("login")]
+        [HttpPost("login")] // api/account/login
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
             try
@@ -155,7 +169,7 @@ namespace NewsWebsiteBackEnd.Controllers
         }
 
 
-        [HttpPost("logout")]
+        [HttpPost("logout")] // api/account/logout
         public async Task<IActionResult> Logout()
         {
             return Ok(new { message = "Logout successful" });

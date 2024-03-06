@@ -19,7 +19,7 @@ namespace NewsWebsiteBackEnd.Controllers
             _userManager = userManager;
         }
 
-        [HttpGet("all")]
+        [HttpGet("all")] // GET: api/User/all
         public async Task<IActionResult> GetAllUsers([FromQuery] PaginationModel pagination)
         {
             try
@@ -52,7 +52,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
-        [HttpGet("get/{id}")]
+        [HttpGet("get/{id}")] // GET: api/User/get/{id}
         public async Task<IActionResult> GetUserById(string id)
         {
             try
@@ -90,7 +90,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
-        [HttpPut("update/{id}")]
+        [HttpPut("update/{id}")] // PUT: api/User/update/{id}
         public async Task<IActionResult> UpdateUser(string id, [FromBody] UpdateUserViewModel model)
         {
             if (model == null || string.IsNullOrEmpty(id))
@@ -144,7 +144,7 @@ namespace NewsWebsiteBackEnd.Controllers
         }
 
 
-        [HttpPut("block/{id}")]
+        [HttpPut("block/{id}")] // PUT: api/User/block/{id}
         public async Task<IActionResult> BlockUser(string id)
         {
             try
@@ -174,7 +174,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
-        [HttpPut("unblock/{id}")]
+        [HttpPut("unblock/{id}")] // PUT: api/User/unblock/{id}
         public async Task<IActionResult> UnblockUser(string id)
         {
             try
@@ -204,7 +204,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
-        [HttpPut("delete/{id}")]
+        [HttpPut("delete/{id}")] // PUT: api/User/delete/{id}
         public async Task<IActionResult> DeleteUser(string id)
         {
             try
@@ -234,7 +234,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
-        [HttpPut("undelete/{id}")]
+        [HttpPut("undelete/{id}")] // PUT: api/User/undelete/{id}
         public async Task<IActionResult> UndeleteUser(string id)
         {
             try

@@ -25,7 +25,7 @@ namespace NewsWebsiteBackEnd.Controllers
             _hubContext = hubContext;
         }
 
-        [HttpGet("all")]
+        [HttpGet("all")] // api/role/all
         public async Task<IActionResult> GetAllRoles()
         {
             try
@@ -40,7 +40,7 @@ namespace NewsWebsiteBackEnd.Controllers
 
         }
 
-        [HttpGet("{roleId}/permissions")]
+        [HttpGet("{roleId}/permissions")] // api/role/{roleId}/permissions
         public async Task<IActionResult> GetRolePermissions(string roleId)
         {
             try
@@ -69,7 +69,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
-        [HttpPost("add")]
+        [HttpPost("add")] // api/role/add
         public async Task<IActionResult> AddRole([FromBody] AddRoleViewModel model)
         {
             try
@@ -108,7 +108,7 @@ namespace NewsWebsiteBackEnd.Controllers
            
         }
 
-        [HttpPut("edit")]
+        [HttpPut("edit")] // api/role/edit
         public async Task<IActionResult> EditRole([FromBody] EditRoleViewModel model)
         {
             try
@@ -157,7 +157,7 @@ namespace NewsWebsiteBackEnd.Controllers
         }
 
 
-        [HttpPut("delete")]
+        [HttpPut("delete")] // api/role/delete
         public async Task<IActionResult> DeleteRole(string roleId)
         {
             try
