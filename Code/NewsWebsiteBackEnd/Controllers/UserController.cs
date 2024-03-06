@@ -264,7 +264,6 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
-        // Update user password
         [HttpPut("update-password/{id}")] // PUT: api/User/update-password/{id}
         public async Task<IActionResult> UpdateUserPassword(string id, [FromBody] UpdateUserPasswordViewModel model)
         {
@@ -277,6 +276,11 @@ namespace NewsWebsiteBackEnd.Controllers
             if (user == null)
             {
                 return Ok(new { success = false, message = "User not found." });
+            }
+
+            if (user.IsDeleted || user.IsBlocked)
+            {
+                return Ok(new { success = false, message = "You can not do this action." });
             }
 
             var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
