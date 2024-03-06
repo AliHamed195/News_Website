@@ -108,7 +108,7 @@ namespace NewsWebsiteBackEnd.Controllers
            
         }
 
-        [HttpPost("edit")]
+        [HttpPut("edit")]
         public async Task<IActionResult> EditRole([FromBody] EditRoleViewModel model)
         {
             try
@@ -157,7 +157,7 @@ namespace NewsWebsiteBackEnd.Controllers
         }
 
 
-        [HttpPost("delete")]
+        [HttpPut("delete")]
         public async Task<IActionResult> DeleteRole(string roleId)
         {
             try
