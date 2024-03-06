@@ -52,6 +52,39 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [HttpGet("all-deleted")] // GET: api/User/all-deleted
+        public async Task<IActionResult> GetAllDeletedUsers([FromQuery] PaginationModel pagination)
+        {
+            try
+            {
+                var usersQuery = _userManager.Users
+                    .AsNoTracking()
+                    .Where(u => u.IsDeleted)
+                    .Select(u => new GeneralUserDetailsViewModel
+                    {
+                        Id = u.Id,
+                        UserName = u.UserName,
+                        Email = u.Email,
+                        FullName = u.FullName,
+                        UserTypeId = u.UserTypeId,
+                        UserTypeName = u.UserType.Name
+                    });
+
+                if (pagination.EndRow.HasValue)
+                {
+                    usersQuery = usersQuery.Skip(pagination.StartRow).Take(pagination.EndRow.Value - pagination.StartRow);
+                }
+
+                var users = await usersQuery.ToListAsync();
+
+                return Ok(new { success = true, message = "Done.", data = users });
+            }
+            catch (Exception)
+            {
+                return Ok(new { success = false, message = "Exception Error" });
+            }
+        }
+
         [HttpGet("get/{id}")] // GET: api/User/get/{id}
         public async Task<IActionResult> GetUserById(string id)
         {
