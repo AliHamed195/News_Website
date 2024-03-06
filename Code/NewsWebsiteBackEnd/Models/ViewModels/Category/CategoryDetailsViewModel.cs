@@ -10,7 +10,6 @@ namespace NewsWebsiteBackEnd.Models.ViewModels.Category
         public DateTime? UpdatedAt { get; set; }
         public bool IsDeleted { get; set; }
         public string CreatedById { get; set; }
-        public string UserId { get; set; }
         public string UserFullName { get; set; }
         public int ArticlesCount { get; set; }
     }

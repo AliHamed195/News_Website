@@ -61,6 +61,7 @@ namespace NewsWebsiteBackEnd.Controllers
             {
                 var category = await _context.Categories
                     .AsNoTracking()
+                    .Include(c => c.User)
                     .Where(c => c.Id == id && !c.IsDeleted)
                     .Select(c => new CategoryDetailsViewModel
                     {
@@ -70,7 +71,6 @@ namespace NewsWebsiteBackEnd.Controllers
                         UpdatedAt = c.UpdatedAt,
                         IsDeleted = c.IsDeleted,
                         CreatedById = c.CreatedById,
-                        UserId = c.User.Id, 
                         UserFullName = c.User.FullName,
                         ArticlesCount = c.Articles.Count
                     })
@@ -122,6 +122,13 @@ namespace NewsWebsiteBackEnd.Controllers
                 };
 
                 await _context.Categories.AddAsync(category);
+
+                if(user.Categories is null)
+                {
+                    user.Categories = new List<Categories>();
+                }
+                user.Categories.Add(category);
+
                 var result = await _context.SaveChangesAsync();
 
                 if (result > 0)
@@ -188,7 +195,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
-        [HttpDelete("delete/{id}")]  // api/category/delete/1
+        [HttpPut("delete/{id}")]  // api/category/delete/1
         public async Task<IActionResult> DeleteCategory(int id)
         {
             try
