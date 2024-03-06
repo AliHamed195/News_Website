@@ -95,7 +95,7 @@ namespace NewsWebsiteBackEnd.Controllers
         {
             if (model == null || string.IsNullOrEmpty(id))
             {
-                return BadRequest(new { success = false, message = "Invalid request." });
+                return Ok(new { success = false, message = "Invalid request." });
             }
 
             var user = await _userManager.FindByIdAsync(id);
@@ -109,7 +109,7 @@ namespace NewsWebsiteBackEnd.Controllers
                 var userNameExists = await _userManager.FindByNameAsync(model.UserName);
                 if (userNameExists != null)
                 {
-                    return BadRequest(new { success = false, message = "Username is already taken." });
+                    return Ok(new { success = false, message = "Username is already taken." });
                 }
                 user.UserName = model.UserName;
             }
@@ -119,7 +119,7 @@ namespace NewsWebsiteBackEnd.Controllers
                 var emailExists = await _userManager.FindByEmailAsync(model.Email);
                 if (emailExists != null)
                 {
-                    return BadRequest(new { success = false, message = "Email is already in use." });
+                    return Ok(new { success = false, message = "Email is already in use." });
                 }
                 user.Email = model.Email;
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -137,7 +137,7 @@ namespace NewsWebsiteBackEnd.Controllers
             var result = await _userManager.UpdateAsync(user);
             if (!result.Succeeded)
             {
-                return BadRequest(new { success = false, message = "Failed to update user.", errors = result.Errors });
+                return Ok(new { success = false, message = "Failed to update user.", errors = result.Errors });
             }
 
             return Ok(new { success = true, message = "User updated successfully." });
@@ -262,6 +262,30 @@ namespace NewsWebsiteBackEnd.Controllers
             {
                 return Ok(new { success = false, message = "Exception Error" });
             }
+        }
+
+        // Update user password
+        [HttpPut("update-password/{id}")] // PUT: api/User/update-password/{id}
+        public async Task<IActionResult> UpdateUserPassword(string id, [FromBody] UpdateUserPasswordViewModel model)
+        {
+            if (model == null || string.IsNullOrEmpty(id))
+            {
+                return Ok(new { success = false, message = "Invalid request." });
+            }
+
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return Ok(new { success = false, message = "User not found." });
+            }
+
+            var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+            if (!result.Succeeded)
+            {
+                return Ok(new { success = false, message = "Failed to update password.", errors = result.Errors });
+            }
+
+            return Ok(new { success = true, message = "Password updated successfully." });
         }
 
     }
