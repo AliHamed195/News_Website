@@ -209,6 +209,11 @@ namespace NewsWebsiteBackEnd.Controllers
                     return Ok(new { success = false, message = "Category not found." });
                 }
 
+                if (category.ArticlesCount > 0)
+                {
+                    return Ok(new { success = false, message = "Category has articles, so it cannot be deleted." });
+                }
+
                 category.IsDeleted = true;
                 category.UpdatedAt = DateTime.Now;
 

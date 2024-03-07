@@ -127,7 +127,13 @@ namespace NewsWebsiteBackEnd.Controllers
             try
             {
                 var user = await _userManager.FindByNameAsync(model.UserName);
-                if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+
+                if (user is null || user.IsBlocked || user.IsDeleted)
+                {
+                    return Unauthorized();
+                }
+
+                if (await _userManager.CheckPasswordAsync(user, model.Password))
                 {
                     var userRoles = await _userManager.GetRolesAsync(user);
                     var roleClaims = new List<Claim>();
