@@ -69,7 +69,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
-        [HttpPost("add")] // api/role/add
+        [HttpPost("create")] // api/role/create
         public async Task<IActionResult> AddRole([FromBody] AddRoleViewModel model)
         {
             try

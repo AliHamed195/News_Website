@@ -113,7 +113,8 @@ namespace NewsWebsiteBackEnd.Controllers
                 {
                     Text = model.Text,
                     Description = model.Description,
-                    CreatedById = userId
+                    CreatedById = userId,
+                    CreatedByUser = user
                 };
 
                 _context.HashTags.Add(hashTag);
