@@ -197,7 +197,7 @@ namespace NewsWebsiteBackEnd.Controllers
         }
 
         // This method for deleting question and answer
-        [HttpDelete("delete/{id}")] // api/QuestionAnswer/delete/1
+        [HttpPut("delete/{id}")] // api/QuestionAnswer/delete/1
         public async Task<IActionResult> DeleteQuestionAnswer(int id)
         {
             try
