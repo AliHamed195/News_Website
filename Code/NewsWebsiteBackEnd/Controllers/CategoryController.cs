@@ -110,7 +110,7 @@ namespace NewsWebsiteBackEnd.Controllers
 
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var user = await _userManager.FindByIdAsync(userId);
-                if (user == null)
+                if (user is null || user.IsDeleted || user.IsBlocked)
                 {
                     return Ok(new { success = false, message = "User not found." });
                 }
