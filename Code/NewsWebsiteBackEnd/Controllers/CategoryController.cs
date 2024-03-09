@@ -39,7 +39,7 @@ namespace NewsWebsiteBackEnd.Controllers
                     ArticlesCount = c.ArticlesCount
                 });
 
-                if (pagination.EndRow.HasValue)
+                if (pagination is not null && pagination.EndRow.HasValue)
                 {
                     categoriesQuery = categoriesQuery.Skip(pagination.StartRow).Take(pagination.EndRow.Value - pagination.StartRow);
                 }
@@ -255,7 +255,7 @@ namespace NewsWebsiteBackEnd.Controllers
                         RatingAvg = a.RatingAvg
                     });
 
-                if (pagination.EndRow.HasValue && pagination.StartRow >= 0)
+                if (pagination is not null && pagination.EndRow.HasValue && pagination.StartRow >= 0)
                 {
                     articlesQuery = articlesQuery.Skip(pagination.StartRow).Take(pagination.EndRow.Value - pagination.StartRow);
                 }
@@ -290,7 +290,7 @@ namespace NewsWebsiteBackEnd.Controllers
                         RatingAvg = a.RatingAvg
                     });
 
-                if (pagination.EndRow.HasValue && pagination.StartRow >= 0)
+                if (pagination is not null && pagination.EndRow.HasValue && pagination.StartRow >= 0)
                 {
                     articlesQuery = articlesQuery.Skip(pagination.StartRow).Take(pagination.EndRow.Value - pagination.StartRow);
                 }
@@ -342,7 +342,7 @@ namespace NewsWebsiteBackEnd.Controllers
                         RatingAvg = a.RatingAvg
                     });
 
-                if (pagination.EndRow.HasValue && pagination.StartRow >= 0)
+                if (pagination is not null && pagination.EndRow.HasValue && pagination.StartRow >= 0)
                 {
                     articlesQuery = articlesQuery.Skip(pagination.StartRow).Take(pagination.EndRow.Value - pagination.StartRow);
                 }

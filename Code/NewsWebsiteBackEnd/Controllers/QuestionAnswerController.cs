@@ -38,7 +38,7 @@ namespace NewsWebsiteBackEnd.Controllers
                         Question = x.Question
                     });
 
-                if (pagination.EndRow.HasValue)
+                if (pagination is not null && pagination.EndRow.HasValue)
                 {
                     questionsQuery = questionsQuery.Skip(pagination.StartRow).Take(pagination.EndRow.Value - pagination.StartRow);
                 }
@@ -69,7 +69,7 @@ namespace NewsWebsiteBackEnd.Controllers
                         Answer = x.Answer
                     });
 
-                if (pagination.EndRow.HasValue)
+                if (pagination is not null && pagination.EndRow.HasValue)
                 {
                     questionsAnswersQuery = questionsAnswersQuery.Skip(pagination.StartRow).Take(pagination.EndRow.Value - pagination.StartRow);
                 }

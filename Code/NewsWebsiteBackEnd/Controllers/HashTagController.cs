@@ -37,7 +37,7 @@ namespace NewsWebsiteBackEnd.Controllers
                         Text = x.Text
                     });
 
-                if (pagination.EndRow.HasValue)
+                if (pagination is not null && pagination.EndRow.HasValue)
                 {
                     hashTagsQuery = hashTagsQuery.Skip(pagination.StartRow).Take(pagination.EndRow.Value - pagination.StartRow);
                 }

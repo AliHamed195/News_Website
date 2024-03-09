@@ -37,7 +37,7 @@ namespace NewsWebsiteBackEnd.Controllers
                         UserTypeName = u.UserType.Name 
                     });
 
-                if (pagination.EndRow.HasValue)
+                if (pagination is not null && pagination.EndRow.HasValue)
                 {
                     usersQuery = usersQuery.Skip(pagination.StartRow).Take(pagination.EndRow.Value - pagination.StartRow);
                 }
@@ -70,7 +70,7 @@ namespace NewsWebsiteBackEnd.Controllers
                         UserTypeName = u.UserType.Name
                     });
 
-                if (pagination.EndRow.HasValue)
+                if (pagination is not null && pagination.EndRow.HasValue)
                 {
                     usersQuery = usersQuery.Skip(pagination.StartRow).Take(pagination.EndRow.Value - pagination.StartRow);
                 }
