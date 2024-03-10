@@ -120,11 +120,57 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [HttpGet("archived")] // api/article/archived
+        public async Task<IActionResult> GetAllArchivedArticles([FromQuery] PaginationModel pagination)
+        {
+            try
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user is null || user.IsDeleted || user.IsBlocked)
+                {
+                    return Ok(new { success = false, message = "User not found." });
+                }
+
+                var articlesQuery = _context.UserArchivedArticles
+                .AsNoTracking()
+                .Where(a => a.UserId == userId && !a.IsDeleted)
+                .Select(a => new GeneralArticleDetailsViewModel
+                {
+                    Id = a.Article.Id,
+                    Title = a.Article.Title,
+                    CoverImagePath = a.Article.CoverImagePath,
+                    RatingAvg = a.Article.RatingAvg,
+                    TotalNumberOfViews = a.Article.TotalNumberOfViews,
+                    UrlAsText = a.Article.UrlAsText,
+                    CreatedById = a.Article.CreatedById,
+                    CreatedByFullName = a.Article.CreatedBy.FullName
+                });
+
+                articlesQuery = articlesQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
+
+                var articles = await articlesQuery.ToListAsync();
+
+                return Ok(new { success = true, message = "Done.", data = articles });
+            }
+            catch (Exception)
+            {
+                return Ok(new { success = false, message = "Exception Error" });
+            }
+        }
+
         [HttpGet("{id}")] // api/article/{id}
         public async Task<IActionResult> GetArticleById(int id)
         {
             try
             {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user is null || user.IsDeleted || user.IsBlocked)
+                {
+                    return Ok(new { success = false, message = "User not found." });
+                }
+
                 var article = await _context.Articles
                 .AsNoTracking()
                 .Where(a => a.Id == id)
@@ -149,7 +195,8 @@ namespace NewsWebsiteBackEnd.Controllers
                     CreatedById = a.CreatedById,
                     CreatedByFullName = a.CreatedBy.FullName,
                     CategoryId = a.CategoryId,
-                    CategoryName = a.Categories.Name
+                    CategoryName = a.Categories.Name,
+                    IsRatedByCurrentUser = a.Ratings.Any(r => r.CreatedById == userId)
                 })
                 .FirstOrDefaultAsync();
 
@@ -297,10 +344,153 @@ namespace NewsWebsiteBackEnd.Controllers
                 article.IsDeleted = true;
                 article.UpdatedAt = DateTime.Now;
 
+                var archivedArticles = await _context.UserArchivedArticles.Where(a => a.ArticleId == article.Id).ToListAsync();
+                foreach (var archivedArticle in archivedArticles)
+                {
+                    archivedArticle.IsDeleted = true;
+                    archivedArticle.UnArchivedDate = DateTime.Now;
+                    _context.UserArchivedArticles.Update(archivedArticle);
+                }
+
                 _context.Articles.Update(article);
                 await _context.SaveChangesAsync();
 
                 return Ok(new { success = true, message = "Article deleted successfully." });
+            }
+            catch (Exception)
+            {
+                return Ok(new { success = false, message = "Exception Error" });
+            }
+        }
+
+        [HttpPost("archive/{id}")] // api/article/archive/{id}
+        public async Task<IActionResult> ArchiveArticle(int id)
+        {
+            try
+            {
+                var article = await _context.Articles.FirstOrDefaultAsync(a => a.Id == id);
+                if (article is null || article.IsDeleted)
+                {
+                    return Ok(new { success = false, message = "Article not found." });
+                }
+
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user is null || user.IsDeleted || user.IsBlocked)
+                {
+                    return Ok(new { success = false, message = "User not found." });
+                }
+
+                if (user.UserArchivedArticles is null)
+                {
+                    user.UserArchivedArticles = new List<UserArchivedArticles>();
+                }
+
+                var userArchivedArticle = new UserArchivedArticles
+                {
+                    ArticleId = article.Id,
+                    Article = article,
+                    UserId = user.Id,
+                    User = user
+                };
+
+                user.UserArchivedArticles.Add(userArchivedArticle);
+                _context.Users.Update(user);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { success = true, message = "Article archived successfully." });
+            }
+            catch (Exception)
+            {
+                return Ok(new { success = false, message = "Exception Error" });
+            }
+        }
+
+        [HttpPost("unarchive/{id}")] // api/article/unarchive/{id}
+        public async Task<IActionResult> UnarchiveArticle(int id)
+        {
+            try
+            {
+                var archivedArticles = await _context.UserArchivedArticles.FirstOrDefaultAsync(a => a.Id == id);
+                if (archivedArticles is null || archivedArticles.IsDeleted)
+                {
+                    return Ok(new { success = false, message = "Article not found." });
+                }
+
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user is null || user.IsDeleted || user.IsBlocked)
+                {
+                    return Ok(new { success = false, message = "User not found." });
+                }
+
+                archivedArticles.IsDeleted = true;
+                archivedArticles.UnArchivedDate = DateTime.Now;
+
+                _context.UserArchivedArticles.Update(archivedArticles);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { success = true, message = "Article unarchived successfully." });
+            }
+            catch (Exception)
+            {
+                return Ok(new { success = false, message = "Exception Error" });
+            }
+        }
+
+        [HttpPost("rate/{id}")] // api/article/rate/{id}
+        public async Task<IActionResult> RateArticle(int id, [FromBody] RateArticleViewModel model)
+        {
+            try
+            {
+                var article = await _context.Articles.FirstOrDefaultAsync(a => a.Id == id);
+                if (article is null || article.IsDeleted)
+                {
+                    return Ok(new { success = false, message = "Article not found." });
+                }
+
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user is null || user.IsDeleted || user.IsBlocked)
+                {
+                    return Ok(new { success = false, message = "User not found." });
+                }
+
+                var rating = await _context.Ratings.FirstOrDefaultAsync(r => r.ArticleId == article.Id && r.CreatedById == userId);
+                if (rating is null)
+                {
+                    rating = new Ratings
+                    {
+                        Percentage = model.Percentage,
+                        CreatedById = userId,
+                        CreatedByUser = user,
+                        ArticleId = article.Id,
+                        Article = article
+                    };
+
+                    var totalRatingSum = article.RatingAvg * article.TotalNumberOfRatings + model.Percentage;
+                    article.TotalNumberOfRatings++;
+                    article.RatingAvg = totalRatingSum / article.TotalNumberOfRatings;
+
+                    await _context.Ratings.AddAsync(rating);
+                }
+                else
+                {
+                    var oldRatingValue = rating.Percentage;
+
+                    rating.Percentage = model.Percentage;
+                    rating.UpdatedAt = DateTime.Now;
+
+                    var totalRatingSum = (article.RatingAvg * article.TotalNumberOfRatings) - oldRatingValue + model.Percentage;
+                    article.RatingAvg = totalRatingSum / article.TotalNumberOfRatings;
+
+                    _context.Ratings.Update(rating);
+                }
+
+                _context.Articles.Update(article);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { success = true, message = "Article rated successfully." });
             }
             catch (Exception)
             {

@@ -11,7 +11,7 @@
         public bool IsDeleted { get; set; } = false;
         public bool IsPublished { get; set; } = false;
         public int TotalNumberOfComments { get; set; } 
-        public decimal RatingAvg { get; set; }
+        public double RatingAvg { get; set; }
         public int TotalNumberOfRatings { get; set; } 
         public int TotalNumberOfViews { get; set; } 
         public string? Tags { get; set; }
@@ -22,5 +22,6 @@
         public string CreatedByFullName { get; set; }
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
+        public bool IsRatedByCurrentUser { get; set; }
     }
 }

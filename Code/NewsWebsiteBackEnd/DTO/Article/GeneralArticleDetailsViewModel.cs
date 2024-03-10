@@ -9,6 +9,6 @@
         public string Title { get; set; }
         public string CoverImagePath { get; set; }
         public int TotalNumberOfViews { get; set; }
-        public decimal RatingAvg { get; set; }
+        public double RatingAvg { get; set; }
     }
 }

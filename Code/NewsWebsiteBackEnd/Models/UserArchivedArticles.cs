@@ -12,6 +12,8 @@ namespace NewsWebsiteBackEnd.Models
         public int ArticleId { get; set; }
         public Article Article { get; set; }
 
+        public bool IsDeleted { get; set; } = false;
         public DateTime ArchivedDate { get; set; } = DateTime.Now;
+        public DateTime? UnArchivedDate { get; set; }
     }
 }

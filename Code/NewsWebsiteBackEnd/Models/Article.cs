@@ -11,7 +11,7 @@
         public bool IsDeleted { get; set; } = false;
         public bool IsPublished { get; set; } = false;
         public int TotalNumberOfComments { get; set; } = 0;
-        public decimal RatingAvg { get; set; } = 0.0m;
+        public double RatingAvg { get; set; } = 0.0;
         public int TotalNumberOfRatings { get; set; } = 0;
         public int TotalNumberOfViews { get; set; } = 0;
         public string? Tags { get; set; }
