@@ -16,7 +16,6 @@ namespace NewsWebsiteBackEnd.Context
         public DbSet<QuestionsAnswers> QuestionsAnswers { get; set; }
         public DbSet<Categories> Categories { get; set; }
         public DbSet<Article> Articles { get; set; }
-        public DbSet<ArticleBodyStructure> ArticleBodyStructure { get; set; }
         public DbSet<HashTags> HashTags { get; set; }
         public DbSet<Comments> Comments { get; set; }
         public DbSet<Ratings> Ratings { get; set; }
@@ -45,6 +44,12 @@ namespace NewsWebsiteBackEnd.Context
                 .WithOne(aun => aun.Notification)
                 .HasForeignKey(aun => aun.NotificationsId)
                 .IsRequired();
+
+            modelBuilder.Entity<Article>(entity =>
+            {
+                entity.Property(e => e.BodyStructureAsHtmlCode).HasColumnType("LONGTEXT");
+                entity.Property(e => e.BodyStructureAsText).HasColumnType("LONGTEXT");
+            });
         }
 
     }

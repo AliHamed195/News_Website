@@ -7,6 +7,7 @@ using NewsWebsiteBackEnd.DTO.Role;
 using NewsWebsiteBackEnd.Hubs;
 using NewsWebsiteBackEnd.Models;
 using System.Data;
+using System.Security.Claims;
 
 namespace NewsWebsiteBackEnd.Controllers
 {

@@ -125,6 +125,7 @@ namespace NewsWebsiteBackEnd.Controllers
                     user.Categories = new List<Categories>();
                 }
                 user.Categories.Add(category);
+                _context.Users.Update(user);
 
                 var result = await _context.SaveChangesAsync();
 
@@ -209,6 +210,12 @@ namespace NewsWebsiteBackEnd.Controllers
                 if (category.ArticlesCount > 0)
                 {
                     return Ok(new { success = false, message = "Category has articles, so it cannot be deleted." });
+                }
+
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (category.CreatedById != userId)
+                {
+                    return Ok(new { success = false, message = "You are not authorized to delete this category." });
                 }
 
                 category.IsDeleted = true;

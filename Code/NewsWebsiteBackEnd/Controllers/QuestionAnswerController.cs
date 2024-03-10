@@ -140,6 +140,15 @@ namespace NewsWebsiteBackEnd.Controllers
                 };
                 
                 await _context.QuestionsAnswers.AddAsync(questionAnswer);
+
+                if(user.QuestionsAnswers is null)
+                {
+                    user.QuestionsAnswers = new List<QuestionsAnswers>();
+                }
+
+                user.QuestionsAnswers.Add(questionAnswer);
+                _context.Users.Update(user);
+
                 var result = await _context.SaveChangesAsync();
 
                 if (result <= 0)

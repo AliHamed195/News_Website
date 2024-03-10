@@ -115,6 +115,15 @@ namespace NewsWebsiteBackEnd.Controllers
                 };
 
                 _context.HashTags.Add(hashTag);
+
+                if(user.HashTags is null)
+                {
+                    user.HashTags = new List<HashTags>();
+                }
+
+                user.HashTags.Add(hashTag);
+                _context.Users.Update(user);
+
                 var result = await _context.SaveChangesAsync();
 
                 if (result <= 0)
@@ -181,6 +190,12 @@ namespace NewsWebsiteBackEnd.Controllers
                 if (hashTag is null)
                 {
                     return Ok(new { success = false, message = "HashTag not found." });
+                }
+
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (hashTag.CreatedById != userId)
+                {
+                    return Ok(new { success = false, message = "You are not allowed to delete this HashTag." });
                 }
 
                 hashTag.IsDeleted = true;
