@@ -49,6 +49,7 @@ namespace NewsWebsiteBackEnd.Context
             {
                 entity.Property(e => e.BodyStructureAsHtmlCode).HasColumnType("LONGTEXT");
                 entity.Property(e => e.BodyStructureAsText).HasColumnType("LONGTEXT");
+                entity.HasIndex(e => e.UrlAsText).IsUnique();
             });
         }
 
