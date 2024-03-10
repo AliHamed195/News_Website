@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NewsWebsiteBackEnd.Models;
-using NewsWebsiteBackEnd.Models.ViewModels.Pagination;
-using NewsWebsiteBackEnd.Models.ViewModels.User;
 using Microsoft.EntityFrameworkCore;
+using NewsWebsiteBackEnd.DTO.Pagination;
+using NewsWebsiteBackEnd.DTO.User;
 
 namespace NewsWebsiteBackEnd.Controllers
 {
@@ -37,10 +37,7 @@ namespace NewsWebsiteBackEnd.Controllers
                         UserTypeName = u.UserType.Name 
                     });
 
-                if (pagination is not null && pagination.EndRow.HasValue)
-                {
-                    usersQuery = usersQuery.Skip(pagination.StartRow).Take(pagination.EndRow.Value - pagination.StartRow);
-                }
+                usersQuery = usersQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
 
                 var users = await usersQuery.ToListAsync();
 
@@ -70,10 +67,7 @@ namespace NewsWebsiteBackEnd.Controllers
                         UserTypeName = u.UserType.Name
                     });
 
-                if (pagination is not null && pagination.EndRow.HasValue)
-                {
-                    usersQuery = usersQuery.Skip(pagination.StartRow).Take(pagination.EndRow.Value - pagination.StartRow);
-                }
+                usersQuery = usersQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
 
                 var users = await usersQuery.ToListAsync();
 

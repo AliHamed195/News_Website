@@ -11,9 +11,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
-using NewsWebsiteBackEnd.Models.ViewModels.Account;
 using Microsoft.EntityFrameworkCore;
 using NewsWebsiteBackEnd.Classes.Names;
+using NewsWebsiteBackEnd.DTO.Account;
 
 namespace NewsWebsiteBackEnd.Controllers
 {

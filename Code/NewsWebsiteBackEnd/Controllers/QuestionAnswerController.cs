@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NewsWebsiteBackEnd.Context;
+using NewsWebsiteBackEnd.DTO.Pagination;
+using NewsWebsiteBackEnd.DTO.QuestionAnswer;
 using NewsWebsiteBackEnd.Models;
-using NewsWebsiteBackEnd.Models.ViewModels.Pagination;
-using NewsWebsiteBackEnd.Models.ViewModels.QuestionAnswer;
 using System.Security.Claims;
 
 namespace NewsWebsiteBackEnd.Controllers
@@ -38,10 +38,7 @@ namespace NewsWebsiteBackEnd.Controllers
                         Question = x.Question
                     });
 
-                if (pagination is not null && pagination.EndRow.HasValue)
-                {
-                    questionsQuery = questionsQuery.Skip(pagination.StartRow).Take(pagination.EndRow.Value - pagination.StartRow);
-                }
+                questionsQuery = questionsQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
 
                 var questions = await questionsQuery.ToListAsync();
 
@@ -69,10 +66,7 @@ namespace NewsWebsiteBackEnd.Controllers
                         Answer = x.Answer
                     });
 
-                if (pagination is not null && pagination.EndRow.HasValue)
-                {
-                    questionsAnswersQuery = questionsAnswersQuery.Skip(pagination.StartRow).Take(pagination.EndRow.Value - pagination.StartRow);
-                }
+                questionsAnswersQuery = questionsAnswersQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
 
                 var questionsAnswers = await questionsAnswersQuery.ToListAsync();
 

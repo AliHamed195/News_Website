@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NewsWebsiteBackEnd.Context;
+using NewsWebsiteBackEnd.DTO.Article;
+using NewsWebsiteBackEnd.DTO.Category;
+using NewsWebsiteBackEnd.DTO.Pagination;
 using NewsWebsiteBackEnd.Models;
-using NewsWebsiteBackEnd.Models.ViewModels.Article;
-using NewsWebsiteBackEnd.Models.ViewModels.Category;
-using NewsWebsiteBackEnd.Models.ViewModels.Pagination;
 using System.Security.Claims;
 
 namespace NewsWebsiteBackEnd.Controllers
@@ -39,10 +39,7 @@ namespace NewsWebsiteBackEnd.Controllers
                     ArticlesCount = c.ArticlesCount
                 });
 
-                if (pagination is not null && pagination.EndRow.HasValue)
-                {
-                    categoriesQuery = categoriesQuery.Skip(pagination.StartRow).Take(pagination.EndRow.Value - pagination.StartRow);
-                }
+                categoriesQuery = categoriesQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
 
                 var categories = await categoriesQuery.ToListAsync();
 
@@ -255,10 +252,7 @@ namespace NewsWebsiteBackEnd.Controllers
                         RatingAvg = a.RatingAvg
                     });
 
-                if (pagination is not null && pagination.EndRow.HasValue && pagination.StartRow >= 0)
-                {
-                    articlesQuery = articlesQuery.Skip(pagination.StartRow).Take(pagination.EndRow.Value - pagination.StartRow);
-                }
+                articlesQuery = articlesQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
 
                 var articles = await articlesQuery.ToListAsync();
 
@@ -290,10 +284,7 @@ namespace NewsWebsiteBackEnd.Controllers
                         RatingAvg = a.RatingAvg
                     });
 
-                if (pagination is not null && pagination.EndRow.HasValue && pagination.StartRow >= 0)
-                {
-                    articlesQuery = articlesQuery.Skip(pagination.StartRow).Take(pagination.EndRow.Value - pagination.StartRow);
-                }
+                articlesQuery = articlesQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
 
                 var articles = await articlesQuery.ToListAsync();
 
@@ -342,10 +333,7 @@ namespace NewsWebsiteBackEnd.Controllers
                         RatingAvg = a.RatingAvg
                     });
 
-                if (pagination is not null && pagination.EndRow.HasValue && pagination.StartRow >= 0)
-                {
-                    articlesQuery = articlesQuery.Skip(pagination.StartRow).Take(pagination.EndRow.Value - pagination.StartRow);
-                }
+                articlesQuery = articlesQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
 
                 var articles = await articlesQuery.ToListAsync();
 

@@ -14,6 +14,5 @@ namespace NewsWebsiteBackEnd.Models
         public ApplicationUsers User { get; set; }
         public int ArticlesCount { get; set; }
         public ICollection<Article>? Articles { get; set; }
-
     }
 }

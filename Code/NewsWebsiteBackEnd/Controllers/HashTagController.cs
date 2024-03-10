@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NewsWebsiteBackEnd.Context;
+using NewsWebsiteBackEnd.DTO.HashTag;
+using NewsWebsiteBackEnd.DTO.Pagination;
 using NewsWebsiteBackEnd.Models;
-using NewsWebsiteBackEnd.Models.ViewModels.HashTag;
-using NewsWebsiteBackEnd.Models.ViewModels.Pagination;
 using System.Security.Claims;
 
 namespace NewsWebsiteBackEnd.Controllers
@@ -37,10 +37,7 @@ namespace NewsWebsiteBackEnd.Controllers
                         Text = x.Text
                     });
 
-                if (pagination is not null && pagination.EndRow.HasValue)
-                {
-                    hashTagsQuery = hashTagsQuery.Skip(pagination.StartRow).Take(pagination.EndRow.Value - pagination.StartRow);
-                }
+                hashTagsQuery = hashTagsQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
 
                 var hashTags = await hashTagsQuery.ToListAsync();
 

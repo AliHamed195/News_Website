@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.IdentityModel.Tokens;
+using NewsWebsiteBackEnd.DTO.Role;
 using NewsWebsiteBackEnd.Hubs;
 using NewsWebsiteBackEnd.Models;
-using NewsWebsiteBackEnd.Models.ViewModels.Role;
 using System.Data;
 
 namespace NewsWebsiteBackEnd.Controllers
