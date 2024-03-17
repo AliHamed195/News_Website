@@ -1,0 +1,10 @@
+export interface GeneralArticleDetailsViewModel {
+  createdById: string;
+  createdByFullName: string;
+  urlAsText: string;
+  id: number;
+  title: string;
+  coverImagePath: string;
+  totalNumberOfViews: number;
+  ratingAvg: number;
+}
