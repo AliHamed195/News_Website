@@ -1,0 +1,15 @@
+.article-detail {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.article-detail img {
+    max-width: 100%;
+    height: auto;
+}
+
+.article-detail .content {
+    margin-top: 20px;
+}

@@ -1,0 +1,9 @@
+<div *ngIf="article" class="article-detail">
+    <h2>{{ article.title }}</h2>
+    <img [src]="article.coverImagePath || 'assets/images/default-article-cover.webp'" alt="Cover image">
+    <div class="content" [innerHTML]="article.bodyStructureAsHtmlCode"></div>
+    <p>Published: {{ article.createdAt | date:'medium' }}</p>
+    <p>Last Updated: {{ article.updatedAt | date:'medium' }}</p>
+    <p>Views: {{ article.totalNumberOfViews }}</p>
+    <p>Average Rating: {{ article.ratingAvg }}</p>
+</div>

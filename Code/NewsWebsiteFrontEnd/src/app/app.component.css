@@ -1,0 +1,11 @@
+.article-outer-container {
+  width: 100vw;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 50px;
+  margin-bottom: 10px;
+}
+
+.article-inner-container {
+  width: 600px;
+}

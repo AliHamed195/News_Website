@@ -1,0 +1,27 @@
+<div *ngIf="article" class="example-2 card">
+    <div class="wrapper" [ngStyle]="{'background-image': 'url(' + (article.coverImagePath || 'assets/images/default-article-cover.webp') + ')'}">
+        <div class="header">
+            <div class="date">
+                <span class="day">{{ article.createdAt | date: 'dd' }}</span>
+                <span class="month">{{ article.createdAt | date: 'MMM' }}</span>
+                <span class="year">{{ article.createdAt | date: 'yyyy' }}</span>
+            </div>
+            <ul class="menu-content">
+                <li>
+                    <a href="#"><i class="fa-regular fa-bookmark"></i></a>
+                </li>
+                <li><a href="#"><i class="fa-regular fa-heart"><span>18</span></i></a></li>
+                <li><a href="#"><i class="fa-regular fa-comment"><span>3</span></i></a></li>
+                <li><a href="#"><i class="fa-regular fa-eye"><span>{{ article.totalNumberOfViews }}</span></i></a></li>
+            </ul>
+        </div>
+        <div class="data">
+            <div class="content">
+                <span class="author">{{ article.createdByFullName }}</span>
+                <h1 class="title"><a href="#">{{ article.title }}</a></h1>
+                <p class="text">{{ article.summary }}</p>
+                <a href="#" class="button">Read more</a>
+            </div>
+        </div>
+    </div>
+</div>

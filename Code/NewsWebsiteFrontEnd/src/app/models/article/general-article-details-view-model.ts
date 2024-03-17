@@ -4,7 +4,9 @@ export interface GeneralArticleDetailsViewModel {
   urlAsText: string;
   id: number;
   title: string;
-  coverImagePath: string;
+  summary: string;
+  coverImagePath?: string;
   totalNumberOfViews: number;
   ratingAvg: number;
+  createdAt: Date;
 }
