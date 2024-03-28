@@ -498,6 +498,108 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [HttpPost("comment/{id}")] // api/article/comment/{id}
+        public async Task<IActionResult> CommentArticle(int id, [FromBody] CommentArticleViewModel model)
+        {
+            try
+            {
+                var article = await _context.Articles.FirstOrDefaultAsync(a => a.Id == id);
+                if (article is null || article.IsDeleted)
+                {
+                    return Ok(new { success = false, message = "Article not found." });
+                }
+
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user is null || user.IsDeleted || user.IsBlocked)
+                {
+                    return Ok(new { success = false, message = "User not found." });
+                }
+
+                var comment = new Comments
+                {
+                    Text = model.Text,
+                    CreatedById = userId,
+                    CreatedBy = user,
+                    ArticleId = article.Id,
+                    Article = article
+                };
+
+                await _context.Comments.AddAsync(comment);
+
+                article.TotalNumberOfComments++;
+                _context.Articles.Update(article);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { success = true, message = "Article commented successfully." });
+            }
+            catch (Exception)
+            {
+                return Ok(new { success = false, message = "Exception Error" });
+            }
+        }
+
+        [HttpPut("delete-comment/{id}")] // api/article/delete-comment/{id}
+        public async Task<IActionResult> DeleteCommentArticle(int id)
+        {
+            try
+            {
+                var comment = await _context.Comments.FirstOrDefaultAsync(c => c.Id == id);
+                if (comment is null || comment.IsDeleted)
+                {
+                    return Ok(new { success = false, message = "Comment not found." });
+                }
+
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (comment.CreatedById != userId)
+                {
+                    return Ok(new { success = false, message = "You are not allowed to delete this comment." });
+                }
+
+                comment.IsDeleted = true;
+                comment.UpdatedAt = DateTime.Now;
+
+                _context.Comments.Update(comment);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { success = true, message = "Comment deleted successfully." });
+            }
+            catch (Exception)
+            {
+                return Ok(new { success = false, message = "Exception Error" });
+            }
+        }
+
+        [HttpGet("comments/{id}")] // api/article/comments/{id}
+        public async Task<IActionResult> GetCommentsArticle(int id)
+        {
+            try
+            {
+                var article = await _context.Articles.FirstOrDefaultAsync(a => a.Id == id);
+                if (article is null || article.IsDeleted)
+                {
+                    return Ok(new { success = false, message = "Article not found." });
+                }
+
+                var comments = await _context.Comments
+                .AsNoTracking()
+                .Where(c => c.ArticleId == article.Id && !c.IsDeleted)
+                .Select(c => new CommentArticleViewModel
+                {
+                    Id = c.Id,
+                    Text = c.Text,
+                    ArticleId = c.ArticleId
+                })
+                .ToListAsync();
+
+                return Ok(new { success = true, message = "Done.", data = comments });
+            }
+            catch (Exception)
+            {
+                return Ok(new { success = false, message = "Exception Error" });
+            }
+        }
+
         private string GenerateUrlAsText(string title)
         {
             var slugBase = new string(title.ToLower().Replace(" ", "-")
