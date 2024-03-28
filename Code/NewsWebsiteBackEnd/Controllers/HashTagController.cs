@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NewsWebsiteBackEnd.Classes.Names;
 using NewsWebsiteBackEnd.Context;
 using NewsWebsiteBackEnd.DTO.HashTag;
 using NewsWebsiteBackEnd.DTO.Pagination;
 using NewsWebsiteBackEnd.Models;
+using System.Data;
 using System.Security.Claims;
 
 namespace NewsWebsiteBackEnd.Controllers
@@ -23,6 +26,7 @@ namespace NewsWebsiteBackEnd.Controllers
             _userManager = userManager;
         }
 
+        [AllowAnonymous]
         [HttpGet("all")] // api/HashTag/all
         public async Task<IActionResult> GetAllHashTags([FromQuery] PaginationModel pagination)
         {
@@ -49,6 +53,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpGet("{id}")] // api/HashTag/1
         public async Task<IActionResult> GetHashTagById(int id)
         {
@@ -83,6 +88,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpPost("create")] // api/HashTag/create
         public async Task<IActionResult> CreateHashTag([FromBody] CreateHashTagViewModel model)
         {
@@ -139,6 +145,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpPut("update/{id}")] // api/HashTag/update/1
         public async Task<IActionResult> UpdateHashTag(int id, [FromBody] UpdateHashTagViewModel model)
         {
@@ -181,6 +188,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpPut("delete/{id}")] // api/HashTag/delete/1
         public async Task<IActionResult> DeleteHashTag(int id)
         {

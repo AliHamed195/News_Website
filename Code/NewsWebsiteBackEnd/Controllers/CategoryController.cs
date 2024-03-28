@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NewsWebsiteBackEnd.Classes.Names;
 using NewsWebsiteBackEnd.Context;
 using NewsWebsiteBackEnd.DTO.Article;
 using NewsWebsiteBackEnd.DTO.Category;
 using NewsWebsiteBackEnd.DTO.Pagination;
 using NewsWebsiteBackEnd.Models;
+using System.Data;
 using System.Security.Claims;
 
 namespace NewsWebsiteBackEnd.Controllers
@@ -24,6 +27,7 @@ namespace NewsWebsiteBackEnd.Controllers
             _userManager = userManager;
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpGet("all")] // api/category/all
         public async Task<IActionResult> GetAllCategories([FromQuery] PaginationModel pagination)
         {
@@ -51,6 +55,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }   
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpGet("{id}")] // api/category/1
         public async Task<IActionResult> GetCategoryById(int id)
         {
@@ -86,6 +91,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpPost("create")] // api/category/create
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryViewModel model)
         {
@@ -144,6 +150,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpPut("update/{id}")] // api/category/update/1
         public async Task<IActionResult> UpdateCategory(int id, [FromBody] UpdateCategoryViewModel model)
         {
@@ -193,6 +200,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpPut("delete/{id}")]  // api/category/delete/1
         public async Task<IActionResult> DeleteCategory(int id)
         {
@@ -239,6 +247,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}/articles")] // api/category/1/articles
         public async Task<IActionResult> GetCategoryArticles(int id, [FromQuery] PaginationModel pagination)
         {
@@ -271,6 +280,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}/articles/published")] // api/category/1/articles/published
         public async Task<IActionResult> GetCategoryPublishedArticles(int id, [FromQuery] PaginationModel pagination)
         {
@@ -303,6 +313,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}/articles/published/count")] // api/category/1/articles/published/count
         public async Task<IActionResult> GetCategoryPublishedArticlesCount(int id)
         {
@@ -320,6 +331,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpGet("{id}/articles/unpublished")] // api/category/1/articles/unpublished
         public async Task<IActionResult> GetCategoryUnpublishedArticles(int id, [FromQuery] PaginationModel pagination)
         {
@@ -352,6 +364,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpGet("{id}/articles/unpublished/count")] // api/category/1/articles/unpublished/count
         public async Task<IActionResult> GetCategoryUnpublishedArticlesCount(int id)
         {

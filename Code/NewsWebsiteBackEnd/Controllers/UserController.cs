@@ -5,6 +5,9 @@ using NewsWebsiteBackEnd.Models;
 using Microsoft.EntityFrameworkCore;
 using NewsWebsiteBackEnd.DTO.Pagination;
 using NewsWebsiteBackEnd.DTO.User;
+using Microsoft.AspNetCore.Authorization;
+using NewsWebsiteBackEnd.Classes.Names;
+using System.Data;
 
 namespace NewsWebsiteBackEnd.Controllers
 {
@@ -19,6 +22,7 @@ namespace NewsWebsiteBackEnd.Controllers
             _userManager = userManager;
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpGet("all")] // GET: api/User/all
         public async Task<IActionResult> GetAllUsers([FromQuery] PaginationModel pagination)
         {
@@ -49,6 +53,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpGet("all-deleted")] // GET: api/User/all-deleted
         public async Task<IActionResult> GetAllDeletedUsers([FromQuery] PaginationModel pagination)
         {
@@ -79,6 +84,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpGet("get/{id}")] // GET: api/User/get/{id}
         public async Task<IActionResult> GetUserById(string id)
         {
@@ -117,6 +123,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpPut("update/{id}")] // PUT: api/User/update/{id}
         public async Task<IActionResult> UpdateUser(string id, [FromBody] UpdateUserViewModel model)
         {
@@ -169,7 +176,7 @@ namespace NewsWebsiteBackEnd.Controllers
             return Ok(new { success = true, message = "User updated successfully." });
         }
 
-
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpPut("block/{id}")] // PUT: api/User/block/{id}
         public async Task<IActionResult> BlockUser(string id)
         {
@@ -200,6 +207,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpPut("unblock/{id}")] // PUT: api/User/unblock/{id}
         public async Task<IActionResult> UnblockUser(string id)
         {
@@ -230,6 +238,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpPut("delete/{id}")] // PUT: api/User/delete/{id}
         public async Task<IActionResult> DeleteUser(string id)
         {
@@ -260,6 +269,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpPut("undelete/{id}")] // PUT: api/User/undelete/{id}
         public async Task<IActionResult> UndeleteUser(string id)
         {
@@ -290,6 +300,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("update-password/{id}")] // PUT: api/User/update-password/{id}
         public async Task<IActionResult> UpdateUserPassword(string id, [FromBody] UpdateUserPasswordViewModel model)
         {

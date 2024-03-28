@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NewsWebsiteBackEnd.Classes.Names;
 using NewsWebsiteBackEnd.Context;
 using NewsWebsiteBackEnd.DTO.Pagination;
 using NewsWebsiteBackEnd.DTO.QuestionAnswer;
@@ -23,7 +25,7 @@ namespace NewsWebsiteBackEnd.Controllers
             _userManager = userManager;
         }
 
-        // This method for getting all questions
+        [AllowAnonymous]
         [HttpGet("all-questions")] // api/QuestionAnswer/all-questions
         public async Task<IActionResult> GetAllQuestions([FromQuery] PaginationModel pagination)
         {
@@ -50,7 +52,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
-        // This method for getting all questions and answers
+        [AllowAnonymous]
         [HttpGet("all")] // api/QuestionAnswer/all
         public async Task<IActionResult> GetAllQuestionsAnswers([FromQuery] PaginationModel pagination)
         {
@@ -78,7 +80,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
-        // This method for getting question and answer by id
+        [AllowAnonymous]
         [HttpGet("{id}")] // api/QuestionAnswer/1
         public async Task<IActionResult> GetQuestionAnswerById(int id)
         {
@@ -113,7 +115,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
-        // This method for adding new question and answer
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpPost("create")] // api/QuestionAnswer
         public async Task<IActionResult> CreateQuestionAnswer([FromBody] CreateQuestionAnswerViewModel model)
         {
@@ -163,7 +165,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
-        // This method for updating question and answer
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpPut("update/{id}")] // api/QuestionAnswer/update/1
         public async Task<IActionResult> UpdateQuestionAnswer(int id, [FromBody] UpdateQuestionAnswerViewModel model)
         {
@@ -199,7 +201,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
-        // This method for deleting question and answer
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpPut("delete/{id}")] // api/QuestionAnswer/delete/1
         public async Task<IActionResult> DeleteQuestionAnswer(int id)
         {

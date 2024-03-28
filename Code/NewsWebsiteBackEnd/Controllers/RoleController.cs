@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.IdentityModel.Tokens;
+using NewsWebsiteBackEnd.Classes.Names;
 using NewsWebsiteBackEnd.DTO.Role;
 using NewsWebsiteBackEnd.Hubs;
 using NewsWebsiteBackEnd.Models;
@@ -26,6 +28,7 @@ namespace NewsWebsiteBackEnd.Controllers
             _hubContext = hubContext;
         }
 
+        [AllowAnonymous]
         [HttpGet("all")] // api/role/all
         public async Task<IActionResult> GetAllRoles()
         {
@@ -41,6 +44,7 @@ namespace NewsWebsiteBackEnd.Controllers
 
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpGet("{roleId}/permissions")] // api/role/{roleId}/permissions
         public async Task<IActionResult> GetRolePermissions(string roleId)
         {
@@ -70,6 +74,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpPost("create")] // api/role/create
         public async Task<IActionResult> AddRole([FromBody] AddRoleViewModel model)
         {
@@ -109,6 +114,7 @@ namespace NewsWebsiteBackEnd.Controllers
            
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpPut("edit")] // api/role/edit
         public async Task<IActionResult> EditRole([FromBody] EditRoleViewModel model)
         {
@@ -157,7 +163,7 @@ namespace NewsWebsiteBackEnd.Controllers
             
         }
 
-
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpPut("delete")] // api/role/delete
         public async Task<IActionResult> DeleteRole(string roleId)
         {

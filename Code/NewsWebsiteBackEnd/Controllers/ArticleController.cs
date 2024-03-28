@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NewsWebsiteBackEnd.Classes.Names;
 using NewsWebsiteBackEnd.Context;
 using NewsWebsiteBackEnd.DTO.Article;
 using NewsWebsiteBackEnd.DTO.Category;
@@ -9,6 +11,7 @@ using NewsWebsiteBackEnd.DTO.Pagination;
 using NewsWebsiteBackEnd.DTO.Solr;
 using NewsWebsiteBackEnd.Models;
 using NewsWebsiteBackEnd.SOLR;
+using System.Data;
 using System.Security.Claims;
 using System.Xml.Linq;
 
@@ -20,15 +23,16 @@ namespace NewsWebsiteBackEnd.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUsers> _userManager;
-        private readonly SolrService _solrService;
+       // private readonly SolrService _solrService;
 
-        public ArticleController(ApplicationDbContext context, UserManager<ApplicationUsers> userManager, SolrService solrService)
+        public ArticleController(ApplicationDbContext context, UserManager<ApplicationUsers> userManager)
         {
             _context = context;
             _userManager = userManager;
-            _solrService = solrService;
+            //_solrService = solrService;
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpGet("all")] // api/article/all
         public async Task<IActionResult> GetAllArticles([FromQuery] PaginationModel pagination)
         {
@@ -61,6 +65,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("published")] // api/article/published
         public async Task<IActionResult> GetAllPublishedArticles([FromQuery] PaginationModel pagination)
         {
@@ -93,6 +98,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpGet("unpublished")] // api/article/unpublished
         public async Task<IActionResult> GetAllUnpublishedArticles([FromQuery] PaginationModel pagination)
         {
@@ -125,6 +131,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("archived")] // api/article/archived
         public async Task<IActionResult> GetAllArchivedArticles([FromQuery] PaginationModel pagination)
         {
@@ -164,6 +171,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")] // api/article/{id}
         public async Task<IActionResult> GetArticleById(int id)
         {
@@ -218,6 +226,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpPost("create")] // api/article/create
         public async Task<IActionResult> CreateArticle([FromBody] CreateArticleViewModel model)
         {
@@ -280,6 +289,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpPut("update/{id}")] // api/article/update/{id}
         public async Task<IActionResult> UpdateArticle(int id, [FromBody] UpdateArticleViewModel model)
         {
@@ -329,6 +339,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpPut("delete/{id}")] // api/article/delete/{id}
         public async Task<IActionResult> DeleteArticle(int id)
         {
@@ -368,6 +379,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("archive/{id}")] // api/article/archive/{id}
         public async Task<IActionResult> ArchiveArticle(int id)
         {
@@ -411,6 +423,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("unarchive/{id}")] // api/article/unarchive/{id}
         public async Task<IActionResult> UnarchiveArticle(int id)
         {
@@ -443,6 +456,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("rate/{id}")] // api/article/rate/{id}
         public async Task<IActionResult> RateArticle(int id, [FromBody] RateArticleViewModel model)
         {
@@ -503,6 +517,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("comment/{id}")] // api/article/comment/{id}
         public async Task<IActionResult> CommentArticle(int id, [FromBody] CommentArticleViewModel model)
         {
@@ -544,6 +559,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("delete-comment/{id}")] // api/article/delete-comment/{id}
         public async Task<IActionResult> DeleteCommentArticle(int id)
         {
@@ -575,6 +591,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("comments/{id}")] // api/article/comments/{id}
         public async Task<IActionResult> GetCommentsArticle(int id)
         {
@@ -605,15 +622,15 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
-        [HttpPost("search")] // api/article/search
-        public async Task<IActionResult> Search([FromBody] SolrSearchModel model)
-        {
-            int rows = model.Pagination.EndRow - model.Pagination.StartRow;
-            int start = model.Pagination.StartRow;
+        //[HttpPost("search")] // api/article/search
+        //public async Task<IActionResult> Search([FromBody] SolrSearchModel model)
+        //{
+        //    int rows = model.Pagination.EndRow - model.Pagination.StartRow;
+        //    int start = model.Pagination.StartRow;
 
-            var results = await _solrService.SearchArticles(model.SearchText, start, rows);
-            return Ok(new { success = true, message = "Done.", data = results });
-        }
+        //    var results = await _solrService.SearchArticles(model.SearchText, start, rows);
+        //    return Ok(new { success = true, message = "Done.", data = results });
+        //}
 
         private string GenerateUrlAsText(string title)
         {

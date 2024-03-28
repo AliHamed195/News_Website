@@ -120,7 +120,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
-
+        [AllowAnonymous]
         [HttpPost("login")] // api/account/login
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
@@ -174,7 +174,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
-
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpPost("logout")] // api/account/logout
         public async Task<IActionResult> Logout()
         {
