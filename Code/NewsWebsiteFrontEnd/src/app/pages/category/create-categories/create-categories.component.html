@@ -1,0 +1,15 @@
+<div class="card create-category-card">
+    <div class="card-header create-category-card-header">
+        Create Category
+        <button type="button" class="close create-category-card-close" aria-label="Close" onclick="$(this).parent().parent().hide();">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="card-body create-category-card-body">
+        <input class="input-group create-category-input-group" type="text" placeholder="Enter the new name ....">
+        <div class="create-category-button-container">
+            <button class="create-category-submit-btn">Submit</button>
+            <button class="create-category-cancel-btn" onclick="$(this).parent().parent().parent().hide();">Cancel</button>
+        </div>
+    </div>
+</div>

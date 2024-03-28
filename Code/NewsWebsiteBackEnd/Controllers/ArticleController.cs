@@ -504,7 +504,7 @@ namespace NewsWebsiteBackEnd.Controllers
                                         .Where(c => char.IsLetterOrDigit(c) || c == '-')
                                         .ToArray());
 
-            slugBase = slugBase.Length > 200 ? slugBase.Substring(0, 200) : slugBase;
+            slugBase = slugBase.Length > 100 ? slugBase.Substring(0, 100) : slugBase;
 
             var similarSlugsCount = _context.Articles
                                             .Count(a => a.UrlAsText.StartsWith(slugBase));
