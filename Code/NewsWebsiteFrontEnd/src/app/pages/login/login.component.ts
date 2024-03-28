@@ -14,7 +14,6 @@ export class LoginComponent implements OnInit{
   errorMessage: string | undefined;
 
   constructor(private fb: FormBuilder) {
-    this.errorMessage = "Please enter";
   }
 
   ngOnInit(): void {
