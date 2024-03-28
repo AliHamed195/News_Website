@@ -6,8 +6,11 @@ using NewsWebsiteBackEnd.Context;
 using NewsWebsiteBackEnd.DTO.Article;
 using NewsWebsiteBackEnd.DTO.Category;
 using NewsWebsiteBackEnd.DTO.Pagination;
+using NewsWebsiteBackEnd.DTO.Solr;
 using NewsWebsiteBackEnd.Models;
+using NewsWebsiteBackEnd.SOLR;
 using System.Security.Claims;
+using System.Xml.Linq;
 
 namespace NewsWebsiteBackEnd.Controllers
 {
@@ -17,11 +20,13 @@ namespace NewsWebsiteBackEnd.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUsers> _userManager;
+        private readonly SolrService _solrService;
 
-        public ArticleController(ApplicationDbContext context, UserManager<ApplicationUsers> userManager)
+        public ArticleController(ApplicationDbContext context, UserManager<ApplicationUsers> userManager, SolrService solrService)
         {
             _context = context;
             _userManager = userManager;
+            _solrService = solrService;
         }
 
         [HttpGet("all")] // api/article/all
@@ -598,6 +603,16 @@ namespace NewsWebsiteBackEnd.Controllers
             {
                 return Ok(new { success = false, message = "Exception Error" });
             }
+        }
+
+        [HttpPost("search")] // api/article/search
+        public async Task<IActionResult> Search([FromBody] SolrSearchModel model)
+        {
+            int rows = model.Pagination.EndRow - model.Pagination.StartRow;
+            int start = model.Pagination.StartRow;
+
+            var results = await _solrService.SearchArticles(model.SearchText, start, rows);
+            return Ok(new { success = true, message = "Done.", data = results });
         }
 
         private string GenerateUrlAsText(string title)

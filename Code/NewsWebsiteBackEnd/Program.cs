@@ -8,6 +8,8 @@ using NewsWebsiteBackEnd.Models;
 using NewsWebsiteBackEnd.POCO;
 using NewsWebsiteBackEnd.Services.Interfaces;
 using NewsWebsiteBackEnd.Services.Repositories;
+using NewsWebsiteBackEnd.SOLR;
+using SolrNet;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -55,6 +57,12 @@ builder.Services.AddScoped<IFileServices, FileServices>();
 //POCO
 builder.Services.Configure<FolderSettings>(builder.Configuration.GetSection("FoldersName"));
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
+
+// ==============================================================================================
+
+//Solr
+builder.Services.AddSolrNet("http://localhost:8983/solr/newswebsite");
+builder.Services.AddSingleton<SolrService>();
 
 // ==============================================================================================
 
