@@ -1,3 +1,31 @@
-<p>adminlayout works!</p>
-<app-create-categories></app-create-categories>
-<router-outlet />
+<mat-drawer-container class="example-container" autosize>
+    <mat-drawer #drawer class="example-sidenav" mode="side">
+        <div class="title-sidbar-container d-flex justify-content-center align-items-center mt-4">
+            <h1 class="title-sidebar m-0">Admin Panel</h1>
+        </div>
+        <hr />
+        <ul class="ul-pages-menu">
+            <li><a>Home Page</a></li>
+            <li><a>Home Page</a></li>
+            <li><a>Home Page</a></li>
+            <li><a>Home Page</a></li>
+            <li><a>Home Page</a></li>
+        </ul>
+        <hr />
+        <div class="title-sidbar-container d-flex justify-content-center align-items-center mt-4">
+            <h1 class="title-sidebar m-0">Logout <i class="fa-solid fa-right-from-bracket"></i></h1>
+        </div>
+    </mat-drawer>
+    <mat-toolbar class="custom-toolbar">
+        <button mat-icon-button (click)="drawer.toggle()">
+            <mat-icon><i class="fa-solid fa-bars"></i></mat-icon>
+        </button>
+        <span class="example-spacer"></span>
+        <div>Ali Hamed</div>
+    </mat-toolbar>
+    <div class="example-sidenav-content p-4">
+        <app-create-categories></app-create-categories>
+        <router-outlet />
+    </div>
+
+</mat-drawer-container>
