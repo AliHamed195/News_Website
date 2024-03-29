@@ -17,7 +17,7 @@ namespace NewsWebsiteBackEnd.DTO.Account
         public string FullName { get; set; }
 
         // Optional RoleId
-        public string RoleId { get; set; }
+        public string? RoleId { get; set; }
 
         // Optional UserTypeId
         public int UserTypeId { get; set; }

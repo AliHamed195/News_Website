@@ -1,32 +1,76 @@
 import { Component, OnInit } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
+import { AuthServiceService } from '../../Services/Auth/auth-service.service';
+import { RegisterModel } from '../../models/account/register-model';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule, RouterModule, NgIf],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrl: './register.component.css',
 })
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
+  errorMessage: string | undefined;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthServiceService
+  ) {}
 
   ngOnInit(): void {
-    this.registerForm = this.fb.group({
-      userName: ['', Validators.required],
-      email: ['', [Validators.required, this.emailValidator()]],
-      password: ['', [Validators.required, Validators.minLength(8), this.noWhitespaceValidator]],
-      confirmPassword: [''],
-      fullName: ['', Validators.required]
-    }, { validators: this.checkPasswords });
+    this.registerForm = this.fb.group(
+      {
+        userName: ['', Validators.required],
+        email: ['', [Validators.required, this.emailValidator()]],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            this.noWhitespaceValidator,
+          ],
+        ],
+        confirmPassword: [''],
+        fullName: ['', Validators.required],
+      },
+      { validators: this.checkPasswords }
+    );
   }
 
   onSubmit(): void {
     if (this.registerForm.valid) {
-      console.log('Registration successful', this.registerForm.value);
+      const registerModel: RegisterModel = {
+        userName: this.registerForm.get('userName')?.value,
+        email: this.registerForm.get('email')?.value,
+        password: this.registerForm.get('password')?.value,
+        fullName: this.registerForm.get('fullName')?.value,
+      };
+
+      this.authService.register(registerModel).subscribe({
+        next: (res) => {
+          if (res) {
+            if (res.success) {
+              this.clearErrorMessage();
+            } else {
+              this.errorMessage = `${res.message}, ${res.errors}`;
+            }
+          } else {
+            this.errorMessage = 'Registration failed';
+          }
+        },
+        error: (error) => (this.errorMessage = 'Registration error'),
+      });
     }
   }
 
@@ -36,7 +80,9 @@ export class RegisterComponent implements OnInit {
     return password === confirmPassword ? null : { notSame: true };
   };
 
-  noWhitespaceValidator: ValidationErrors | null = (control: AbstractControl) => {
+  noWhitespaceValidator: ValidationErrors | null = (
+    control: AbstractControl
+  ) => {
     const isWhitespace = /\s/.test(control.value);
     return !isWhitespace ? null : { whitespace: true };
   };
@@ -47,5 +93,9 @@ export class RegisterComponent implements OnInit {
       const valid = emailRegex.test(control.value);
       return valid ? null : { invalidEmail: true };
     };
+  }
+
+  clearErrorMessage(): void {
+    this.errorMessage = undefined;
   }
 }

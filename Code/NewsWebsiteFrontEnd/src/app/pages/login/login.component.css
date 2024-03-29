@@ -30,7 +30,7 @@
     font-style: italic;
 }
 
-.required-star{
+.required-star {
     color: red;
 }
 
@@ -55,7 +55,7 @@
     background-color: #0056b3;
 }
 
-.login-error-alert{
+.login-error-alert {
     padding: 0.8rem;
 }
 
@@ -76,6 +76,12 @@
 
 .login-error-alert {
     overflow: hidden;
+}
+
+.register-link {
+    color: #007bff;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 @media (max-width: 768px) {

@@ -14,7 +14,7 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     border: 1px solid #dee2e6;
     max-width: 90%;
-    width: 600px;
+    width: 900px;
 }
 
 .register-title {
@@ -45,10 +45,16 @@
     background-color: #0056b3;
 }
 
-.required-star{
+.required-star {
     color: red;
 }
 
 .text-danger {
     margin-top: 0.5rem;
+}
+
+.login-link {
+    color: #007bff;
+    font-weight: bold;
+    cursor: pointer;
 }

@@ -130,7 +130,7 @@ namespace NewsWebsiteBackEnd.Controllers
 
                 if (user is null || user.IsBlocked || user.IsDeleted)
                 {
-                    return Unauthorized();
+                    return Ok(new { success = false, message = "Login failed.", errors = "User not found." });
                 }
 
                 if (await _userManager.CheckPasswordAsync(user, model.Password))
@@ -162,15 +162,17 @@ namespace NewsWebsiteBackEnd.Controllers
 
                     return Ok(new
                     {
+                        success = true,
+                        message = "Login successful",
                         token = new JwtSecurityTokenHandler().WriteToken(token),
                         expiration = token.ValidTo
                     });
                 }
-                return Unauthorized();
+                return Ok(new { success = false, message = "Login failed.", errors = "Invalid username or password." });
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
+                return Ok(new { success = false, message = "Login failed due to an internal error.", errors = ex.Message });
             }
         }
 
@@ -178,7 +180,7 @@ namespace NewsWebsiteBackEnd.Controllers
         [HttpPost("logout")] // api/account/logout
         public async Task<IActionResult> Logout()
         {
-            return Ok(new { message = "Logout successful" });
+            return Ok(new { success = true, message = "Logout successful" });
         }
 
         private JwtSecurityToken GenerateJwtToken(List<Claim> authClaims)
