@@ -12,6 +12,11 @@
     background-color: #00796b;
 }
 
+.title-logout {
+    color: whitesmoke;
+    cursor: pointer;
+}
+
 .title-sidebar {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     color: whitesmoke;

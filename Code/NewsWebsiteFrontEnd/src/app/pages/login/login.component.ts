@@ -39,7 +39,11 @@ export class LoginComponent implements OnInit {
       this.authService.login(username, password).subscribe({
         next: (res) => {
           if (res) {
-            this.errorMessage = undefined;
+            if (res.success) {
+              this.errorMessage = undefined;
+            } else {
+              this.errorMessage = res.message;
+            }
           } else {
             this.errorMessage = 'Invalid login credentials.';
           }

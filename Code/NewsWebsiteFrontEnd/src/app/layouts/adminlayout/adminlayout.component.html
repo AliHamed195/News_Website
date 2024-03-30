@@ -12,8 +12,8 @@
             <li><a>Home Page</a></li>
         </ul>
         <hr />
-        <div class="title-sidbar-container d-flex justify-content-center align-items-center mt-4">
-            <h1 class="title-sidebar m-0">Logout <i class="fa-solid fa-right-from-bracket"></i></h1>
+        <div class="title-logout-container d-flex justify-content-center align-items-center mt-4">
+            <h4 class="title-logout m-0" (click)="logout()">Logout <i class="fa-solid fa-right-from-bracket"></i></h4>
         </div>
     </mat-drawer>
     <mat-toolbar class="custom-toolbar">
@@ -21,7 +21,7 @@
             <mat-icon><i class="fa-solid fa-bars"></i></mat-icon>
         </button>
         <span class="example-spacer"></span>
-        <div>Ali Hamed</div>
+        <div>{{UserFullName}}</div>
     </mat-toolbar>
     <div class="example-sidenav-content p-4">
         <app-create-categories></app-create-categories>

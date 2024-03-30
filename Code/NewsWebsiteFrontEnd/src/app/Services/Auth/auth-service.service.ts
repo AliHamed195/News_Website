@@ -6,12 +6,13 @@ import { jwtDecode } from 'jwt-decode';
 import { authEndpoints } from '../../URL/url';
 import { RegisterModel } from '../../models/account/register-model';
 import { ResponseStructure } from '../../models/response/response';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthServiceService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   login(
     username: string,
@@ -76,6 +77,7 @@ export class AuthServiceService {
             decoded[
               'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'
             ],
+          fullName: decoded['FullName'],
         })
       );
     } catch (error) {
@@ -86,6 +88,7 @@ export class AuthServiceService {
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('userInfo');
+    this.router.navigate(['/login']);
   }
 
   getUserInfo(): {
@@ -93,6 +96,7 @@ export class AuthServiceService {
     roles: string | string[];
     userId: string;
     email: string;
+    fullName: string;
   } | null {
     const userInfo = localStorage.getItem('userInfo');
     return userInfo ? JSON.parse(userInfo) : null;

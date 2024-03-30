@@ -130,7 +130,7 @@ namespace NewsWebsiteBackEnd.Controllers
 
                 if (user is null || user.IsBlocked || user.IsDeleted)
                 {
-                    return Ok(new { success = false, message = "Login failed.", errors = "User not found." });
+                    return Ok(new { success = false, message = "Login failed Invalid username or password.", errors = "User not found." });
                 }
 
                 if (await _userManager.CheckPasswordAsync(user, model.Password))
@@ -153,6 +153,7 @@ namespace NewsWebsiteBackEnd.Controllers
                         new Claim(ClaimTypes.Name, user.UserName),
                         new Claim(ClaimTypes.NameIdentifier, user.Id),
                         new Claim(ClaimTypes.Email, user.Email),
+                        new Claim("FullName", user.FullName),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     };
 
@@ -168,7 +169,7 @@ namespace NewsWebsiteBackEnd.Controllers
                         expiration = token.ValidTo
                     });
                 }
-                return Ok(new { success = false, message = "Login failed.", errors = "Invalid username or password." });
+                return Ok(new { success = false, message = "Login failed Invalid username or password.", errors = "Invalid username or password." });
             }
             catch (Exception ex)
             {
