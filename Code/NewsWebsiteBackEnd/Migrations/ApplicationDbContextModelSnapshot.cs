@@ -432,6 +432,9 @@ namespace NewsWebsiteBackEnd.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasMaxLength(100)

@@ -23,13 +23,13 @@ namespace NewsWebsiteBackEnd.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUsers> _userManager;
-       // private readonly SolrService _solrService;
+        private readonly SolrService _solrService;
 
-        public ArticleController(ApplicationDbContext context, UserManager<ApplicationUsers> userManager)
+        public ArticleController(ApplicationDbContext context, UserManager<ApplicationUsers> userManager, SolrService solrService)
         {
             _context = context;
             _userManager = userManager;
-            //_solrService = solrService;
+            _solrService = solrService;
         }
 
         [Authorize(Roles = DefaultSystemRoles.Admin)]

@@ -5,6 +5,7 @@ export interface HashTagDetailsViewModel {
   createdAt: Date;
   updatedAt?: Date;
   isDeleted: boolean;
+  isUsed: boolean;
   createdById: string;
   userFullName: string;
 }

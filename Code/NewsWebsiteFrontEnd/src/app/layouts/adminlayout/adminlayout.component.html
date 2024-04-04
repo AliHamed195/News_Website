@@ -5,8 +5,8 @@
         </div>
         <hr />
         <ul class="ul-pages-menu">
-            <li><a>Home Page</a></li>
-            <li><a>Home Page</a></li>
+            <li><a (click)="goToPage('system-analizer')">System Analyzer</a></li>
+            <li><a (click)="goToPage('hash-tags-all')">Tags</a></li>
             <li><a>Home Page</a></li>
             <li><a>Home Page</a></li>
             <li><a>Home Page</a></li>
@@ -24,7 +24,6 @@
         <div>{{UserFullName}}</div>
     </mat-toolbar>
     <div class="example-sidenav-content p-4">
-        <app-create-categories></app-create-categories>
         <router-outlet />
     </div>
 

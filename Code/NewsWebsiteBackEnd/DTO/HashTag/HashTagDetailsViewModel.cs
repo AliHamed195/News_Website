@@ -8,6 +8,7 @@
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public bool IsDeleted { get; set; }
+        public bool IsUsed { get; set; }
         public string CreatedById { get; set; }
         public string UserFullName { get; set; }
     }

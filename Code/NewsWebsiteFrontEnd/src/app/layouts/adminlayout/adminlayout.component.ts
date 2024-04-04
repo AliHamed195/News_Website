@@ -7,6 +7,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { isPlatformBrowser } from '@angular/common';
 import { AuthServiceService } from '../../Services/Auth/auth-service.service';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-adminlayout',
@@ -18,6 +19,7 @@ import { AuthServiceService } from '../../Services/Auth/auth-service.service';
     MatSidenavModule,
     MatToolbarModule,
     MatIconModule,
+    RouterModule,
   ],
   templateUrl: './adminlayout.component.html',
   styleUrl: './adminlayout.component.css',
@@ -27,7 +29,8 @@ export class AdminlayoutComponent implements OnInit {
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    private authService: AuthServiceService
+    private authService: AuthServiceService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -42,6 +45,10 @@ export class AdminlayoutComponent implements OnInit {
       const userData = JSON.parse(userInfo);
       this.UserFullName = userData.fullName;
     }
+  }
+
+  goToPage(pageName: string) {
+    this.router.navigate([`Admin/${pageName}`]);
   }
 
   logout() {

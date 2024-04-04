@@ -200,12 +200,6 @@ namespace NewsWebsiteBackEnd.Controllers
                     return Ok(new { success = false, message = "HashTag not found." });
                 }
 
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if (hashTag.CreatedById != userId)
-                {
-                    return Ok(new { success = false, message = "You are not allowed to delete this HashTag." });
-                }
-
                 hashTag.IsDeleted = true;
                 hashTag.UpdatedAt = DateTime.Now;
 
@@ -225,5 +219,34 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
+        [HttpGet("count/all")] // api/HashTag/count/all
+        public async Task<IActionResult> GetAllHashTagsCount()
+        {
+            try
+            {
+                var totalCount = await _context.HashTags.CountAsync(x => !x.IsDeleted);
+                return Ok(new { success = true, message = "Total count retrieved successfully.", data = totalCount });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { success = false, message = "Exception Error", error = ex.Message });
+            }
+        }
+
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
+        [HttpGet("count/isUsed")] // api/HashTag/count/isUsed
+        public async Task<IActionResult> GetUsedHashTagsCount()
+        {
+            try
+            {
+                var usedCount = await _context.HashTags.CountAsync(x => x.IsUsed && !x.IsDeleted);
+                return Ok(new { success = true, message = "Used count retrieved successfully.", data = usedCount });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { success = false, message = "Exception Error", error = ex.Message });
+            }
+        }
     }
 }
