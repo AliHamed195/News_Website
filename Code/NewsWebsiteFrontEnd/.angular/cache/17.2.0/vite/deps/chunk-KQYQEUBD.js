@@ -4,7 +4,7 @@ import {
   MatRippleLoader,
   MatRippleModule,
   Platform
-} from "./chunk-7MFTQDO4.js";
+} from "./chunk-TRS7ESML.js";
 import {
   ANIMATION_MODULE_TYPE,
   ChangeDetectionStrategy,
@@ -1195,4 +1195,4 @@ export {
   MatIconAnchor,
   MatButtonModule
 };
-//# sourceMappingURL=chunk-VB7U4ST5.js.map
+//# sourceMappingURL=chunk-KQYQEUBD.js.map

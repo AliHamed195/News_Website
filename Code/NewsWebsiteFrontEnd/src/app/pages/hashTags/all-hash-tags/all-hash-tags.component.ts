@@ -14,6 +14,7 @@ import { NgIf, isPlatformBrowser } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import Swal from 'sweetalert2';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-all-hash-tags',
@@ -42,6 +43,7 @@ export class AllHashTagsComponent implements OnInit {
   displayedColumns: string[] = ['#', 'Tag', 'Options'];
   dataSource = new MatTableDataSource<GeneralHashTagDetailsViewModel>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -109,7 +111,75 @@ export class AllHashTagsComponent implements OnInit {
     this.unusedHashTagsCount = this.totalHashTagsCount - this.usedHashTagsCount;
   }
 
-  create(): void {}
+  create(): void {
+    // create using swal
+    Swal.fire({
+      title: 'Create Hashtag',
+      html: `
+        <style>
+          .special-input, .special-textarea {
+            border: 2px solid #007BFF; /* Bootstrap primary color */
+            border-radius: 4px;
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 14px;
+          }
+          .special-textarea {
+            height: 100px;
+            resize: vertical;
+          }
+        </style>
+        <input id="swal-input1" class="special-input" placeholder="Hashtag Name">
+        <textarea id="swal-input2" class="special-textarea" placeholder="Description"></textarea>
+      `,
+      focusConfirm: false,
+      confirmButtonColor: '#007BFF',
+      cancelButtonColor: '#6c757d',
+      preConfirm: () => {
+        return {
+          text: (document.getElementById('swal-input1') as HTMLInputElement)
+            .value,
+          description: (
+            document.getElementById('swal-input2') as HTMLTextAreaElement
+          ).value,
+        };
+      },
+      showCancelButton: true,
+    }).then((result) => {
+      if (result.isConfirmed && result.value) {
+        this.hashTagsService
+          .createHashTag({
+            text: result.value.text,
+            description: result.value.description,
+          })
+          .subscribe({
+            next: (response) => {
+              if (response.success) {
+                Swal.fire(
+                  'Created!',
+                  'Your hashtag has been created.',
+                  'success'
+                );
+                this.allHashTags.push(response.data);
+                this.dataSource.data = [...this.dataSource.data];
+              } else {
+                Swal.fire(
+                  'Failed!',
+                  'There was an issue creating your hashtag.',
+                  'error'
+                );
+              }
+            },
+            error: (error) => {
+              Swal.fire('Error!', 'Unable to create hashtag.', 'error');
+            },
+          });
+      }
+    });
+  }
 
   edit(id: number): void {
     const index = this.dataSource.data.findIndex((h) => h.id === id);
@@ -255,5 +325,12 @@ export class AllHashTagsComponent implements OnInit {
     });
   }
 
-  search(event: Event) {}
+  search(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
 }

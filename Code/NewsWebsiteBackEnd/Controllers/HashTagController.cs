@@ -137,7 +137,14 @@ namespace NewsWebsiteBackEnd.Controllers
                     return Ok(new { success = false, message = "Failed to create HashTag." });
                 }
 
-                return Ok(new { success = true, message = "HashTag created successfully." });
+                var  hashTagGeneralDetails = new GeneralHashTagDetailsViewModel
+                {
+                    Id = hashTag.Id,
+                    Text = hashTag.Text,
+                    IsUsed = hashTag.IsUsed
+                };
+
+                return Ok(new { success = true, message = "HashTag created successfully.", data = hashTagGeneralDetails });
             }
             catch (Exception)
             {

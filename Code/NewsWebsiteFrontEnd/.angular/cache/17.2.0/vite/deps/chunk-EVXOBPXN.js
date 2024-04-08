@@ -69,6 +69,12 @@ function state(name, styles, options) {
     options
   };
 }
+function keyframes(steps) {
+  return {
+    type: AnimationMetadataType.Keyframes,
+    steps
+  };
+}
 function transition(stateChangeExpr, steps, options = null) {
   return {
     type: AnimationMetadataType.Transition,
@@ -479,6 +485,7 @@ export {
   sequence,
   style,
   state,
+  keyframes,
   transition,
   animateChild,
   query,
@@ -495,4 +502,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-OIDX26P4.js.map
+//# sourceMappingURL=chunk-EVXOBPXN.js.map
