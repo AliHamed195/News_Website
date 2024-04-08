@@ -45,7 +45,7 @@ namespace NewsWebsiteBackEnd.Controllers
 
                 categoriesQuery = categoriesQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
 
-                var categories = await categoriesQuery.ToListAsync();
+                var categories = await categoriesQuery.OrderByDescending(c => c.Id).ToListAsync();
 
                 return Ok(new { success = true, message = "Done.", data = categories });
             }
@@ -137,7 +137,14 @@ namespace NewsWebsiteBackEnd.Controllers
 
                 if (result > 0)
                 {
-                    return Ok(new { success = true, message = "Category created successfully." });
+                    var generalCategoryDetails = new GeneralCategoryDetailsViewModel
+                    {
+                        Id = category.Id,
+                        Name = category.Name,
+                        ArticlesCount = category.ArticlesCount
+                    };
+
+                    return Ok(new { success = true, message = "Category created successfully." , data = generalCategoryDetails });
                 }
                 else
                 {
@@ -187,7 +194,14 @@ namespace NewsWebsiteBackEnd.Controllers
 
                 if (result > 0)
                 {
-                    return Ok(new { success = true, message = "Category updated successfully." });
+                    var generalCategoryDetails = new GeneralCategoryDetailsViewModel
+                    {
+                        Id = category.Id,
+                        Name = category.Name,
+                        ArticlesCount = category.ArticlesCount
+                    };
+
+                    return Ok(new { success = true, message = "Category updated successfully.", data = generalCategoryDetails });
                 }
                 else
                 {

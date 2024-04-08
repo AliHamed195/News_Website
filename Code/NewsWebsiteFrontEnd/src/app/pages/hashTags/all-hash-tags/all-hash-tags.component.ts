@@ -32,7 +32,7 @@ import { MatSort } from '@angular/material/sort';
 export class AllHashTagsComponent implements OnInit {
   paginationModel: PaginationModel = {
     startRow: 0,
-    endRow: 100,
+    endRow: 10,
   };
 
   allHashTags: GeneralHashTagDetailsViewModel[] = [];
@@ -61,13 +61,24 @@ export class AllHashTagsComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  loadHashTags(): void {
+  ngOnDestroy(): void {
+    this.dataSource.disconnect();
+  }
+
+  loadHashTags(lastPage: number = 0): void {
     this.hashTagsService.getAllHashTags(this.paginationModel).subscribe({
       next: (response) => {
         if (response.success) {
-          this.allHashTags = response.data;
-          this.dataSource.data = response.data;
-          this.dataSource.paginator = this.paginator;
+          if (this.paginationModel.startRow === 0) {
+            this.allHashTags = response.data;
+            this.dataSource.data = response.data;
+            this.dataSource.paginator = this.paginator;
+          } else {
+            this.allHashTags = this.allHashTags.concat(response.data);
+            this.dataSource.data = this.allHashTags;
+            this.dataSource.paginator = this.paginator;
+            this.paginator.pageIndex = lastPage;
+          }
         } else {
           console.log(response.message);
         }
@@ -325,12 +336,28 @@ export class AllHashTagsComponent implements OnInit {
     });
   }
 
-  search(event: Event) {
+  applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
+    }
+  }
+
+  pageChanged(event: any): void {
+    this.paginationModel.startRow = event.pageIndex * event.pageSize;
+    this.paginationModel.endRow =
+      this.paginationModel.startRow + event.pageSize;
+
+    if (this.paginationModel.endRow >= this.allHashTags.length) {
+      if (
+        this.allHashTags.length - this.paginationModel.startRow <=
+        event.pageSize * 2
+      ) {
+        this.paginationModel.endRow = this.allHashTags.length + 100;
+        this.loadHashTags(event.previousPageIndex + 2);
+      }
     }
   }
 }

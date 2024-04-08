@@ -38,7 +38,8 @@ namespace NewsWebsiteBackEnd.Controllers
                     .Select(x => new GeneralHashTagDetailsViewModel
                     {
                         Id = x.Id,
-                        Text = x.Text
+                        Text = x.Text,
+                        IsUsed = x.IsUsed
                     });
 
                 hashTagsQuery = hashTagsQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
@@ -71,7 +72,8 @@ namespace NewsWebsiteBackEnd.Controllers
                         UpdatedAt = x.UpdatedAt,
                         IsDeleted = x.IsDeleted,
                         CreatedById = x.CreatedById,
-                        UserFullName = x.CreatedByUser.FullName
+                        UserFullName = x.CreatedByUser.FullName,
+                        IsUsed = x.IsUsed
                     })
                     .FirstOrDefaultAsync();
 

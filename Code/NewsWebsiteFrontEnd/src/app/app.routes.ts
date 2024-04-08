@@ -5,6 +5,7 @@ import { AdminlayoutComponent } from './layouts/adminlayout/adminlayout.componen
 import { AuthlayoutComponent } from './layouts/authlayout/authlayout.component';
 import { SystemAnalizerComponent } from './pages/system-analizer/system-analizer.component';
 import { AllHashTagsComponent } from './pages/hashTags/all-hash-tags/all-hash-tags.component';
+import { AllCategoriesComponent } from './pages/category/all-categories/all-categories.component';
 
 export const routes: Routes = [
   {
@@ -27,6 +28,7 @@ export const routes: Routes = [
       { path: '', component: SystemAnalizerComponent },
       { path: 'system-analizer', component: SystemAnalizerComponent },
       { path: 'hash-tags-all', component: AllHashTagsComponent },
+      { path: 'categories-all', component: AllCategoriesComponent },
     ],
   },
 ];

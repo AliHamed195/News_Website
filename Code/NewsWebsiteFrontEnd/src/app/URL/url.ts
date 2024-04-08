@@ -6,11 +6,19 @@ export const authEndpoints = {
 };
 
 export const hashTagsEndpoints = {
-  createHashTag: `${baseUrl}/HashTag/create`,
   getAllHashTags: `${baseUrl}/HashTag/all`,
+  createHashTag: `${baseUrl}/HashTag/create`,
   getHashTagById: `${baseUrl}/HashTag/`,
   updateHashTagById: `${baseUrl}/HashTag/update/`,
   deleteHashTagById: `${baseUrl}/HashTag/delete/`,
   hashTagCountAll: `${baseUrl}/HashTag/count/all`,
   hashTagCountIsUsed: `${baseUrl}/HashTag/count/isUsed`,
+};
+
+export const categoryEndpoints = {
+  getAllCategorys: `${baseUrl}/Category/all`,
+  getCategoryById: `${baseUrl}/Category/`,
+  createCategory: `${baseUrl}/Category/create`,
+  updateCategoryById: `${baseUrl}/Category/update/`,
+  deleteCategoryById: `${baseUrl}/Category/delete/`,
 };
