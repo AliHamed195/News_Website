@@ -294,6 +294,44 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
+        [HttpGet("all/count")] // api/category/all/count
+        public async Task<IActionResult> GetAllCategoriesCount()
+        {
+            try
+            {
+                var categoriesCount = await _context.Categories
+                    .AsNoTracking()
+                    .Where(c => !c.IsDeleted)
+                    .CountAsync();
+
+                return Ok(new { success = true, message = "Done.", data = categoriesCount });
+            }
+            catch (Exception)
+            {
+                return Ok(new { success = false, message = "Exception Error" });
+            }
+        }
+
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
+        [HttpGet("all/articles/count")] // api/category/all/articles/count
+        public async Task<IActionResult> GetAllCategoriesWithArticlesCount()
+        {
+            try
+            {
+                var categories = await _context.Categories
+                    .AsNoTracking()
+                    .Where(c => !c.IsDeleted && c.ArticlesCount > 0)
+                    .CountAsync();
+
+                return Ok(new { success = true, message = "Done.", data = categories });
+            }
+            catch (Exception)
+            {
+                return Ok(new { success = false, message = "Exception Error" });
+            }
+        }
+
         [AllowAnonymous]
         [HttpGet("{id}/articles/published")] // api/category/1/articles/published
         public async Task<IActionResult> GetCategoryPublishedArticles(int id, [FromQuery] PaginationModel pagination)
@@ -327,7 +365,7 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpGet("{id}/articles/published/count")] // api/category/1/articles/published/count
         public async Task<IActionResult> GetCategoryPublishedArticlesCount(int id)
         {

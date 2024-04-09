@@ -21,4 +21,6 @@ export const categoryEndpoints = {
   createCategory: `${baseUrl}/Category/create`,
   updateCategoryById: `${baseUrl}/Category/update/`,
   deleteCategoryById: `${baseUrl}/Category/delete/`,
+  categoryCountAll: `${baseUrl}/Category/all/count`,
+  categoryCountWithArticles: `${baseUrl}/Category/all/articles/count`,
 };

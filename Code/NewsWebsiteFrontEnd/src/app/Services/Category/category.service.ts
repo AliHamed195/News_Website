@@ -78,4 +78,22 @@ export class CategoryService {
       }
     );
   }
+
+  getAllcategoriesCount(): Observable<ResponseStructure> {
+    return this.http.get<ResponseStructure>(
+      categoryEndpoints.categoryCountAll,
+      {
+        headers: this.getHeaders(),
+      }
+    );
+  }
+
+  getAllCategoriesWithArticlesCount(): Observable<ResponseStructure> {
+    return this.http.get<ResponseStructure>(
+      categoryEndpoints.categoryCountWithArticles,
+      {
+        headers: this.getHeaders(),
+      }
+    );
+  }
 }

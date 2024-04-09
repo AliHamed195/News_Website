@@ -81,9 +81,9 @@ export class AllHashTagsComponent implements OnInit {
           } else {
             this.allHashTags = this.allHashTags.concat(response.data);
             this.dataSource.data = this.allHashTags;
-            this.paginator.pageIndex = lastPage;
           }
           this.dataSource.paginator = this.paginator;
+          this.paginator.pageIndex = lastPage;
           this.dataSource.sort = this.sort;
         } else {
           console.log(response.message);

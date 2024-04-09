@@ -44,7 +44,7 @@ namespace NewsWebsiteBackEnd.Controllers
 
                 hashTagsQuery = hashTagsQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
 
-                var hashTags = await hashTagsQuery.ToListAsync();
+                var hashTags = await hashTagsQuery.OrderByDescending(c => c.Id).ToListAsync();
 
                 return Ok(new { success = true, message = "Done.", data = hashTags });
             }

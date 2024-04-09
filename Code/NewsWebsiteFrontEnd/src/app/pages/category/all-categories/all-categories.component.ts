@@ -1,5 +1,6 @@
 import { CategoryService } from './../../../Services/Category/category.service';
 import {
+  ChangeDetectorRef,
   Component,
   Inject,
   OnInit,
@@ -37,6 +38,9 @@ export class AllCategoriesComponent implements OnInit {
   };
 
   allCategories: GeneralCategoryDetailsViewModel[] = [];
+  totalCategoriesCount: number = 0;
+  categoriesWithArticlesCount: number = 0;
+  categoriesWithoutArticlesCount: number = 0;
 
   displayedColumns: string[] = ['#', 'Name', 'ArticlesCount', 'Options'];
   dataSource = new MatTableDataSource<GeneralCategoryDetailsViewModel>([]);
@@ -45,12 +49,14 @@ export class AllCategoriesComponent implements OnInit {
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
+    private cdr: ChangeDetectorRef,
     private categoryService: CategoryService
   ) {}
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.getAllCategories();
+      this.loadCategoriesCounts();
     }
   }
 
@@ -67,27 +73,62 @@ export class AllCategoriesComponent implements OnInit {
     this.isLoading = true;
     this.categoryService.getAllCategories(this.paginationModel).subscribe(
       (response) => {
+        this.isLoading = false;
+        this.cdr.detectChanges();
         if (response.success) {
           if (this.paginationModel.startRow === 0) {
             this.allCategories = response.data;
             this.dataSource.data = response.data;
-            this.dataSource.paginator = this.paginator;
           } else {
             this.allCategories = this.allCategories.concat(response.data);
             this.dataSource.data = this.allCategories;
-            this.dataSource.paginator = this.paginator;
-            this.paginator.pageIndex = lastPage;
           }
+          this.dataSource.paginator = this.paginator;
+          this.paginator.pageIndex = lastPage;
+          this.dataSource.sort = this.sort;
         } else {
           console.log(response.message);
         }
-        this.isLoading = false;
       },
       (error) => {
         this.isLoading = false;
         console.log(error);
       }
     );
+  }
+
+  loadCategoriesCounts(): void {
+    let isFinishedGettingAllCounts = false;
+    let isFinishedGettingWithArticlesCounts = false;
+    this.categoryService.getAllcategoriesCount().subscribe({
+      next: (response) => {
+        this.totalCategoriesCount = response.data;
+        isFinishedGettingAllCounts = true;
+      },
+      error: (error) =>
+        console.error('Error fetching total categories count', error),
+    });
+
+    this.categoryService.getAllCategoriesWithArticlesCount().subscribe({
+      next: (response) => {
+        this.categoriesWithArticlesCount = response.data;
+        isFinishedGettingWithArticlesCounts = true;
+      },
+      error: (error) =>
+        console.error('Error fetching categories with articles count', error),
+    });
+
+    const interval = setInterval(() => {
+      if (isFinishedGettingAllCounts && isFinishedGettingWithArticlesCounts) {
+        clearInterval(interval);
+        this.calculateCategoriesWithoutArticlesCountCounts();
+      }
+    }, 1000);
+  }
+
+  calculateCategoriesWithoutArticlesCountCounts(): void {
+    this.categoriesWithoutArticlesCount =
+      this.totalCategoriesCount - this.categoriesWithArticlesCount;
   }
 
   applyFilter(event: Event): void {
@@ -132,6 +173,8 @@ export class AllCategoriesComponent implements OnInit {
           const newCategory = result.value.data;
           this.allCategories.unshift(newCategory);
           this.dataSource.data = [...this.dataSource.data];
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
           Swal.fire('Success', 'Category created successfully', 'success');
         } else if (result.isConfirmed && !result.value.success) {
           Swal.fire(
