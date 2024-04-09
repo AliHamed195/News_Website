@@ -30,6 +30,7 @@ import Swal from 'sweetalert2';
   styleUrl: './all-categories.component.css',
 })
 export class AllCategoriesComponent implements OnInit {
+  isLoading: boolean = true;
   paginationModel: PaginationModel = {
     startRow: 0,
     endRow: 100,
@@ -63,6 +64,7 @@ export class AllCategoriesComponent implements OnInit {
   }
 
   getAllCategories(lastPage: number = 0): void {
+    this.isLoading = true;
     this.categoryService.getAllCategories(this.paginationModel).subscribe(
       (response) => {
         if (response.success) {
@@ -79,8 +81,10 @@ export class AllCategoriesComponent implements OnInit {
         } else {
           console.log(response.message);
         }
+        this.isLoading = false;
       },
       (error) => {
+        this.isLoading = false;
         console.log(error);
       }
     );

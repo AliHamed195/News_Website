@@ -4,6 +4,7 @@ import {
   ViewChild,
   Inject,
   PLATFORM_ID,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { HashTagsService } from '../../../Services/HashTags/hash-tags.service';
 import { GeneralHashTagDetailsViewModel } from '../../../models/hash-tag/general-hash-tag-details-view-model';
@@ -30,9 +31,10 @@ import { MatSort } from '@angular/material/sort';
   styleUrl: './all-hash-tags.component.css',
 })
 export class AllHashTagsComponent implements OnInit {
+  isLoading: boolean = true;
   paginationModel: PaginationModel = {
     startRow: 0,
-    endRow: 10,
+    endRow: 100,
   };
 
   allHashTags: GeneralHashTagDetailsViewModel[] = [];
@@ -47,6 +49,7 @@ export class AllHashTagsComponent implements OnInit {
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
+    private cdr: ChangeDetectorRef,
     private hashTagsService: HashTagsService
   ) {}
 
@@ -66,24 +69,28 @@ export class AllHashTagsComponent implements OnInit {
   }
 
   loadHashTags(lastPage: number = 0): void {
+    this.isLoading = true;
     this.hashTagsService.getAllHashTags(this.paginationModel).subscribe({
       next: (response) => {
         if (response.success) {
+          this.isLoading = false;
+          this.cdr.detectChanges();
           if (this.paginationModel.startRow === 0) {
             this.allHashTags = response.data;
             this.dataSource.data = response.data;
-            this.dataSource.paginator = this.paginator;
           } else {
             this.allHashTags = this.allHashTags.concat(response.data);
             this.dataSource.data = this.allHashTags;
-            this.dataSource.paginator = this.paginator;
             this.paginator.pageIndex = lastPage;
           }
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
         } else {
           console.log(response.message);
         }
       },
       error: (error) => {
+        this.isLoading = false;
         console.error('Error fetching hash tags', error);
       },
     });
