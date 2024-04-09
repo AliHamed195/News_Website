@@ -1,5 +1,3 @@
-/* You can add global styles to this file, and also import other style files */
-
 html,
 body {
     height: 100%;
@@ -57,6 +55,17 @@ body {
 
 .circle:nth-child(5) {
     animation-delay: 0.8s;
+}
+
+.pageTitle {
+    border-bottom: 1px black dashed;
+    width: fit-content;
+    text-transform: uppercase;
+}
+
+.fa-house-flood-water {
+    color: #aed581;
+    margin-right: 0.5rem;
 }
 
 .mr-2 {
