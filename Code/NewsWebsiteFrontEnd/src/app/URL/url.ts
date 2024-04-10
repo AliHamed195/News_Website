@@ -24,3 +24,12 @@ export const categoryEndpoints = {
   categoryCountAll: `${baseUrl}/Category/all/count`,
   categoryCountWithArticles: `${baseUrl}/Category/all/articles/count`,
 };
+
+export const questionsAnswersEndpoints = {
+  getAllQuestionsAndAnswers: `${baseUrl}/QuestionAnswer/all`,
+  getAllQuestions: `${baseUrl}/QuestionAnswer/all-questions`,
+  getAllQuestionAndAnswerById: `${baseUrl}/QuestionAnswer/`,
+  createQuestionAndAnswer: `${baseUrl}/QuestionAnswer/create`,
+  updateQuestionAndAnswerById: `${baseUrl}/QuestionAnswer/update/`,
+  deleteQuestionAndAnswerById: `${baseUrl}/QuestionAnswer/delete/`,
+};

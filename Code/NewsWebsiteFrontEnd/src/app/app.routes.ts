@@ -6,6 +6,9 @@ import { AuthlayoutComponent } from './layouts/authlayout/authlayout.component';
 import { SystemAnalizerComponent } from './pages/system-analizer/system-analizer.component';
 import { AllHashTagsComponent } from './pages/hashTags/all-hash-tags/all-hash-tags.component';
 import { AllCategoriesComponent } from './pages/category/all-categories/all-categories.component';
+import { AllQuestionAnswersComponent } from './pages/question-answers/all-question-answers/all-question-answers.component';
+import { CreateAndUpdateQuestionAnswerComponent } from './pages/question-answers/create-and-update-question-answer/create-and-update-question-answer.component';
+import { QuestionAnswerDetailsComponent } from './pages/question-answers/question-answer-details/question-answer-details.component';
 
 export const routes: Routes = [
   {
@@ -29,6 +32,19 @@ export const routes: Routes = [
       { path: 'system-analizer', component: SystemAnalizerComponent },
       { path: 'hash-tags-all', component: AllHashTagsComponent },
       { path: 'categories-all', component: AllCategoriesComponent },
+      { path: 'questions-answers-all', component: AllQuestionAnswersComponent },
+      {
+        path: 'questions-answers-upsert',
+        component: CreateAndUpdateQuestionAnswerComponent,
+      },
+      {
+        path: 'questions-answers-upsert/:id',
+        component: CreateAndUpdateQuestionAnswerComponent,
+      },
+      {
+        path: 'questions-answers-details/:id',
+        component: QuestionAnswerDetailsComponent,
+      },
     ],
   },
 ];

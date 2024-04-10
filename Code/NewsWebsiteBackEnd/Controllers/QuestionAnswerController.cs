@@ -70,7 +70,7 @@ namespace NewsWebsiteBackEnd.Controllers
 
                 questionsAnswersQuery = questionsAnswersQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
 
-                var questionsAnswers = await questionsAnswersQuery.ToListAsync();
+                var questionsAnswers = await questionsAnswersQuery.OrderByDescending(qa => qa.Id).ToListAsync();
 
                 return Ok(new { success = true, message = "Done.", data = questionsAnswers });
             }
@@ -157,7 +157,14 @@ namespace NewsWebsiteBackEnd.Controllers
                 {
                     return Ok(new { success = false, message = "Failed to create." });
                 }
-                return Ok(new { success = true, message = "Done." });
+
+                var generalQuestionAnswer = new GeneralQuestionAnswerDetailsViewModel
+                {
+                    Id = questionAnswer.Id,
+                    Question = model.Question,
+                    Answer = model.Answer
+                };
+                return Ok(new { success = true, message = "Done.", data = generalQuestionAnswer});
             }
             catch (Exception)
             {
@@ -193,7 +200,15 @@ namespace NewsWebsiteBackEnd.Controllers
                 {
                     return Ok(new { success = false, message = "Failed to update." });
                 }
-                return Ok(new { success = true, message = "Done." });
+
+                var generalQuestionAnswer = new GeneralQuestionAnswerDetailsViewModel
+                {
+                    Id = questionAnswer.Id,
+                    Question = model.Question,
+                    Answer = model.Answer
+                };
+
+                return Ok(new { success = true, message = "Done.", data= generalQuestionAnswer });
             }
             catch (Exception)
             {

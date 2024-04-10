@@ -1,0 +1,23 @@
+.question-answer-details-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.meta-details {
+    padding: 10px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    color: #6c757d;
+}
+
+.meta-details p {
+    margin: 5px 0;
+}
+
+#loading {
+    text-align: center;
+    font-style: italic;
+    color: #6c757d;
+}

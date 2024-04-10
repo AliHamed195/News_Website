@@ -1,0 +1,15 @@
+<h1 class="pageTitle"><i> <i class="fa-solid fa-house-flood-water"></i><b>Question & Answer Details</b></i></h1>
+
+<div *ngIf="questionAnswerDetails; else loading" class="mt-5">
+    <app-question-answer-content [question]="questionAnswerDetails.question" [answer]="questionAnswerDetails.answer">
+    </app-question-answer-content>
+    <div class="meta-details">
+        <p>Writer: {{ questionAnswerDetails.userFullName }}</p>
+        <p>Created at: {{ questionAnswerDetails.createdAt | date }}</p>
+        <p *ngIf="questionAnswerDetails.updatedAt">Updated at: {{ questionAnswerDetails.updatedAt | date }}</p>
+    </div>
+</div>
+
+<ng-template #loading>
+    <p>Loading details...</p>
+</ng-template>

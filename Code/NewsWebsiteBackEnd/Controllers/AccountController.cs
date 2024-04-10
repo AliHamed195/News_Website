@@ -189,8 +189,6 @@ namespace NewsWebsiteBackEnd.Controllers
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret));
             var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
             return new JwtSecurityToken(
-                issuer: _jwtSettings.Issuer,
-                audience: _jwtSettings.Audience,
                 expires: DateTime.Now.AddHours(2),
                 claims: authClaims,
                 signingCredentials: signIn
