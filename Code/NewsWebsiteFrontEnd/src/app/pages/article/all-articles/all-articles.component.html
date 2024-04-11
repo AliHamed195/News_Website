@@ -1,0 +1,24 @@
+<!-- Loader shown when isLoading is true -->
+<div *ngIf="isLoading" class="loader">
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+</div>
+
+<div *ngIf="!isLoading">
+    <h1 class="pageTitle"><i> <i class="fa-solid fa-house-flood-water"></i><b>Articles</b></i></h1>
+</div>
+<div *ngIf="!isLoading" class="row">
+
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <button class="btn btn-primary" (click)="create()">
+                <i class="fa-solid fa-plus"></i>
+                Create New
+            </button>
+        </div>
+    </div>
+
+</div>

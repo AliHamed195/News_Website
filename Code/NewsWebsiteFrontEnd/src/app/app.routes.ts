@@ -9,6 +9,9 @@ import { AllCategoriesComponent } from './pages/category/all-categories/all-cate
 import { AllQuestionAnswersComponent } from './pages/question-answers/all-question-answers/all-question-answers.component';
 import { CreateAndUpdateQuestionAnswerComponent } from './pages/question-answers/create-and-update-question-answer/create-and-update-question-answer.component';
 import { QuestionAnswerDetailsComponent } from './pages/question-answers/question-answer-details/question-answer-details.component';
+import { AllArticlesComponent } from './pages/article/all-articles/all-articles.component';
+import { CreateAndUpdateArticleComponent } from './pages/article/create-and-update-article/create-and-update-article.component';
+import { ArticleDetailsComponent } from './pages/article/article-details/article-details.component';
 
 export const routes: Routes = [
   {
@@ -44,6 +47,22 @@ export const routes: Routes = [
       {
         path: 'questions-answers-details/:id',
         component: QuestionAnswerDetailsComponent,
+      },
+      {
+        path: 'articles-all',
+        component: AllArticlesComponent,
+      },
+      {
+        path: 'articles-upsert',
+        component: CreateAndUpdateArticleComponent,
+      },
+      {
+        path: 'articles-upsert/:id',
+        component: CreateAndUpdateArticleComponent,
+      },
+      {
+        path: 'articles-details/:id',
+        component: ArticleDetailsComponent,
       },
     ],
   },

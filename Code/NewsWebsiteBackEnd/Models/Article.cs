@@ -16,6 +16,7 @@
         public int TotalNumberOfViews { get; set; } = 0;
         public string? Tags { get; set; }
         public string UrlAsText { get; set; }
+        public string Location { get; set; }
         public string BodyStructureAsHtmlCode { get; set; }
         public string BodyStructureAsText { get; set; }
         public string CreatedById { get; set; }

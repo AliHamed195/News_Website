@@ -68,6 +68,12 @@ body {
     margin-right: 0.5rem;
 }
 
+.image-wrapper {
+    max-width: 50%;
+    display: block;
+    margin: 0 auto;
+}
+
 .mr-2 {
     margin-right: 0.5rem;
 }

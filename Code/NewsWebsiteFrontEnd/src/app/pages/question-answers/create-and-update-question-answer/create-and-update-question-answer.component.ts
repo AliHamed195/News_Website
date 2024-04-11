@@ -105,4 +105,8 @@ export class CreateAndUpdateQuestionAnswerComponent implements OnInit {
       },
     });
   }
+
+  cancelAndBack(): void {
+    this.router.navigateByUrl('/Admin/questions-answers-all');
+  }
 }

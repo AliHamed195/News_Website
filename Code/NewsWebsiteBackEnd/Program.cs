@@ -111,6 +111,25 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseExceptionHandler(appBuilder =>
+{
+    appBuilder.Run(async context =>
+    {
+        context.Response.StatusCode = 500; // Or another status code as appropriate
+        context.Response.ContentType = "application/json";
+
+        var exception = context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>();
+        if (exception != null)
+        {
+            await context.Response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(new
+            {
+                error = "An error occurred processing your request",
+                details = exception.Error.Message // Or log this instead of sending it to the client
+            }));
+        }
+    });
+});
+
 app.UseHttpsRedirection();
 
 app.UseCors("EnableCORS");
@@ -120,6 +139,7 @@ app.UseAuthorization();
 
 //Hubs
 app.MapHub<RoleManagementHub>("/ws/Actions/roleEvents");
+//app.MapHub<ArticleHub>("/articleHub");
 
 // ==============================================================================================
 

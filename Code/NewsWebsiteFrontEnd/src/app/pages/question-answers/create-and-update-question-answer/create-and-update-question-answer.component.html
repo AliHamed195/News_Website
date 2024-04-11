@@ -14,8 +14,13 @@
                 required placeholder="Enter the answer"></textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary">
-            {{ questionAnswerId ? 'Update' : 'Create' }}
-        </button>
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">
+                {{ questionAnswerId ? 'Update' : 'Create' }}
+            </button>
+            <button type="button" class="btn btn-warning" (click)="cancelAndBack()">
+                Cancel & Back
+            </button>
+        </div>
     </form>
 </div>

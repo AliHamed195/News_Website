@@ -3,7 +3,7 @@ import { QuestionAnswerDetailsViewModel } from '../../../models/question-answer/
 import { ActivatedRoute } from '@angular/router';
 import { QuestionsAnswersService } from '../../../Services/QuestionsAnswers/questions-answers.service';
 import { CommonModule } from '@angular/common';
-import { QuestionAnswerContentComponent } from '../question-answer-content/question-answer-content.component';
+import { QuestionAnswerContentComponent } from '../../../components/question-answer/question-answer-content/question-answer-content.component';
 
 @Component({
   selector: 'app-question-answer-details',

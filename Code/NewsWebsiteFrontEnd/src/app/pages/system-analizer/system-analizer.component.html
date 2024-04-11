@@ -7,7 +7,9 @@
     <div class="circle"></div>
 </div>
 
-<h1 class="pageTitle"><i> <i class="fa-solid fa-house-flood-water"></i><b>System Analyzer</b></i></h1>
+<div *ngIf="!isLoading">
+    <h1 class="pageTitle"><i> <i class="fa-solid fa-house-flood-water"></i><b>System Analyzer</b></i></h1>
+</div>
 
 <div *ngIf="!isLoading" class="row">
     <div class="col-xl-6">

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using NewsWebsiteBackEnd.Classes.Names;
 using NewsWebsiteBackEnd.Context;
@@ -23,13 +24,12 @@ namespace NewsWebsiteBackEnd.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUsers> _userManager;
-        private readonly SolrService _solrService;
+        //private readonly IHubContext<ArticleHub> _hubContext;
 
-        public ArticleController(ApplicationDbContext context, UserManager<ApplicationUsers> userManager, SolrService solrService)
+        public ArticleController(ApplicationDbContext context, UserManager<ApplicationUsers> userManager)
         {
             _context = context;
             _userManager = userManager;
-            _solrService = solrService;
         }
 
         [Authorize(Roles = DefaultSystemRoles.Admin)]
@@ -50,12 +50,15 @@ namespace NewsWebsiteBackEnd.Controllers
                     TotalNumberOfViews = a.TotalNumberOfViews,
                     UrlAsText = a.UrlAsText,
                     CreatedById = a.CreatedById,
-                    CreatedByFullName = a.CreatedBy.FullName
+                    CreatedByFullName = a.CreatedBy.FullName,
+                    CreatedAt = a.CreatedAt,
+                    Summary = a.Summary,
+                    Location = a.Location,
                 });
 
                 articlesQuery = articlesQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
 
-                var articles = await articlesQuery.ToListAsync();
+                var articles = await articlesQuery.OrderByDescending(a => a.Id).ToListAsync();
 
                 return Ok(new { success = true, message = "Done.", data = articles });
             }
@@ -83,7 +86,8 @@ namespace NewsWebsiteBackEnd.Controllers
                     TotalNumberOfViews = a.TotalNumberOfViews,
                     UrlAsText = a.UrlAsText,
                     CreatedById = a.CreatedById,
-                    CreatedByFullName = a.CreatedBy.FullName
+                    CreatedByFullName = a.CreatedBy.FullName,
+                    Location = a.Location,
                 });
 
                 articlesQuery = articlesQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
@@ -116,7 +120,8 @@ namespace NewsWebsiteBackEnd.Controllers
                     TotalNumberOfViews = a.TotalNumberOfViews,
                     UrlAsText = a.UrlAsText,
                     CreatedById = a.CreatedById,
-                    CreatedByFullName = a.CreatedBy.FullName
+                    CreatedByFullName = a.CreatedBy.FullName,
+                    Location = a.Location,
                 });
 
                 articlesQuery = articlesQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
@@ -156,7 +161,8 @@ namespace NewsWebsiteBackEnd.Controllers
                     TotalNumberOfViews = a.Article.TotalNumberOfViews,
                     UrlAsText = a.Article.UrlAsText,
                     CreatedById = a.Article.CreatedById,
-                    CreatedByFullName = a.Article.CreatedBy.FullName
+                    CreatedByFullName = a.Article.CreatedBy.FullName,
+                    Location = a.Article.Location,
                 });
 
                 articlesQuery = articlesQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
@@ -203,6 +209,7 @@ namespace NewsWebsiteBackEnd.Controllers
                     TotalNumberOfViews = a.TotalNumberOfViews,
                     Tags = a.Tags,
                     UrlAsText = a.UrlAsText,
+                    Location = a.Location,
                     BodyStructureAsHtmlCode = a.BodyStructureAsHtmlCode,
                     BodyStructureAsText = a.BodyStructureAsText,
                     CreatedById = a.CreatedById,
@@ -257,7 +264,8 @@ namespace NewsWebsiteBackEnd.Controllers
                     CreatedById = userId,
                     CreatedBy = user,
                     CategoryId = category.Id,
-                    Categories = category
+                    Categories = category,
+                    Location = model.Location
                 };
 
                 await _context.Articles.AddAsync(article);
@@ -281,7 +289,20 @@ namespace NewsWebsiteBackEnd.Controllers
 
                 await _context.SaveChangesAsync();
 
-                return Ok(new { success = true, message = "Article created successfully." });
+                var generalArticleDetailsViewModel = new GeneralArticleDetailsViewModel
+                {
+                    Id = article.Id,
+                    Title = article.Title,
+                    CoverImagePath = article.CoverImagePath,
+                    RatingAvg = article.RatingAvg,
+                    TotalNumberOfViews = article.TotalNumberOfViews,
+                    UrlAsText = article.UrlAsText,
+                    CreatedById = article.CreatedById,
+                    CreatedByFullName = article.CreatedBy.FullName,
+                    Location = article.Location
+                };
+
+                return Ok(new { success = true, message = "Article created successfully.", data = generalArticleDetailsViewModel });
             }
             catch (Exception)
             {
@@ -327,15 +348,29 @@ namespace NewsWebsiteBackEnd.Controllers
                 article.UpdatedAt = DateTime.Now;
                 article.CategoryId = category.Id;
                 article.Categories = category;
+                article.Location = model.Location;
 
                 _context.Articles.Update(article);
                 await _context.SaveChangesAsync();
 
-                return Ok(new { success = true, message = "Article updated successfully." });
+                var generalArticleDetailsViewModel = new GeneralArticleDetailsViewModel
+                {
+                    Id = article.Id,
+                    Title = article.Title,
+                    CoverImagePath = article.CoverImagePath,
+                    RatingAvg = article.RatingAvg,
+                    TotalNumberOfViews = article.TotalNumberOfViews,
+                    UrlAsText = article.UrlAsText,
+                    CreatedById = article.CreatedById,
+                    CreatedByFullName = article.CreatedBy.FullName,
+                    Location = article.Location
+                };
+
+                return Ok(new { success = true, message = "Article updated successfully.", data = generalArticleDetailsViewModel });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return Ok(new { success = false, message = "Exception Error" });
+                return Ok(new { success = false, message = "Exception Error", error = ex });
             }
         }
 
@@ -620,6 +655,42 @@ namespace NewsWebsiteBackEnd.Controllers
             {
                 return Ok(new { success = false, message = "Exception Error" });
             }
+        }
+
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
+        [HttpPost("publish/{id}")]
+        public async Task<IActionResult> PublishArticle(int id)
+        {
+            var article = await _context.Articles.FindAsync(id);
+            if (article == null)
+            {
+                return NotFound();
+            }
+
+            article.IsPublished = true;
+            _context.Articles.Update(article);
+            await _context.SaveChangesAsync();
+
+           // await _hubContext.Clients.All.SendAsync("ArticlePublished", article.Title, Url.Action("GetArticleById", new { id = article.Id }));
+
+            return Ok(new { success = true, message = "Article published successfully." });
+        }
+
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
+        [HttpPost("unpublish/{id}")]
+        public async Task<IActionResult> UnpublishArticle(int id)
+        {
+            var article = await _context.Articles.FindAsync(id);
+            if (article == null)
+            {
+                return NotFound();
+            }
+
+            article.IsPublished = false;
+            _context.Articles.Update(article);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { success = true, message = "Article unpublished successfully." });
         }
 
         //[HttpPost("search")] // api/article/search

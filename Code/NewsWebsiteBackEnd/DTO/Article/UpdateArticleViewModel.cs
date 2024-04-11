@@ -7,6 +7,7 @@
         public string Summary { get; set; }
         public bool IsPublished { get; set; }
         public string? Tags { get; set; }
+        public string Location { get; set; }
         public string BodyStructureAsHtmlCode { get; set; }
         public string BodyStructureAsText { get; set; }
         public int CategoryId { get; set; }
