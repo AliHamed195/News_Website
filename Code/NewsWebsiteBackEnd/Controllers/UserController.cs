@@ -329,5 +329,140 @@ namespace NewsWebsiteBackEnd.Controllers
             return Ok(new { success = true, message = "Password updated successfully." });
         }
 
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
+        [HttpGet("count")] // GET: api/User/count
+        public async Task<IActionResult> GetUsersCount()
+        {
+            try
+            {
+                var usersCount = await _userManager.Users
+                    .AsNoTracking()
+                    .Where(u => !u.IsDeleted)
+                    .CountAsync();
+
+                return Ok(new { success = true, message = "Done.", data = usersCount });
+            }
+            catch (Exception)
+            {
+                return Ok(new { success = false, message = "Exception Error" });
+            }
+        }
+
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
+        [HttpGet("count-blocked")] // GET: api/User/count-blocked
+        public async Task<IActionResult> GetBlockedUsersCount()
+        {
+            try
+            {
+                var usersCount = await _userManager.Users
+                    .AsNoTracking()
+                    .Where(u => u.IsBlocked && !u.IsDeleted)
+                    .CountAsync();
+
+                return Ok(new { success = true, message = "Done.", data = usersCount });
+            }
+            catch (Exception)
+            {
+                return Ok(new { success = false, message = "Exception Error" });
+            }
+        }
+
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
+        [HttpGet("count-deleted")] // GET: api/User/count-deleted
+        public async Task<IActionResult> GetDeletedUsersCount()
+        {
+            try
+            {
+                var usersCount = await _userManager.Users
+                    .AsNoTracking()
+                    .Where(u => u.IsDeleted)
+                    .CountAsync();
+
+                return Ok(new { success = true, message = "Done.", data = usersCount });
+            }
+            catch (Exception)
+            {
+                return Ok(new { success = false, message = "Exception Error" });
+            }
+        }
+
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
+        [HttpGet("types")] // GET: api/User/types
+        public async Task<IActionResult> GetUserTypes()
+        {
+            try
+            {
+                var userTypes = await _userManager.Users
+                    .AsNoTracking()
+                    .Where(u => !u.IsDeleted)
+                    .Select(u => new 
+                    {
+                        Id = u.UserType.Id,
+                        Name = u.UserType.Name
+                    })
+                    .Distinct()
+                    .ToListAsync();
+
+                return Ok(new { success = true, message = "Done.", data = userTypes });
+            }
+            catch (Exception)
+            {
+                return Ok(new { success = false, message = "Exception Error" });
+            }
+        }
+
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
+        [HttpGet("types/count")] // GET: api/User/types/count
+        public async Task<IActionResult> GetUserTypesCount()
+        {
+            try
+            {
+                var userTypesCount = await _userManager.Users
+                    .AsNoTracking()
+                    .Where(u => !u.IsDeleted)
+                    .Select(u => u.UserType.Id)
+                    .Distinct()
+                    .CountAsync();
+
+                return Ok(new { success = true, message = "Done.", data = userTypesCount });
+            }
+            catch (Exception)
+            {
+                return Ok(new { success = false, message = "Exception Error" });
+            }
+        }
+
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
+        [HttpGet("by-type/{typeId}")] // GET: api/User/by-type/{typeId}
+        public async Task<IActionResult> GetUsersByType(int typeId, [FromQuery] PaginationModel pagination)
+        {
+            try
+            {
+                var usersQuery = _userManager.Users
+                    .AsNoTracking()
+                    .Where(u => u.UserTypeId == typeId && !u.IsDeleted)
+                    .Select(u => new GeneralUserDetailsViewModel
+                    {
+                        Id = u.Id,
+                        UserName = u.UserName,
+                        Email = u.Email,
+                        FullName = u.FullName,
+                        UserTypeId = u.UserTypeId,
+                        UserTypeName = u.UserType.Name
+                    });
+
+                usersQuery = usersQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
+
+                var users = await usersQuery.ToListAsync();
+
+                return Ok(new { success = true, message = "Done.", data = users });
+            }
+            catch (Exception)
+            {
+                return Ok(new { success = false, message = "Exception Error" });
+            }
+        }
+
+
     }
 }

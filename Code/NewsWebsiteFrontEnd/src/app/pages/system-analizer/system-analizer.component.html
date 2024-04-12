@@ -28,3 +28,29 @@
         </div>
     </div>
 </div>
+
+<div *ngIf="isLoadingRowTwo" class="loader">
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+</div>
+
+<div *ngIf="!isLoadingRowTwo" class="row">
+    <div class="col-xl-6">
+        <div style="display: flex; justify-content: center; margin-top: 50px;">
+            <ngx-charts-bar-horizontal [view]="view" [results]="articlesData" [gradient]="gradient" [xAxis]="showXAxis"
+                [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel" [yAxisLabel]="'Articles'">
+            </ngx-charts-bar-horizontal>
+        </div>
+    </div>
+    <div class="col-xl-6">
+        <div style="display: flex; justify-content: center; margin-top: 50px;">
+            <ngx-charts-pie-chart [view]="view" [results]="userData" [gradient]="gradient" [legend]="showLegend"
+                [doughnut]="true" [labels]="true">
+            </ngx-charts-pie-chart>
+        </div>
+    </div>
+</div>

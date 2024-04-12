@@ -51,4 +51,25 @@ export const articleEndpoints = {
   getCommentsByArticleId: `${baseUrl}/Article/comments/`,
   publishArticleById: `${baseUrl}/Article/publish/`,
   unpublishArticleById: `${baseUrl}/Article/unpublish/`,
+  getAllArticlesCount: `${baseUrl}/Article/all-count`,
+  getPublishedArticlesCount: `${baseUrl}/Article/published-count`,
+  getUnpublishedArticlesCount: `${baseUrl}/Article/unpublished-count`,
+};
+
+export const userEndpoints = {
+  getAllUsers: `${baseUrl}/User/all`,
+  getAllDeletedUsers: `${baseUrl}/User/all-deleted`,
+  getUserById: `${baseUrl}/User/get/`,
+  updateUserById: `${baseUrl}/User/update/`,
+  blockUserById: `${baseUrl}/User/block/`,
+  unblockUserById: `${baseUrl}/User/unblock/`,
+  deleteUserById: `${baseUrl}/User/delete/`,
+  undeleteUserById: `${baseUrl}/User/undelete/`,
+  updateUserPassword: `${baseUrl}/User/update-password/`,
+  getUsersCount: `${baseUrl}/User/count`,
+  getBlockedUsersCount: `${baseUrl}/User/count-blocked`,
+  getDeletedUsersCount: `${baseUrl}/User/count-deleted`,
+  getUserTypes: `${baseUrl}/User/types`,
+  getUserTypesCount: `${baseUrl}/User/types/count`,
+  getUsersByType: `${baseUrl}/User/by-type/`,
 };

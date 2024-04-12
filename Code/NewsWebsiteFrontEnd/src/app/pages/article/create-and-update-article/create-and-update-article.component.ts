@@ -294,6 +294,8 @@ export class CreateAndUpdateArticleComponent {
           error: (error) => console.error('Error updating the article', error),
         });
     }
+
+    this.router.navigate(['/Admin/articles-all']);
   }
 
   cancelAndBack(): void {

@@ -1,8 +1,11 @@
 import { CategoryService } from './../../Services/Category/category.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { HashTagsService } from '../../Services/HashTags/hash-tags.service';
 import { forkJoin } from 'rxjs';
+import { ArticlesService } from '../../Services/Articles/articles.service';
+import { UsersService } from '../../Services/Users/users.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-system-analizer',
@@ -13,10 +16,12 @@ import { forkJoin } from 'rxjs';
 })
 export class SystemAnalizerComponent implements OnInit {
   isLoading: boolean = true;
-
+  isLoadingRowTwo: boolean = true;
   // ===================================
   hashTagData: any[] = [];
   categoryData: any[] = [];
+  articlesData: any[] = [];
+  userData: any[] = [];
   // ===================================
 
   view: [number, number] = [700, 400];
@@ -28,15 +33,24 @@ export class SystemAnalizerComponent implements OnInit {
   xAxisLabel = 'Type';
   showYAxisLabel = true;
   yAxisLabel = 'Count';
+  colorScheme = {
+    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA'],
+  };
   // ===================================
 
   constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     private hashTagsService: HashTagsService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private articleService: ArticlesService,
+    private usersService: UsersService
   ) {}
 
   ngOnInit() {
-    this.loadDashboardData();
+    if (isPlatformBrowser(this.platformId)) {
+      this.loadDashboardData();
+      this.loadDashboardDataTwo();
+    }
   }
 
   loadDashboardData() {
@@ -87,6 +101,53 @@ export class SystemAnalizerComponent implements OnInit {
       error: (error) => {
         console.error('Error fetching data', error);
         this.isLoading = false;
+      },
+    });
+  }
+
+  loadDashboardDataTwo() {
+    this.isLoadingRowTwo = true;
+
+    // Fetch counts for articles
+    const allArticlesCount$ = this.articleService.getAllArticlesCount();
+    const publishedArticlesCount$ =
+      this.articleService.getPublishedArticlesCount();
+    const unpublishedArticlesCount$ =
+      this.articleService.getUnpublishedArticlesCount();
+
+    // Fetch counts for users
+    const usersCount$ = this.usersService.getUsersCount();
+    const blockedUsersCount$ = this.usersService.getBlockedUsersCount();
+    const deletedUsersCount$ = this.usersService.getDeletedUsersCount();
+
+    forkJoin({
+      allArticles: allArticlesCount$,
+      publishedArticles: publishedArticlesCount$,
+      unpublishedArticles: unpublishedArticlesCount$,
+      usersCount: usersCount$,
+      blockedUsersCount: blockedUsersCount$,
+      deletedUsersCount: deletedUsersCount$,
+    }).subscribe({
+      next: (results) => {
+        this.articlesData = [
+          { name: 'All Articles', value: results.allArticles.data },
+          { name: 'Published Articles', value: results.publishedArticles.data },
+          {
+            name: 'Unpublished Articles',
+            value: results.unpublishedArticles.data,
+          },
+        ];
+
+        this.userData = [
+          { name: 'Total Users', value: results.usersCount.data },
+          { name: 'Blocked Users', value: results.blockedUsersCount.data },
+          { name: 'Deleted Users', value: results.deletedUsersCount.data },
+        ];
+        this.isLoadingRowTwo = false;
+      },
+      error: (error) => {
+        console.error('Error fetching data for row two', error);
+        this.isLoadingRowTwo = false;
       },
     });
   }

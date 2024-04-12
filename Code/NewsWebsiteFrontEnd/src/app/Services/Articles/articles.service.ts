@@ -42,6 +42,30 @@ export class ArticlesService {
     );
   }
 
+  getAllArticlesCount(): Observable<ResponseStructure> {
+    const headers = this.headerUtil.generateHeaders();
+    return this.http.get<ResponseStructure>(
+      articleEndpoints.getAllArticlesCount,
+      { headers }
+    );
+  }
+
+  getPublishedArticlesCount(): Observable<ResponseStructure> {
+    const headers = this.headerUtil.generateHeaders();
+    return this.http.get<ResponseStructure>(
+      articleEndpoints.getPublishedArticlesCount,
+      { headers }
+    );
+  }
+
+  getUnpublishedArticlesCount(): Observable<ResponseStructure> {
+    const headers = this.headerUtil.generateHeaders();
+    return this.http.get<ResponseStructure>(
+      articleEndpoints.getUnpublishedArticlesCount,
+      { headers }
+    );
+  }
+
   saveArticle(
     articleId: number | null,
     model: CreateArticleViewModel | UpdateArticleViewModel

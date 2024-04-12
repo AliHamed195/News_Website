@@ -12,6 +12,7 @@ import { QuestionAnswerDetailsComponent } from './pages/question-answers/questio
 import { AllArticlesComponent } from './pages/article/all-articles/all-articles.component';
 import { CreateAndUpdateArticleComponent } from './pages/article/create-and-update-article/create-and-update-article.component';
 import { ArticleDetailsComponent } from './pages/article/article-details/article-details.component';
+import { ErrorPageComponent } from './pages/error-page/error-page.component';
 
 export const routes: Routes = [
   {
@@ -66,4 +67,5 @@ export const routes: Routes = [
       },
     ],
   },
+  { path: '**', component: ErrorPageComponent },
 ];

@@ -289,20 +289,7 @@ namespace NewsWebsiteBackEnd.Controllers
 
                 await _context.SaveChangesAsync();
 
-                var generalArticleDetailsViewModel = new GeneralArticleDetailsViewModel
-                {
-                    Id = article.Id,
-                    Title = article.Title,
-                    CoverImagePath = article.CoverImagePath,
-                    RatingAvg = article.RatingAvg,
-                    TotalNumberOfViews = article.TotalNumberOfViews,
-                    UrlAsText = article.UrlAsText,
-                    CreatedById = article.CreatedById,
-                    CreatedByFullName = article.CreatedBy.FullName,
-                    Location = article.Location
-                };
-
-                return Ok(new { success = true, message = "Article created successfully.", data = generalArticleDetailsViewModel });
+                return Ok(new { success = true, message = "Article created successfully." });
             }
             catch (Exception)
             {
@@ -334,7 +321,7 @@ namespace NewsWebsiteBackEnd.Controllers
                     return Ok(new { success = false, message = "Category not found." });
                 }
 
-                if(article.Title != model.Title)
+                if (article.Title != model.Title)
                 {
                     article.UrlAsText = GenerateUrlAsText(model.Title);
                 }
@@ -353,20 +340,7 @@ namespace NewsWebsiteBackEnd.Controllers
                 _context.Articles.Update(article);
                 await _context.SaveChangesAsync();
 
-                var generalArticleDetailsViewModel = new GeneralArticleDetailsViewModel
-                {
-                    Id = article.Id,
-                    Title = article.Title,
-                    CoverImagePath = article.CoverImagePath,
-                    RatingAvg = article.RatingAvg,
-                    TotalNumberOfViews = article.TotalNumberOfViews,
-                    UrlAsText = article.UrlAsText,
-                    CreatedById = article.CreatedById,
-                    CreatedByFullName = article.CreatedBy.FullName,
-                    Location = article.Location
-                };
-
-                return Ok(new { success = true, message = "Article updated successfully.", data = generalArticleDetailsViewModel });
+                return Ok(new { success = true, message = "Article updated successfully." });
             }
             catch (Exception ex)
             {
@@ -671,7 +645,7 @@ namespace NewsWebsiteBackEnd.Controllers
             _context.Articles.Update(article);
             await _context.SaveChangesAsync();
 
-           // await _hubContext.Clients.All.SendAsync("ArticlePublished", article.Title, Url.Action("GetArticleById", new { id = article.Id }));
+            // await _hubContext.Clients.All.SendAsync("ArticlePublished", article.Title, Url.Action("GetArticleById", new { id = article.Id }));
 
             return Ok(new { success = true, message = "Article published successfully." });
         }
@@ -692,6 +666,44 @@ namespace NewsWebsiteBackEnd.Controllers
 
             return Ok(new { success = true, message = "Article unpublished successfully." });
         }
+
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
+        [HttpGet("all-count")]
+        public async Task<IActionResult> GetAllArticlesCount()
+        {
+            var count = await _context.Articles.CountAsync(a => !a.IsDeleted);
+            return Ok(new { success = true, message = "Done.", data = count });
+        }
+
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
+        [HttpGet("published-count")]
+        public async Task<IActionResult> GetPublishedArticlesCount()
+        {
+            var count = await _context.Articles.CountAsync(a => a.IsPublished && !a.IsDeleted);
+            return Ok(new { success = true, message = "Done.", data = count });
+        }
+
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
+        [HttpGet("unpublished-count")]
+        public async Task<IActionResult> GetUnpublishedArticlesCount()
+        {
+            var count = await _context.Articles.CountAsync(a => !a.IsPublished && !a.IsDeleted);
+            return Ok(new { success = true, message = "Done.", data = count });
+        }
+
+        //get archived articles count
+        [Authorize]
+        [HttpGet("archived-count")]
+        public async Task<IActionResult> GetArchivedArticlesCount()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var count = await _context.UserArchivedArticles.CountAsync(a => a.UserId == userId && !a.IsDeleted);
+            return Ok(new { success = true, message = "Done.", data = count });
+        }
+
+
+
+
 
         //[HttpPost("search")] // api/article/search
         //public async Task<IActionResult> Search([FromBody] SolrSearchModel model)

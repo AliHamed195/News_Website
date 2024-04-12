@@ -10,7 +10,7 @@ import {
 } from '@angular/forms';
 import { AuthServiceService } from '../../Services/Auth/auth-service.service';
 import { RegisterModel } from '../../models/account/register-model';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -25,7 +25,8 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthServiceService
+    private authService: AuthServiceService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -62,6 +63,7 @@ export class RegisterComponent implements OnInit {
           if (res) {
             if (res.success) {
               this.clearErrorMessage();
+              this.router.navigate(['/login']);
             } else {
               this.errorMessage = `${res.message}, ${res.errors}`;
             }
