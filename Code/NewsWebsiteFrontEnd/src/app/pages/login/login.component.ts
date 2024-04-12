@@ -8,7 +8,8 @@ import {
 import { NgIf } from '@angular/common';
 import { AuthServiceService } from '../../Services/Auth/auth-service.service';
 import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { roleNames } from '../../staticData/role-names';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthServiceService
+    private authService: AuthServiceService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -41,6 +43,7 @@ export class LoginComponent implements OnInit {
           if (res) {
             if (res.success) {
               this.errorMessage = undefined;
+              this.redirectUser();
             } else {
               this.errorMessage = res.message;
             }
@@ -52,6 +55,19 @@ export class LoginComponent implements OnInit {
           this.errorMessage = 'An error occurred during login.';
         },
       });
+    }
+  }
+
+  private redirectUser(): void {
+    const userInfo = this.authService.getUserInfo();
+    if (userInfo) {
+      if (userInfo.roles.includes(roleNames.Admin)) {
+        this.router.navigate(['/Admin']);
+      } else if (userInfo.roles.includes(roleNames.Visitor)) {
+        this.router.navigate(['/Home']);
+      } else {
+        this.router.navigate(['/login']);
+      }
     }
   }
 

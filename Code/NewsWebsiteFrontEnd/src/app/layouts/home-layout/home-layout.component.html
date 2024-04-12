@@ -1,0 +1,35 @@
+<mat-drawer-container class="example-container" autosize>
+    <mat-toolbar class="custom-toolbar">
+        <span class="example-spacer"></span>
+        <div>
+            <div *ngIf="!UserFullName" class="d-flex">
+                <button mat-button (click)="goToLogin()" class="auth-buttons">Login</button>
+                <button mat-button (click)="goToRegister()" class="auth-buttons">Register</button>
+            </div>
+
+            {{UserFullName}}
+            <button *ngIf="UserFullName" mat-icon-button [matMenuTriggerFor]="userMenu">
+                <i class="fa-solid fa-user-gear user-setting"></i>
+            </button>
+            <mat-menu #userMenu="matMenu">
+                <button mat-menu-item (click)="resetPassword()" class="user-menu-btn">
+                    <i class="fa-solid fa-key user-menu-icons"></i>
+                    Reset Password
+                </button>
+                <button mat-menu-item (click)="goToProfile()" class="user-menu-btn">
+                    <i class="fa-solid fa-address-card user-menu-icons"></i>
+                    Profile
+                </button>
+                <button mat-menu-item (click)="logout()" class="user-menu-btn">
+                    <i class="fa-solid fa-right-from-bracket user-menu-icons"></i>
+                    Log Out
+                </button>
+            </mat-menu>
+        </div>
+    </mat-toolbar>
+
+    <div class="example-sidenav-content p-4">
+        <router-outlet />
+    </div>
+
+</mat-drawer-container>

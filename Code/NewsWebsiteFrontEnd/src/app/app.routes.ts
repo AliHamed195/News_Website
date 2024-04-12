@@ -13,6 +13,9 @@ import { AllArticlesComponent } from './pages/article/all-articles/all-articles.
 import { CreateAndUpdateArticleComponent } from './pages/article/create-and-update-article/create-and-update-article.component';
 import { ArticleDetailsComponent } from './pages/article/article-details/article-details.component';
 import { ErrorPageComponent } from './pages/error-page/error-page.component';
+import { HomeLayoutComponent } from './layouts/home-layout/home-layout.component';
+import { HomeLandingPageComponent } from './pages/home-landing-page/home-landing-page.component';
+import { AdminGuard } from './auth/admin.guard';
 
 export const routes: Routes = [
   {
@@ -29,8 +32,14 @@ export const routes: Routes = [
     ],
   },
   {
+    path: 'Home',
+    component: HomeLayoutComponent,
+    children: [{ path: '', component: HomeLandingPageComponent }],
+  },
+  {
     path: 'Admin',
     component: AdminlayoutComponent,
+    canActivate: [AdminGuard],
     children: [
       { path: '', component: SystemAnalizerComponent },
       { path: 'system-analizer', component: SystemAnalizerComponent },
@@ -67,5 +76,6 @@ export const routes: Routes = [
       },
     ],
   },
+  { path: 'Error-Page', component: ErrorPageComponent },
   { path: '**', component: ErrorPageComponent },
 ];

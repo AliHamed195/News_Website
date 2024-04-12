@@ -1,0 +1,109 @@
+.example-container {
+    height: 100vh;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.example-sidenav {
+    min-width: 250px;
+    max-height: 100vh;
+    overflow-y: hidden;
+    position: fixed;
+    background-color: #00796b;
+}
+
+.title-logout {
+    color: whitesmoke;
+    cursor: pointer;
+}
+
+.title-sidebar {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: whitesmoke;
+    text-align: center;
+}
+
+hr {
+    border: none;
+    height: 3px;
+    background: whitesmoke;
+}
+
+.example-sidenav .ul-pages-menu {
+    list-style-type: none;
+    padding: 0;
+    height: 81%;
+    overflow-y: auto;
+}
+
+.example-sidenav .ul-pages-menu::-webkit-scrollbar {
+    width: 10px;
+}
+
+.example-sidenav .ul-pages-menu::-webkit-scrollbar-track {
+    background: #00796b;
+}
+
+.example-sidenav .ul-pages-menu::-webkit-scrollbar-thumb {
+    background: #00796b;
+    border-radius: 4px;
+}
+
+.example-sidenav .ul-pages-menu::-webkit-scrollbar-thumb:hover {
+    background: #005b52;
+}
+
+
+.example-sidenav .ul-pages-menu li a {
+    display: block;
+    color: #ffffff;
+    padding: 10px;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.example-sidenav .ul-pages-menu li a:hover {
+    background-color: #01665a;
+    cursor: pointer;
+}
+
+.custom-toolbar {
+    background-color: #00796b;
+    color: whitesmoke;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.user-setting {
+    cursor: pointer;
+    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.user-setting:hover {
+    color: #aed581;
+    transform: scale(1.1);
+}
+
+.user-menu-icons {
+    color: #aed581;
+}
+
+.user-menu-btn:hover {
+    color: blue;
+}
+
+.auth-buttons {
+    color: whitesmoke !important;
+    border-color: whitesmoke;
+    background-color: transparent;
+    margin: 0 5px;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.auth-buttons:hover {
+    background-color: whitesmoke;
+    color: #00796b !important;
+}

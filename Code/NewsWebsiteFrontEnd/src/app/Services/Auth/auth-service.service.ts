@@ -91,14 +91,35 @@ export class AuthServiceService {
     this.router.navigate(['/login']);
   }
 
+  // getUserInfo(): {
+  //   username: string;
+  //   roles: string | string[];
+  //   userId: string;
+  //   email: string;
+  //   fullName: string;
+  // } | null {
+  //   const userInfo = localStorage.getItem('userInfo');
+  //   return userInfo ? JSON.parse(userInfo) : null;
+  // }
+
   getUserInfo(): {
     username: string;
-    roles: string | string[];
+    roles: string[];
     userId: string;
     email: string;
     fullName: string;
   } | null {
     const userInfo = localStorage.getItem('userInfo');
-    return userInfo ? JSON.parse(userInfo) : null;
+    if (userInfo) {
+      const parsedInfo = JSON.parse(userInfo);
+      return {
+        username: parsedInfo.username,
+        roles: parsedInfo.roles.split(','),
+        userId: parsedInfo.userId,
+        email: parsedInfo.email,
+        fullName: parsedInfo.fullName,
+      };
+    }
+    return null;
   }
 }
