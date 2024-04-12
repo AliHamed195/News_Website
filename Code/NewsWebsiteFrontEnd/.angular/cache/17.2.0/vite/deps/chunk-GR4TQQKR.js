@@ -1322,6 +1322,26 @@ var ActiveDescendantKeyManager = class extends ListKeyManager {
     }
   }
 };
+var FocusKeyManager = class extends ListKeyManager {
+  constructor() {
+    super(...arguments);
+    this._origin = "program";
+  }
+  /**
+   * Sets the focus origin that will be passed in to the items for any subsequent `focus` calls.
+   * @param origin Focus origin to be used when focusing items.
+   */
+  setFocusOrigin(origin) {
+    this._origin = origin;
+    return this;
+  }
+  setActiveItem(item) {
+    super.setActiveItem(item);
+    if (this.activeItem) {
+      this.activeItem.focus(this._origin);
+    }
+  }
+};
 var _InteractivityChecker = class _InteractivityChecker {
   constructor(_platform) {
     this._platform = _platform;
@@ -4979,8 +4999,11 @@ export {
   removeAriaReferencedId,
   AriaDescriber,
   ActiveDescendantKeyManager,
+  FocusKeyManager,
   InteractivityChecker,
   FocusTrapFactory,
+  isFakeMousedownFromScreenReader,
+  isFakeTouchstartFromScreenReader,
   LiveAnnouncer,
   FocusMonitor,
   A11yModule,
@@ -4991,6 +5014,7 @@ export {
   MatCommonModule,
   _ErrorStateTracker,
   ErrorStateMatcher,
+  MatRipple,
   MatRippleModule,
   MAT_OPTION_PARENT_COMPONENT,
   MAT_OPTGROUP,
@@ -5000,4 +5024,4 @@ export {
   MatOptionModule,
   MatRippleLoader
 };
-//# sourceMappingURL=chunk-3LEH2MMN.js.map
+//# sourceMappingURL=chunk-GR4TQQKR.js.map
