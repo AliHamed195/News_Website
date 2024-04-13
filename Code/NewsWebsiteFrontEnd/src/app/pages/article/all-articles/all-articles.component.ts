@@ -17,6 +17,7 @@ import { GeneralArticleDetailsViewModel } from '../../../models/article/general-
 import { MatSort } from '@angular/material/sort';
 import { ArticlesService } from '../../../Services/Articles/articles.service';
 import Swal from 'sweetalert2';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-all-articles',
@@ -39,6 +40,9 @@ export class AllArticlesComponent implements OnInit {
   };
 
   allArticles: GeneralArticleDetailsViewModel[] = [];
+  totalArticles: number = 0;
+  publishedArticles: number = 0;
+  unpublishedArticles: number = 0;
   displayedColumns: string[] = [
     '#',
     'Title',
@@ -61,6 +65,7 @@ export class AllArticlesComponent implements OnInit {
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
       this.loadArticles();
+      this.loadArticleDataForAnalize();
     }
   }
 
@@ -105,6 +110,25 @@ export class AllArticlesComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error fetching articles', error);
+        this.isLoading = false;
+      },
+    });
+  }
+
+  loadArticleDataForAnalize(): void {
+    forkJoin({
+      total: this.articlesService.getAllArticlesCount(),
+      published: this.articlesService.getPublishedArticlesCount(),
+      unpublished: this.articlesService.getUnpublishedArticlesCount(),
+    }).subscribe({
+      next: (results) => {
+        this.totalArticles = results.total.data;
+        this.publishedArticles = results.published.data;
+        this.unpublishedArticles = results.unpublished.data;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error fetching article data', error);
         this.isLoading = false;
       },
     });
@@ -157,4 +181,8 @@ export class AllArticlesComponent implements OnInit {
   }
 
   details(id: number): void {}
+
+  publish(id: number): void {}
+
+  unpublish(id: number): void {}
 }
