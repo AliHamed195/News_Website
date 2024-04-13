@@ -16,11 +16,12 @@ import { ErrorPageComponent } from './pages/error-page/error-page.component';
 import { HomeLayoutComponent } from './layouts/home-layout/home-layout.component';
 import { HomeLandingPageComponent } from './pages/home-landing-page/home-landing-page.component';
 import { AdminGuard } from './auth/admin.guard';
+import { AllUsersComponent } from './pages/user/all-users/all-users.component';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'Home',
     pathMatch: 'full',
   },
   {
@@ -43,6 +44,7 @@ export const routes: Routes = [
     children: [
       { path: '', component: SystemAnalizerComponent },
       { path: 'system-analizer', component: SystemAnalizerComponent },
+      { path: 'users-all', component: AllUsersComponent },
       { path: 'hash-tags-all', component: AllHashTagsComponent },
       { path: 'categories-all', component: AllCategoriesComponent },
       { path: 'questions-answers-all', component: AllQuestionAnswersComponent },

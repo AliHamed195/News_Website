@@ -112,9 +112,12 @@ export class ArticlesService {
   deleteArticle(id: number): Observable<ResponseStructure> {
     const headers = this.headerUtil.generateHeaders();
 
-    return this.http.delete<ResponseStructure>(
+    return this.http.put<ResponseStructure>(
       `${articleEndpoints.deleteArticleById}${id}`,
-      { headers }
+      {},
+      {
+        headers: headers,
+      }
     );
   }
 

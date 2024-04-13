@@ -360,11 +360,11 @@ namespace NewsWebsiteBackEnd.Controllers
                     return Ok(new { success = false, message = "Article not found." });
                 }
 
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if (article.CreatedById != userId)
-                {
-                    return Ok(new { success = false, message = "You are not allowed to delete this article." });
-                }
+                //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                //if (article.CreatedById != userId)
+                //{
+                //    return Ok(new { success = false, message = "You are not allowed to delete this article." });
+                //}
 
                 article.IsDeleted = true;
                 article.UpdatedAt = DateTime.Now;
