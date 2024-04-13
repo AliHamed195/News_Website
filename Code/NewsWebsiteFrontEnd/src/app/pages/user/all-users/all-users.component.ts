@@ -47,6 +47,7 @@ export class AllUsersComponent implements OnInit {
     'User Name',
     'Email',
     'Full Name',
+    'User Type',
     'Options',
   ];
   dataSource = new MatTableDataSource<GeneralUserDetailsViewModel>();

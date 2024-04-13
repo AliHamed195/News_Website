@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import {
   FormBuilder,
   Validators,
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { NgIf } from '@angular/common';
+import { NgIf, isPlatformBrowser } from '@angular/common';
 import { AuthServiceService } from '../../Services/Auth/auth-service.service';
 import { HttpClientModule } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
   errorMessage: string | undefined;
 
   constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     private fb: FormBuilder,
     private authService: AuthServiceService,
     private router: Router
@@ -43,7 +44,9 @@ export class LoginComponent implements OnInit {
           if (res) {
             if (res.success) {
               this.errorMessage = undefined;
-              this.redirectUser();
+              if (isPlatformBrowser(this.platformId)) {
+                this.redirectUser();
+              }
             } else {
               this.errorMessage = res.message;
             }

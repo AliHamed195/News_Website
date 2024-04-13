@@ -43,7 +43,7 @@ namespace NewsWebsiteBackEnd.Controllers
 
                 usersQuery = usersQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
 
-                var users = await usersQuery.ToListAsync();
+                var users = await usersQuery.OrderBy(u => u.UserTypeName).ToListAsync();
 
                 return Ok(new { success = true, message = "Done.", data = users });
             }

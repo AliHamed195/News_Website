@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { QuestionsAnswersService } from '../../../Services/QuestionsAnswers/questions-answers.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { CreateQuestionAnswerViewModel } from '../../../models/question-answer/create-question-answer-view-model';
 import { Observable } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-create-and-update-question-answer',
@@ -21,6 +22,7 @@ export class CreateAndUpdateQuestionAnswerComponent implements OnInit {
   };
 
   constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     private questionsAnswersService: QuestionsAnswersService,
     private route: ActivatedRoute,
     private router: Router
@@ -31,7 +33,7 @@ export class CreateAndUpdateQuestionAnswerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.questionAnswerId !== null) {
+    if (isPlatformBrowser(this.platformId) && this.questionAnswerId !== null) {
       this.loadQuestionAnswerById();
     }
   }
