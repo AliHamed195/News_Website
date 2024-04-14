@@ -11,12 +11,13 @@ import { GeneralUserDetailsViewModel } from '../../../models/user/general-user-d
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { Router } from 'express';
 import { UsersService } from '../../../Services/Users/users.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NgIf, isPlatformBrowser } from '@angular/common';
 import { forkJoin } from 'rxjs';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-all-users',
@@ -58,7 +59,8 @@ export class AllUsersComponent implements OnInit {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private cdr: ChangeDetectorRef,
-    private usersService: UsersService //private router: Router
+    private usersService: UsersService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -133,11 +135,44 @@ export class AllUsersComponent implements OnInit {
     }
   }
 
-  create(): void {}
+  create(): void {
+    this.router.navigate(['/Admin/users-create']);
+  }
 
-  edit(id: number): void {}
+  edit(id: string): void {
+    this.router.navigate([`/Admin/users-edit/${id}`]);
+  }
 
-  delete(id: number): void {}
+  delete(id: string): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this user!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.usersService.deleteUser(id).subscribe({
+          next: (response) => {
+            if (response.success) {
+              Swal.fire('Deleted!', 'User has been deleted.', 'success');
+              this.loadUsers();
+              this.loadUserDataForAnalize();
+            } else {
+              Swal.fire('Error!', 'Failed to delete user.', 'error');
+            }
+          },
+          error: (error) => {
+            console.error('Error deleting user', error);
+            Swal.fire('Error!', 'Failed to delete user.', 'error');
+          },
+        });
+      }
+    });
+  }
 
-  details(id: number): void {}
+  details(id: string): void {
+    this.router.navigate([`/Admin/users-details/${id}`]);
+  }
 }

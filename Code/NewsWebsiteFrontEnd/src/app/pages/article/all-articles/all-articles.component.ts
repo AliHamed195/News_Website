@@ -97,6 +97,8 @@ export class AllArticlesComponent implements OnInit {
           if (this.paginationModel.startRow === 0) {
             this.allArticles = response.data;
             this.dataSource.data = response.data;
+            console.log(this.allArticles);
+            console.log(this.dataSource.data);
           } else {
             this.allArticles = this.allArticles.concat(response.data);
             this.dataSource.data = this.allArticles;
@@ -182,7 +184,53 @@ export class AllArticlesComponent implements OnInit {
 
   details(id: number): void {}
 
-  publish(id: number): void {}
+  publish(id: number): void {
+    this.articlesService.publishArticle(id).subscribe({
+      next: (response) => {
+        if (response.success) {
+          Swal.fire(
+            'Published!',
+            'The article have been published.',
+            'success'
+          );
+          this.loadArticleDataForAnalize();
+        } else {
+          Swal.fire('Failed!', 'Failed to publish the article.', 'error');
+        }
+      },
+      error: (error) => {
+        console.error('Error publishing the article', error);
+        Swal.fire(
+          'Error!',
+          'An error occurred while publishing the article.',
+          'error'
+        );
+      },
+    });
+  }
 
-  unpublish(id: number): void {}
+  unpublish(id: number): void {
+    this.articlesService.unpublishArticle(id).subscribe({
+      next: (response) => {
+        if (response.success) {
+          Swal.fire(
+            'Unpublished!',
+            'The article have been unpublished.',
+            'success'
+          );
+          this.loadArticleDataForAnalize();
+        } else {
+          Swal.fire('Failed!', 'Failed to unpublish the article.', 'error');
+        }
+      },
+      error: (error) => {
+        console.error('Error unpublishing the article', error);
+        Swal.fire(
+          'Error!',
+          'An error occurred while unpublishing the article.',
+          'error'
+        );
+      },
+    });
+  }
 }

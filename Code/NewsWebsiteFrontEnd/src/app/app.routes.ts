@@ -17,6 +17,9 @@ import { HomeLayoutComponent } from './layouts/home-layout/home-layout.component
 import { HomeLandingPageComponent } from './pages/home-landing-page/home-landing-page.component';
 import { AdminGuard } from './auth/admin.guard';
 import { AllUsersComponent } from './pages/user/all-users/all-users.component';
+import { EditUserComponent } from './pages/user/edit-user/edit-user.component';
+import { CreateUserComponent } from './pages/user/create-user/create-user.component';
+import { UserDetailsComponent } from './pages/user/user-details/user-details.component';
 
 export const routes: Routes = [
   {
@@ -75,6 +78,18 @@ export const routes: Routes = [
       {
         path: 'articles-details/:id',
         component: ArticleDetailsComponent,
+      },
+      {
+        path: 'users-create',
+        component: CreateUserComponent,
+      },
+      {
+        path: 'users-edit/:id',
+        component: EditUserComponent,
+      },
+      {
+        path: 'users-details/:id',
+        component: UserDetailsComponent,
       },
     ],
   },

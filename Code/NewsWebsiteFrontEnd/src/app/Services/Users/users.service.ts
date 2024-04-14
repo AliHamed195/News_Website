@@ -7,6 +7,7 @@ import { UpdateUserViewModel } from '../../models/user/update-user-view-model';
 import { UpdateUserPasswordViewModel } from '../../models/user/update-user-password-view-model';
 import { GeneralUserDetailsViewModel } from '../../models/user/general-user-details-view-model';
 import { HeaderUtilService } from '../header-util.service';
+import { CreateUserViewModel } from '../../models/user/create-user-view-model';
 
 @Injectable({
   providedIn: 'root',
@@ -63,6 +64,14 @@ export class UsersService {
       `${userEndpoints.getUserById}${id}`,
       { headers }
     );
+  }
+
+  createUser(createUser: CreateUserViewModel): Observable<any> {
+    const headers = this.getHeaders();
+
+    return this.http.post<any>(`${userEndpoints.createNewUser}`, createUser, {
+      headers,
+    });
   }
 
   updateUser(id: string, updateUser: UpdateUserViewModel): Observable<any> {

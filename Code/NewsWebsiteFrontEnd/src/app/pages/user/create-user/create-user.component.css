@@ -1,0 +1,34 @@
+.edit-user-form {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.btn-primary {
+    margin-right: 8px;
+}
+
+.user-img {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.img-container {
+    width: 60%;
+}
+
+.img-container-preview {
+    width: 30%;
+}
+
+.img-container-preview img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}

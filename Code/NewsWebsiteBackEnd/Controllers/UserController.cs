@@ -8,6 +8,8 @@ using NewsWebsiteBackEnd.DTO.User;
 using Microsoft.AspNetCore.Authorization;
 using NewsWebsiteBackEnd.Classes.Names;
 using System.Data;
+using System.Diagnostics.Metrics;
+using NewsWebsiteBackEnd.Context;
 
 namespace NewsWebsiteBackEnd.Controllers
 {
@@ -16,10 +18,14 @@ namespace NewsWebsiteBackEnd.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserManager<ApplicationUsers> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly ApplicationDbContext _context;
 
-        public UserController(UserManager<ApplicationUsers> userManager)
+        public UserController(UserManager<ApplicationUsers> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
+            _context = context;
         }
 
         [Authorize(Roles = DefaultSystemRoles.Admin)]
@@ -124,56 +130,108 @@ namespace NewsWebsiteBackEnd.Controllers
         }
 
         [Authorize(Roles = DefaultSystemRoles.Admin)]
+        [HttpPost("create-new")] // POST: api/User/create-new
+        public async Task<IActionResult> CreateUser([FromBody] CreateUserViewModel model)
+        {
+            try
+            {
+                if (model is null)
+                {
+                    return Ok(new { success = false, message = "Invalid request." });
+                }
+
+                var user = new ApplicationUsers
+                {
+                    UserName = model.UserName,
+                    Email = model.Email,
+                    FullName = model.FullName,
+                    UserTypeId = model.UserTypeId,
+                    EmailConfirmed = true,
+                    Country = model.Country,
+                    ProfileImagePath = model.ProfileImagePath,
+                    WebsiteLanguage = model.WebsiteLanguage,
+                };
+
+                var password = "A@a123456"; // Just for test need to fix later.
+                var result = await _userManager.CreateAsync(user, password);
+
+                if (result.Succeeded)
+                {
+                    string roleName = DefaultSystemRoles.Admin;
+                    await _userManager.AddToRoleAsync(user, roleName);
+
+                    return Ok(new { success = true, message = "User created successfully." });
+                }
+                else
+                {
+                    return Ok(new { success = false, message = "Failed to create user.", errors = result.Errors });
+                }
+            }
+            catch (Exception e)
+            {
+                return Ok(new { success = false, message = "Exception Error" });
+            }
+        }
+
+        [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpPut("update/{id}")] // PUT: api/User/update/{id}
         public async Task<IActionResult> UpdateUser(string id, [FromBody] UpdateUserViewModel model)
         {
-            if (model is null || string.IsNullOrEmpty(id))
+            try
             {
-                return Ok(new { success = false, message = "Invalid request." });
-            }
-
-            var user = await _userManager.FindByIdAsync(id);
-            if (user is null)
-            {
-                return Ok(new { success = false, message = "User not found." });
-            }
-
-            if (model.UserName != user.UserName)
-            {
-                var userNameExists = await _userManager.FindByNameAsync(model.UserName);
-                if (userNameExists != null)
+                if (model is null || string.IsNullOrEmpty(id))
                 {
-                    return Ok(new { success = false, message = "Username is already taken." });
+                    return Ok(new { success = false, message = "Invalid request." });
                 }
+
+                var user = await _userManager.FindByIdAsync(id);
+                if (user is null)
+                {
+                    return Ok(new { success = false, message = "User not found." });
+                }
+
+                if (model.UserName != user.UserName)
+                {
+                    var userNameExists = await _userManager.FindByNameAsync(model.UserName);
+                    if (userNameExists != null)
+                    {
+                        return Ok(new { success = false, message = "Username is already taken." });
+                    }
+                    user.UserName = model.UserName;
+                }
+
+                if (model.Email != user.Email)
+                {
+                    var emailExists = await _userManager.FindByEmailAsync(model.Email);
+                    if (emailExists != null)
+                    {
+                        return Ok(new { success = false, message = "Email is already in use." });
+                    }
+                    user.Email = model.Email;
+                }
+
                 user.UserName = model.UserName;
-            }
-
-            if (model.Email != user.Email)
-            {
-                var emailExists = await _userManager.FindByEmailAsync(model.Email);
-                if (emailExists != null)
-                {
-                    return Ok(new { success = false, message = "Email is already in use." });
-                }
                 user.Email = model.Email;
+                user.FullName = model.FullName;
+                user.Country = model.Country;
+                user.ProfileImagePath = model.ProfileImagePath;
+                user.WebsiteLanguage = model.WebsiteLanguage;
+                user.UserTypeId = model.UserTypeId;
+                user.UpdatedAt = DateTime.Now;
+
+                var result = await _userManager.UpdateAsync(user);
+                Console.WriteLine(result);
+                if (!result.Succeeded)
+                {
+                    return Ok(new { success = false, message = "Failed to update user.", errors = result.Errors });
+                }
+
+                return Ok(new { success = true, message = "User updated successfully." });
             }
-
-            user.UserName = model.UserName; 
-            user.Email = model.Email;
-            user.FullName = model.FullName;
-            user.Country = model.Country;
-            user.ProfileImagePath = model.ProfileImagePath;
-            user.WebsiteLanguage = model.WebsiteLanguage;
-            user.UserTypeId = model.UserTypeId;
-            user.UpdatedAt = DateTime.Now;
-
-            var result = await _userManager.UpdateAsync(user);
-            if (!result.Succeeded)
+            catch (Exception e)
             {
-                return Ok(new { success = false, message = "Failed to update user.", errors = result.Errors });
+                return Ok(new { success = false, message = "Exception Error" });
             }
-
-            return Ok(new { success = true, message = "User updated successfully." });
         }
 
         [Authorize(Roles = DefaultSystemRoles.Admin)]
@@ -462,7 +520,5 @@ namespace NewsWebsiteBackEnd.Controllers
                 return Ok(new { success = false, message = "Exception Error" });
             }
         }
-
-
     }
 }

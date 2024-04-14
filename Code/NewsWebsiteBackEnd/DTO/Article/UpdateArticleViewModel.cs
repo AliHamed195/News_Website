@@ -11,5 +11,6 @@
         public string BodyStructureAsHtmlCode { get; set; }
         public string BodyStructureAsText { get; set; }
         public int CategoryId { get; set; }
+
     }
 }

@@ -9,4 +9,5 @@ export interface GeneralArticleDetailsViewModel {
   totalNumberOfViews: number;
   ratingAvg: number;
   createdAt: Date;
+  isPublished: boolean;
 }

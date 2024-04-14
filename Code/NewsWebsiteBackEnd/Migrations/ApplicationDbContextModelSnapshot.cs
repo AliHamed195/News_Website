@@ -616,8 +616,7 @@ namespace NewsWebsiteBackEnd.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ProfileImagePath")
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("json");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime(6)");

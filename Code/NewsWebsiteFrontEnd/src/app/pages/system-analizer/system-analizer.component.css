@@ -1,0 +1,81 @@
+/* Basic Styles for the System Analyzer Page */
+.pageTitle {
+    text-align: center;
+    color: #333;
+    font-size: 2rem;
+}
+
+@keyframes bounce {
+
+    0%,
+    80%,
+    100% {
+        transform: scale(0);
+    }
+
+    40% {
+        transform: scale(1.0);
+    }
+}
+
+/* Chart card styling */
+.chart-card {
+    background-color: #fff;
+    /* White background for the card */
+    border-radius: 8px;
+    /* Rounded corners */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow for depth */
+    padding: 20px;
+    /* Spacing inside the card */
+    margin: 20px;
+    /* Spacing around the card */
+    display: flex;
+    justify-content: center;
+    /* Centers the chart in the card */
+    align-items: center;
+}
+
+.row {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.col-xl-6 {
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    flex: 0 0 50%;
+    max-width: 50%;
+}
+
+/* Ensures that the charts fill the card appropriately */
+ngx-charts-bar-vertical,
+ngx-charts-pie-chart,
+ngx-charts-bar-horizontal {
+    width: 100%;
+    /* Full width of the container */
+    height: 400px;
+    /* Fixed height for consistency */
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+    .col-xl-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+/* Apply the card style to the chart containers */
+.chart-container {
+    margin-top: 50px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+}

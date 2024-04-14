@@ -13,5 +13,6 @@
         public int TotalNumberOfViews { get; set; }
         public double RatingAvg { get; set; }
         public DateTime CreatedAt { get; set; }
+        public bool IsPublished { get; set; }
     }
 }

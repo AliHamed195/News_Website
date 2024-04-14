@@ -1,16 +1,16 @@
 import {
   DomSanitizer
-} from "./chunk-6ZDUDDOB.js";
+} from "./chunk-NSWXFLXK.js";
 import {
   HttpClient
-} from "./chunk-AGLZ46C2.js";
+} from "./chunk-MAZSWOXG.js";
 import {
   FormsModule,
   NG_VALUE_ACCESSOR,
   NgControlStatus,
   NgModel,
   ReactiveFormsModule
-} from "./chunk-JGHLFU7K.js";
+} from "./chunk-D7KMPT5E.js";
 import {
   CommonModule,
   DOCUMENT,
@@ -18,7 +18,7 @@ import {
   NgForOf,
   NgIf,
   NgTemplateOutlet
-} from "./chunk-B62JIAQI.js";
+} from "./chunk-PBQIWVFV.js";
 import {
   Attribute,
   ChangeDetectorRef,
@@ -81,11 +81,11 @@ import {
   ɵɵtwoWayListener,
   ɵɵtwoWayProperty,
   ɵɵviewQuery
-} from "./chunk-3CFXHCEH.js";
-import "./chunk-QOAHSALO.js";
+} from "./chunk-Z7XMWPEY.js";
 import "./chunk-GFVJDENN.js";
+import "./chunk-QOAHSALO.js";
 import "./chunk-LOA65BFQ.js";
-import "./chunk-PZQZAEDH.js";
+import "./chunk-ASLTLD6L.js";
 
 // node_modules/@kolkov/angular-editor/fesm2020/kolkov-angular-editor.mjs
 var _c0 = ["labelButton"];

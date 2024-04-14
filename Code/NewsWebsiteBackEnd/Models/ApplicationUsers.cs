@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NewsWebsiteBackEnd.Classes.Names;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NewsWebsiteBackEnd.Models
 {
@@ -11,7 +13,7 @@ namespace NewsWebsiteBackEnd.Models
         public string FullName { get; set; }
         [StringLength(100)]
         public string? Country { get; set; }
-        [StringLength(255)]
+        [Column(TypeName = "json")]
         public string? ProfileImagePath { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? UpdatedAt { get; set; }

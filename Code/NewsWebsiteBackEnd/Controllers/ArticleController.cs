@@ -54,6 +54,8 @@ namespace NewsWebsiteBackEnd.Controllers
                     CreatedAt = a.CreatedAt,
                     Summary = a.Summary,
                     Location = a.Location,
+                    IsPublished = a.IsPublished
+                    
                 });
 
                 articlesQuery = articlesQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
@@ -88,6 +90,7 @@ namespace NewsWebsiteBackEnd.Controllers
                     CreatedById = a.CreatedById,
                     CreatedByFullName = a.CreatedBy.FullName,
                     Location = a.Location,
+                    IsPublished = a.IsPublished
                 });
 
                 articlesQuery = articlesQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
@@ -122,6 +125,7 @@ namespace NewsWebsiteBackEnd.Controllers
                     CreatedById = a.CreatedById,
                     CreatedByFullName = a.CreatedBy.FullName,
                     Location = a.Location,
+                    IsPublished = a.IsPublished
                 });
 
                 articlesQuery = articlesQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
@@ -163,6 +167,7 @@ namespace NewsWebsiteBackEnd.Controllers
                     CreatedById = a.Article.CreatedById,
                     CreatedByFullName = a.Article.CreatedBy.FullName,
                     Location = a.Article.Location,
+                    IsPublished = a.Article.IsPublished
                 });
 
                 articlesQuery = articlesQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);

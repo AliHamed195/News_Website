@@ -68,7 +68,7 @@ export class CreateAndUpdateArticleComponent {
   @ViewChild('editor') editorComponent!: AngularEditorComponent;
 
   articleId: number | null = null;
-  htmlContent = '';
+  htmlContent: string = '';
 
   config: AngularEditorConfig = {
     editable: true,
@@ -133,7 +133,8 @@ export class CreateAndUpdateArticleComponent {
         .subscribe({
           next: (result: { categories: any[]; tags: any[] }) => {
             this.categories = result.categories;
-            if (this.article && this.article.tags) {
+            this.tags = result.tags;
+            if (this.article && this.article.tags.length > 0) {
               this.selectedTags = this.article.tags
                 .split(',')
                 .map((tag: string) => {
@@ -204,7 +205,6 @@ export class CreateAndUpdateArticleComponent {
                 this.renderer.setStyle(wrapperDiv, 'align-items', 'center');
                 this.renderer.setStyle(wrapperDiv, 'justify-content', 'center');
                 this.renderer.setStyle(elementNode, 'width', '70%');
-
                 if (
                   mutation.target.nodeType === Node.ELEMENT_NODE &&
                   (mutation.target as HTMLElement).classList.contains(

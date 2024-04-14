@@ -60,6 +60,7 @@ export const userEndpoints = {
   getAllUsers: `${baseUrl}/User/all`,
   getAllDeletedUsers: `${baseUrl}/User/all-deleted`,
   getUserById: `${baseUrl}/User/get/`,
+  createNewUser: `${baseUrl}/User/create-new`,
   updateUserById: `${baseUrl}/User/update/`,
   blockUserById: `${baseUrl}/User/block/`,
   unblockUserById: `${baseUrl}/User/unblock/`,

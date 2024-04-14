@@ -1,0 +1,67 @@
+<div class="edit-user-form container mt-3">
+    <form [formGroup]="userForm" (ngSubmit)="saveUser()" class="needs-validation" novalidate>
+        <div class="mb-3">
+            <label for="userName" class="form-label">Username</label>
+            <input type="text" class="form-control" id="userName" placeholder="Username" formControlName="userName"
+                required>
+            <div class="invalid-feedback">
+                Please enter a username.
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" placeholder="Email" formControlName="email" required>
+            <div class="invalid-feedback">
+                Please enter a valid email address.
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="fullName" class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="fullName" placeholder="Full Name" formControlName="fullName"
+                required>
+            <div class="invalid-feedback">
+                Please enter a full name.
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="country" class="form-label">Country</label>
+            <select class="form-select" id="country" formControlName="country">
+                <option *ngFor="let country of countries" [value]="country.code">{{ country.name }}</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="language" class="form-label">Language</label>
+            <select class="form-select" id="language" formControlName="websiteLanguage">
+                <option *ngFor="let language of languages" [value]="language.code">{{ language.name }}</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="userType" class="form-label">User Type</label>
+            <select class="form-select" id="userType" formControlName="userTypeId" required>
+                <option *ngFor="let type of userTypes" [value]="type.id">{{ type.name }}</option>
+            </select>
+            <div class="invalid-feedback">
+                Please select a user type.
+            </div>
+        </div>
+
+        <div class="mb-3 user-img">
+            <div class="img-container">
+                <label for="profileImage" class="form-label">Profile Image</label>
+                <input type="file" class="form-control" id="profileImage" (change)="onProfileImageChange($event)">
+            </div>
+            <div class="img-container-preview">
+                <img *ngIf="profileImagePreview" [src]="profileImagePreview" alt="Profile Image"
+                    class="img-thumbnail mt-2">
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+    </form>
+</div>

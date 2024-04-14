@@ -13,7 +13,7 @@
 
 <div *ngIf="!isLoading" class="row">
     <div class="col-xl-6">
-        <div style="display: flex; justify-content: center; margin-top: 50px;">
+        <div class="chart-card">
             <ngx-charts-bar-vertical [view]="view" [results]="hashTagData" [gradient]="gradient" [xAxis]="showXAxis"
                 [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
                 [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel">
@@ -21,7 +21,7 @@
         </div>
     </div>
     <div class="col-xl-6">
-        <div style="display: flex; justify-content: center; margin-top: 50px;">
+        <div class="chart-card">
             <ngx-charts-pie-chart [view]="view" [results]="categoryData" [gradient]="gradient" [legend]="showLegend"
                 [doughnut]="false" [labels]="true">
             </ngx-charts-pie-chart>
@@ -39,7 +39,7 @@
 
 <div *ngIf="!isLoadingRowTwo" class="row">
     <div class="col-xl-6">
-        <div style="display: flex; justify-content: center; margin-top: 50px;">
+        <div class="chart-card">
             <ngx-charts-bar-horizontal [view]="view" [results]="articlesData" [gradient]="gradient" [xAxis]="showXAxis"
                 [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
                 [showYAxisLabel]="showYAxisLabel" [yAxisLabel]="'Articles'">
@@ -47,7 +47,7 @@
         </div>
     </div>
     <div class="col-xl-6">
-        <div style="display: flex; justify-content: center; margin-top: 50px;">
+        <div class="chart-card">
             <ngx-charts-pie-chart [view]="view" [results]="userData" [gradient]="gradient" [legend]="showLegend"
                 [doughnut]="true" [labels]="true">
             </ngx-charts-pie-chart>

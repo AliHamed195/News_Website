@@ -1,0 +1,20 @@
+<div class="user-card">
+    <div *ngIf="userDetails">
+        <div class="header">
+            <img [src]="profileImageSafeUrl" alt="Profile Image" class="profile-image">
+            <h2 class="profile-fullName">{{ userDetails.fullName }}</h2>
+            <p>{{ userDetails.userTypeName }}</p>
+        </div>
+        <div class="details">
+            <p><strong>User Name:</strong> {{ userDetails.userName }}</p>
+            <p><strong>Email:</strong> {{ userDetails.email }}</p>
+            <p><strong>Country:</strong> {{ userDetails.country || 'Not provided' }}</p>
+            <p><strong>Language:</strong> {{ userDetails.websiteLanguage }}</p>
+            <p><strong>Account Created:</strong> {{ userDetails.createdAt | date:'medium' }}</p>
+            <p *ngIf="userDetails.updatedAt"><strong>Last Updated:</strong> {{ userDetails.updatedAt | date:'medium' }}
+            </p>
+            <p><strong>Status:</strong> <span [ngClass]="{'blocked': userDetails.isBlocked}">{{ userDetails.isBlocked ?
+                    'Blocked' : 'Active' }}</span></p>
+        </div>
+    </div>
+</div>
