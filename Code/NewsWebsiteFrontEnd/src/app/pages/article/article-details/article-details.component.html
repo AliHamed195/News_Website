@@ -1,1 +1,3 @@
-<p>articl-details works!</p>
+<div *ngIf="article">
+    <app-article-for-read [articleBody]="article.bodyStructureAsHtmlCode"></app-article-for-read>
+</div>

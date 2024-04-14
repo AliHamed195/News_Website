@@ -71,7 +71,7 @@ export class ArticlesService {
     model: CreateArticleViewModel | UpdateArticleViewModel
   ): Observable<ResponseStructure> {
     const headers = this.headerUtil.generateHeaders();
-    if (articleId === null) {
+    if (articleId === null || articleId === undefined) {
       return this.http.post<ResponseStructure>(
         articleEndpoints.createArticle,
         model,

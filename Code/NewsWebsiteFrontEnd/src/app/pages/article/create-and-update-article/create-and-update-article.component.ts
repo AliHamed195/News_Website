@@ -178,7 +178,7 @@ export class CreateAndUpdateArticleComponent {
   }
 
   loadCategories(): Observable<any[]> {
-    const paginationModel: PaginationModel = { startRow: 1, endRow: 10000 };
+    const paginationModel: PaginationModel = { startRow: 0, endRow: 10000 };
     return this.categoryService
       .getAllCategories(paginationModel)
       .pipe(map((response) => response.data));
@@ -263,8 +263,15 @@ export class CreateAndUpdateArticleComponent {
     this.article.bodyStructureAsText = this.generateTextVersion(
       this.htmlContent
     );
-    let tagsAsText = this.article.tags.map((tag: any) => tag.text).join(' ');
-    this.article.tags = this.article.tags.map((tag: any) => tag.text).join(',');
+    let tagsAsText = '';
+    if (this.article.tags.length > 0) {
+      tagsAsText = this.article.tags.map((tag: any) => tag.text).join(' ');
+      this.article.tags = this.article.tags
+        .map((tag: any) => tag.text)
+        .join(',');
+    } else {
+      this.article.tags = '';
+    }
     let allArticleText = [
       this.article.title,
       this.article.location,

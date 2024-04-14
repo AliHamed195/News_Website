@@ -182,7 +182,9 @@ export class AllArticlesComponent implements OnInit {
     });
   }
 
-  details(id: number): void {}
+  details(id: number): void {
+    this.router.navigate(['/Admin/articles-details', id]);
+  }
 
   publish(id: number): void {
     this.articlesService.publishArticle(id).subscribe({
