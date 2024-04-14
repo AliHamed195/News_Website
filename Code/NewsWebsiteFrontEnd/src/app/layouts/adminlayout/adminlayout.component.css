@@ -2,31 +2,37 @@
     height: 100vh;
     min-height: 100vh;
     overflow-x: hidden;
+    background-color: #f4f4f4;
+}
+
+.custom-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-self: center;
 }
 
 .example-sidenav {
     min-width: 250px;
     max-height: 100vh;
-    overflow-y: hidden;
+    overflow-y: auto;
     position: fixed;
-    background-color: #00796b;
+    background-color: #3949ab;
+    color: #ffffff;
 }
 
 .title-logout {
-    color: whitesmoke;
     cursor: pointer;
+    color: #ffffff;
 }
 
 .title-sidebar {
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    color: whitesmoke;
-    text-align: center;
+    color: #ffffff;
 }
 
 hr {
     border: none;
-    height: 3px;
-    background: whitesmoke;
+    height: 2px;
+    background: #bdbdbd;
 }
 
 .example-sidenav .ul-pages-menu {
@@ -37,22 +43,21 @@ hr {
 }
 
 .example-sidenav .ul-pages-menu::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
 }
 
 .example-sidenav .ul-pages-menu::-webkit-scrollbar-track {
-    background: #00796b;
+    background: #c5cae9;
 }
 
 .example-sidenav .ul-pages-menu::-webkit-scrollbar-thumb {
-    background: #00796b;
+    background: #3949ab;
     border-radius: 4px;
 }
 
 .example-sidenav .ul-pages-menu::-webkit-scrollbar-thumb:hover {
-    background: #005b52;
+    background: #303f9f;
 }
-
 
 .example-sidenav .ul-pages-menu li a {
     display: block;
@@ -64,33 +69,18 @@ hr {
 }
 
 .example-sidenav .ul-pages-menu li a:hover {
-    background-color: #01665a;
-    cursor: pointer;
+    background-color: #303f9f;
 }
 
 .custom-toolbar {
-    background-color: #00796b;
-    color: whitesmoke;
-}
-
-.example-spacer {
-    flex: 1 1 auto;
-}
-
-.user-setting {
-    cursor: pointer;
-    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
-}
-
-.user-setting:hover {
-    color: #aed581;
-    transform: scale(1.1);
-}
-
-.user-menu-icons {
-    color: #aed581;
+    background-color: #3949ab;
+    color: #ffffff;
 }
 
 .user-menu-btn:hover {
-    color: blue;
+    color: #aed581;
+}
+
+.page-link {
+    cursor: pointer;
 }
