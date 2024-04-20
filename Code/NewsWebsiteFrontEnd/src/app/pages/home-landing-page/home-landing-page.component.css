@@ -63,3 +63,9 @@
 .category-name-title i {
     font-size: larger;
 }
+
+@media (max-width: 768px) {
+    .site-title {
+        font-size: 4rem;
+    }
+}

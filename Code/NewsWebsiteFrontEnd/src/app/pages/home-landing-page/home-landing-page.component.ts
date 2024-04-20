@@ -52,6 +52,7 @@ export class HomeLandingPageComponent implements OnInit {
     this.categoryService.getAllCategories(paginationModel).subscribe({
       next: (response) => {
         this.allCategories = response.data;
+        this.allCategories.reverse();
         this.fetchArticlesForCategories();
       },
       error: (err) => console.error('Failed to load categories:', err),

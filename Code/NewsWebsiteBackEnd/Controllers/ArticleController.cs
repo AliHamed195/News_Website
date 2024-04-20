@@ -758,7 +758,14 @@ namespace NewsWebsiteBackEnd.Controllers
                                 {
                                     Id = a.Id,
                                     Title = a.Title,
-                                    UrlAsText = a.UrlAsText
+                                    CoverImagePath = a.CoverImagePath,
+                                    RatingAvg = a.RatingAvg,
+                                    TotalNumberOfViews = a.TotalNumberOfViews,
+                                    UrlAsText = a.UrlAsText,
+                                    CreatedById = a.CreatedById,
+                                    CreatedByFullName = a.CreatedBy.FullName,
+                                    Location = a.Location,
+                                    IsPublished = a.IsPublished
                                 })
                                 .ToListAsync();
 
