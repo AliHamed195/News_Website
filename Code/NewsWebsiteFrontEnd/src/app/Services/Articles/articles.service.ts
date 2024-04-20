@@ -67,6 +67,16 @@ export class ArticlesService {
     );
   }
 
+  getArticleByUrlAsText(url: string): Observable<ResponseStructure> {
+    const headers = this.headerUtil.generateHeaders();
+    const params = new HttpParams().set('url', url);
+
+    return this.http.get<ResponseStructure>(
+      `${articleEndpoints.getArticleByUrlAsText}`,
+      { params, headers }
+    );
+  }
+
   getAllArticlesCount(): Observable<ResponseStructure> {
     const headers = this.headerUtil.generateHeaders();
     return this.http.get<ResponseStructure>(

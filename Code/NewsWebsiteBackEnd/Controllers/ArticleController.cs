@@ -274,6 +274,62 @@ namespace NewsWebsiteBackEnd.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [HttpGet("from-url")] // api/article/{id}
+        public async Task<IActionResult> GetArticleByUrlAsText([FromQuery] string url)
+        {
+            try
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user is null || user.IsDeleted || user.IsBlocked)
+                {
+                    return Ok(new { success = false, message = "User not found." });
+                }
+
+                var article = await _context.Articles
+                .AsNoTracking()
+                .Where(a => a.UrlAsText == url)
+                .Select(a => new ArticleDetailsViewModel
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    CoverImagePath = a.CoverImagePath,
+                    Summary = a.Summary,
+                    CreatedAt = a.CreatedAt,
+                    UpdatedAt = a.UpdatedAt,
+                    IsDeleted = a.IsDeleted,
+                    IsPublished = a.IsPublished,
+                    TotalNumberOfComments = a.TotalNumberOfComments,
+                    RatingAvg = a.RatingAvg,
+                    TotalNumberOfRatings = a.TotalNumberOfRatings,
+                    TotalNumberOfViews = a.TotalNumberOfViews,
+                    Tags = a.Tags,
+                    UrlAsText = a.UrlAsText,
+                    Location = a.Location,
+                    BodyStructureAsHtmlCode = a.BodyStructureAsHtmlCode,
+                    BodyStructureAsText = a.BodyStructureAsText,
+                    CreatedById = a.CreatedById,
+                    CreatedByFullName = a.CreatedBy.FullName,
+                    CategoryId = a.CategoryId,
+                    CategoryName = a.Categories.Name,
+                    IsRatedByCurrentUser = a.Ratings.Any(r => r.CreatedById == userId)
+                })
+                .FirstOrDefaultAsync();
+
+                if (article is null)
+                {
+                    return Ok(new { success = false, message = "Article not found." });
+                }
+
+                return Ok(new { success = true, message = "Done.", data = article });
+            }
+            catch (Exception)
+            {
+                return Ok(new { success = false, message = "Exception Error" });
+            }
+        }
+
         [Authorize(Roles = DefaultSystemRoles.Admin)]
         [HttpPost("create")] // api/article/create
         public async Task<IActionResult> CreateArticle([FromBody] CreateArticleViewModel model)

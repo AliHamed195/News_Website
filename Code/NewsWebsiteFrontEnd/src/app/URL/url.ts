@@ -56,6 +56,7 @@ export const articleEndpoints = {
   getUnpublishedArticlesCount: `${baseUrl}/Article/unpublished-count`,
   getTopRated: `${baseUrl}/Article/top-rated`,
   getPublishedByCategoryId: `${baseUrl}/Article/published-by-category/`,
+  getArticleByUrlAsText: `${baseUrl}/Article/from-url`,
 };
 
 export const userEndpoints = {

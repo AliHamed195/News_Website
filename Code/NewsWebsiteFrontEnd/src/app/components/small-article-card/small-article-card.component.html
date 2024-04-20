@@ -1,5 +1,5 @@
 <hr />
-<div class="row small-news" *ngIf="article">
+<div class="row small-news" *ngIf="article" (click)="get(article.urlAsText)">
     <div class="col-md-4">
         <img src="{{ article.coverImagePath }}" alt="news" class="small-news-image">
     </div>

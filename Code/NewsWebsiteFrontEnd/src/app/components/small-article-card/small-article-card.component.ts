@@ -11,4 +11,8 @@ import { NgIf } from '@angular/common';
 })
 export class SmallArticleCardComponent {
   @Input() article!: GeneralArticleDetailsViewModel;
+
+  get(url: string): void {
+    console.log('url: ' + url);
+  }
 }
