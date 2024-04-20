@@ -132,7 +132,7 @@ export class AllHashTagsComponent implements OnInit {
   create(): void {
     // create using swal
     Swal.fire({
-      title: 'Create Hashtag',
+      title: 'Create Tag',
       html: `
         <style>
           .special-input, .special-textarea {
@@ -150,7 +150,7 @@ export class AllHashTagsComponent implements OnInit {
             resize: vertical;
           }
         </style>
-        <input id="swal-input1" class="special-input" placeholder="Hashtag Name">
+        <input id="swal-input1" class="special-input" placeholder="Tag Name">
         <textarea id="swal-input2" class="special-textarea" placeholder="Description"></textarea>
       `,
       focusConfirm: false,
@@ -176,23 +176,19 @@ export class AllHashTagsComponent implements OnInit {
           .subscribe({
             next: (response) => {
               if (response.success) {
-                Swal.fire(
-                  'Created!',
-                  'Your hashtag has been created.',
-                  'success'
-                );
+                Swal.fire('Created!', 'Your Tag has been created.', 'success');
                 this.allHashTags.push(response.data);
                 this.dataSource.data = [...this.dataSource.data];
               } else {
                 Swal.fire(
                   'Failed!',
-                  'There was an issue creating your hashtag.',
+                  'There was an issue creating your Tag.',
                   'error'
                 );
               }
             },
             error: (error) => {
-              Swal.fire('Error!', 'Unable to create hashtag.', 'error');
+              Swal.fire('Error!', 'Unable to create Tag.', 'error');
             },
           });
       }
@@ -204,7 +200,7 @@ export class AllHashTagsComponent implements OnInit {
     if (index === -1 || this.dataSource.data[index].isUsed) {
       Swal.fire(
         'Failed!',
-        'This hashtag is currently in use and cannot be updated.',
+        'This Tag is currently in use and cannot be updated.',
         'error'
       );
       return;
@@ -214,11 +210,11 @@ export class AllHashTagsComponent implements OnInit {
         if (response.success && response.data) {
           const hashTag = response.data;
           Swal.fire({
-            title: 'Edit Hashtag',
+            title: 'Edit Tag',
             html: `
             <style>
               .special-input, .special-textarea {
-                border: 2px solid #007BFF; /* Bootstrap primary color */
+                border: 2px solid #007BFF; 
                 border-radius: 4px;
                 padding: 10px;
                 width: 100%;
@@ -232,7 +228,7 @@ export class AllHashTagsComponent implements OnInit {
                 resize: vertical;
               }
             </style>
-            <input id="swal-input1" class="special-input" placeholder="Hashtag Name" value="${
+            <input id="swal-input1" class="special-input" placeholder="Tag Name" value="${
               hashTag.text
             }">
             <textarea id="swal-input2" class="special-textarea" placeholder="Description">${
@@ -265,7 +261,7 @@ export class AllHashTagsComponent implements OnInit {
                     if (updateResponse.success) {
                       Swal.fire(
                         'Updated!',
-                        'Your hashtag has been updated.',
+                        'Your Tag has been updated.',
                         'success'
                       );
                       this.allHashTags[index].text = result.value.text;
@@ -274,23 +270,23 @@ export class AllHashTagsComponent implements OnInit {
                     } else {
                       Swal.fire(
                         'Failed!',
-                        'There was an issue updating your hashtag.',
+                        'There was an issue updating your Tag.',
                         'error'
                       );
                     }
                   },
                   error: (error) => {
-                    Swal.fire('Error!', 'Unable to update hashtag.', 'error');
+                    Swal.fire('Error!', 'Unable to update Tag.', 'error');
                   },
                 });
             }
           });
         } else {
-          Swal.fire('Failed!', 'Hashtag not found.', 'error');
+          Swal.fire('Failed!', 'Tag not found.', 'error');
         }
       },
       error: (error) => {
-        Swal.fire('Error!', 'Unable to fetch hashtag details.', 'error');
+        Swal.fire('Error!', 'Unable to fetch Tag details.', 'error');
       },
     });
   }
@@ -300,7 +296,7 @@ export class AllHashTagsComponent implements OnInit {
     if (index === -1 || this.dataSource.data[index].isUsed) {
       Swal.fire(
         'Failed!',
-        'This hashtag is currently in use and cannot be deleted.',
+        'This Tag is currently in use and cannot be deleted.',
         'error'
       );
       return;
@@ -308,7 +304,7 @@ export class AllHashTagsComponent implements OnInit {
 
     Swal.fire({
       title: 'Are you sure?',
-      text: 'You will not be able to recover this hashtag!',
+      text: 'You will not be able to recover this Tag!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -319,24 +315,20 @@ export class AllHashTagsComponent implements OnInit {
         this.hashTagsService.deleteHashTag(id).subscribe({
           next: (response) => {
             if (response.success) {
-              Swal.fire(
-                'Deleted!',
-                'Your hashtag has been deleted.',
-                'success'
-              );
+              Swal.fire('Deleted!', 'Your Tag has been deleted.', 'success');
               this.allHashTags.splice(index, 1);
               this.dataSource.data.splice(index, 1);
               this.dataSource.data = [...this.dataSource.data];
             } else {
               Swal.fire(
                 'Failed!',
-                `There was an issue deleting your hashtag. ${response.message}`,
+                `There was an issue deleting your Tag. ${response.message}`,
                 'error'
               );
             }
           },
           error: (error) => {
-            Swal.fire('Error!', 'Unable to delete hashtag.', 'error');
+            Swal.fire('Error!', 'Unable to delete Tag.', 'error');
           },
         });
       }

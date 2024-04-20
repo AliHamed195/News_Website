@@ -27,7 +27,7 @@ namespace NewsWebsiteBackEnd.Controllers
             _userManager = userManager;
         }
 
-        [Authorize(Roles = DefaultSystemRoles.Admin)]
+        [AllowAnonymous]
         [HttpGet("all")] // api/category/all
         public async Task<IActionResult> GetAllCategories([FromQuery] PaginationModel pagination)
         {

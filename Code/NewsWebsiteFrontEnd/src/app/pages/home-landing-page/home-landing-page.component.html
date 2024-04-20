@@ -1,1 +1,26 @@
-<p>home-landing-page works!</p>
+<div class="container mt-2">
+    <div class="row hero">
+        <h1 class="site-title">Insight Dispatch</h1>
+    </div>
+</div>
+
+<!-- In home-landing-page.component.html -->
+<div class="container mt-2 mb-3" *ngFor="let category of allCategories; let i = index">
+    <div class="row" *ngIf="articlesByCategory.get(category.id) as articles">
+        <div class="row">
+            <h1 class="category-name-title" *ngIf="articles.length > 0"><i>{{ category.name }}</i></h1>
+            <div *ngIf="articles.length > 0" class="topLine"
+                [ngStyle]="{'--triangle-color': categoryColors[i % categoryColors.length]}"></div>
+        </div>
+        <div class="row" *ngIf="articles.length > 0">
+            <div class="col-md-8">
+                <app-large-article-card [article]="articles[0]" *ngIf="articles[0]"></app-large-article-card>
+            </div>
+            <div class="col-md-4">
+                <div *ngFor="let article of articles.length > 1 ? articles.slice(1) : []">
+                    <app-small-article-card [article]="article"></app-small-article-card>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

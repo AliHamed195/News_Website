@@ -55,7 +55,7 @@ namespace NewsWebsiteBackEnd.Controllers
                     Summary = a.Summary,
                     Location = a.Location,
                     IsPublished = a.IsPublished
-                    
+
                 });
 
                 articlesQuery = articlesQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
@@ -79,6 +79,42 @@ namespace NewsWebsiteBackEnd.Controllers
                 var articlesQuery = _context.Articles
                 .AsNoTracking()
                 .Where(a => !a.IsDeleted && a.IsPublished)
+                .Select(a => new GeneralArticleDetailsViewModel
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    CoverImagePath = a.CoverImagePath,
+                    RatingAvg = a.RatingAvg,
+                    TotalNumberOfViews = a.TotalNumberOfViews,
+                    UrlAsText = a.UrlAsText,
+                    CreatedById = a.CreatedById,
+                    CreatedByFullName = a.CreatedBy.FullName,
+                    Location = a.Location,
+                    IsPublished = a.IsPublished
+                });
+
+                articlesQuery = articlesQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
+
+                var articles = await articlesQuery.ToListAsync();
+
+                return Ok(new { success = true, message = "Done.", data = articles });
+            }
+            catch (Exception)
+            {
+                return Ok(new { success = false, message = "Exception Error" });
+            }
+        }
+
+        // get all published articles by category id
+        [AllowAnonymous]
+        [HttpGet("published-by-category/{id}")] // api/article/published-by-category/{id}
+        public async Task<IActionResult> GetAllPublishedArticlesByCategoryId(int id, [FromQuery] PaginationModel pagination)
+        {
+            try
+            {
+                var articlesQuery = _context.Articles
+                .AsNoTracking()
+                .Where(a => !a.IsDeleted && a.IsPublished && a.CategoryId == id)
                 .Select(a => new GeneralArticleDetailsViewModel
                 {
                     Id = a.Id,
@@ -706,7 +742,33 @@ namespace NewsWebsiteBackEnd.Controllers
             return Ok(new { success = true, message = "Done.", data = count });
         }
 
+        // get article top 6 rated titles and ids and url as text
+        [AllowAnonymous]
+        [HttpGet("top-rated")]
+        public async Task<IActionResult> GetTopRatedArticles()
+        {
+            try
+            {
+                var articles = await _context.Articles
+                                .AsNoTracking()
+                                .Where(a => !a.IsDeleted && a.IsPublished)
+                                .OrderByDescending(a => a.RatingAvg)
+                                .Take(6)
+                                .Select(a => new GeneralArticleDetailsViewModel
+                                {
+                                    Id = a.Id,
+                                    Title = a.Title,
+                                    UrlAsText = a.UrlAsText
+                                })
+                                .ToListAsync();
 
+                return Ok(new { success = true, message = "Done.", data = articles });
+            }
+            catch (Exception)
+            {
+                return Ok(new { success = false, message = "Exception Error" });
+            }
+        }
 
 
 

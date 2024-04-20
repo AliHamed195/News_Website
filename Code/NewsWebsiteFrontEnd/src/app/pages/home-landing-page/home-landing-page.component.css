@@ -1,0 +1,65 @@
+.site-title {
+    font-family: 'Merriweather', serif;
+    font-weight: 700;
+    color: #1a1a1a;
+    text-align: center;
+    font-size: 6rem;
+    margin-top: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, text-shadow 0.3s ease;
+    position: relative;
+    z-index: 10;
+}
+
+.site-title:hover {
+    transform: scale(1.05);
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.site-title {
+    animation: fadeIn 1.5s ease-out forwards;
+}
+
+.hero {
+    position: relative;
+    background-image: url('../../../assets/images/hero.webp');
+    background-size: cover;
+    background-position: center;
+    padding: 50px 0;
+    margin-bottom: 20px;
+}
+
+.topLine {
+    border-top: 2px solid black;
+    position: relative;
+    height: 20px;
+}
+
+.topLine::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 10;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid var(--triangle-color);
+}
+
+
+.category-name-title i {
+    font-size: larger;
+}

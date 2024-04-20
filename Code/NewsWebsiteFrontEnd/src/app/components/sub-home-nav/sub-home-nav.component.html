@@ -1,0 +1,21 @@
+<div class="container-flued">
+    <nav>
+        <ul class="nav" *ngIf="generalCategories">
+            <li class="nav__item"><a class="nav__link" href="#">Home</a></li>
+            <li class="nav__item" *ngFor="let category of generalCategories">
+                <a class="nav__link" href="#">{{ category.name }}</a>
+            </li>
+        </ul>
+    </nav>
+    <marquee class="marquee" *ngIf="generalArticles">
+        <ng-container *ngFor="let article of generalArticles">
+            <i class="fa-regular fa-newspaper icon"></i> {{ article.title }}
+        </ng-container>
+    </marquee>
+    <div class="news-header">
+        <span class="news-header__date">
+            <i class="fa-regular fa-calendar news-header__icon"></i>
+            {{ currentDate }}
+        </span>
+    </div>
+</div>

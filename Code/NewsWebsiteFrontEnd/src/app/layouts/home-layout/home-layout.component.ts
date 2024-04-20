@@ -9,6 +9,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { SubHomeNavComponent } from '../../components/sub-home-nav/sub-home-nav.component';
 
 @Component({
   selector: 'app-home-layout',
@@ -20,6 +21,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatButtonModule,
     MatIconModule,
     MatSidenavModule,
+    SubHomeNavComponent,
     NgIf,
   ],
   templateUrl: './home-layout.component.html',

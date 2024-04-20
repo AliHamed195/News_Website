@@ -54,6 +54,8 @@ export const articleEndpoints = {
   getAllArticlesCount: `${baseUrl}/Article/all-count`,
   getPublishedArticlesCount: `${baseUrl}/Article/published-count`,
   getUnpublishedArticlesCount: `${baseUrl}/Article/unpublished-count`,
+  getTopRated: `${baseUrl}/Article/top-rated`,
+  getPublishedByCategoryId: `${baseUrl}/Article/published-by-category/`,
 };
 
 export const userEndpoints = {

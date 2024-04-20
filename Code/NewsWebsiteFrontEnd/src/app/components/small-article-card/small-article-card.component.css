@@ -1,0 +1,11 @@
+.card__heading--small {
+    font-size: smaller;
+}
+
+.small-news-image {
+    width: 100%;
+}
+
+.card__heading--small {
+    overflow: hidden;
+}

@@ -17,6 +17,31 @@ export class ArticlesService {
     private headerUtil: HeaderUtilService
   ) {}
 
+  getPublishedArticlesByCategoryId(
+    categoryId: number,
+    model: PaginationModel
+  ): Observable<ResponseStructure> {
+    const headers = this.headerUtil.generateHeaders();
+    const params = new HttpParams({
+      fromObject: {
+        startRow: model.startRow.toString(),
+        endRow: model.endRow.toString(),
+      },
+    });
+
+    return this.http.get<ResponseStructure>(
+      `${articleEndpoints.getPublishedByCategoryId}${categoryId}`,
+      { params, headers }
+    );
+  }
+
+  getTopRatedArticles(): Observable<ResponseStructure> {
+    const headers = this.headerUtil.generateHeaders();
+    return this.http.get<ResponseStructure>(articleEndpoints.getTopRated, {
+      headers,
+    });
+  }
+
   getAllArticles(model: PaginationModel): Observable<ResponseStructure> {
     const params = new HttpParams({
       fromObject: {
