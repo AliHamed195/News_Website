@@ -7,6 +7,7 @@ import { LargeArticleCardComponent } from '../../components/large-article-card/l
 import { SmallArticleCardComponent } from '../../components/small-article-card/small-article-card.component';
 import { NgFor, NgIf, NgStyle, isPlatformBrowser } from '@angular/common';
 import { forkJoin } from 'rxjs';
+import { MapComponent } from '../../components/map/map.component';
 
 @Component({
   selector: 'app-home-landing-page',
@@ -17,6 +18,7 @@ import { forkJoin } from 'rxjs';
     NgFor,
     LargeArticleCardComponent,
     SmallArticleCardComponent,
+    MapComponent,
   ],
   templateUrl: './home-landing-page.component.html',
   styleUrl: './home-landing-page.component.css',

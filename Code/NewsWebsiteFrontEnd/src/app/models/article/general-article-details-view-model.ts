@@ -10,6 +10,6 @@ export interface GeneralArticleDetailsViewModel {
   ratingAvg: number;
   createdAt: Date;
   isPublished: boolean;
-  Lat: number;
-  Lng: number;
+  lat: number;
+  lng: number;
 }
