@@ -386,8 +386,8 @@ namespace NewsWebsiteBackEnd.Controllers
                     CategoryId = category.Id,
                     Categories = category,
                     Location = model.Location,
-                    Lat = latitude ?? 0.0,
-                    Lng = longitude ?? 0.0
+                    Lat = latitude ?? 0,
+                    Lng = longitude ?? 0
                 };
 
                 await _context.Articles.AddAsync(article);
@@ -451,8 +451,8 @@ namespace NewsWebsiteBackEnd.Controllers
                 if(article.Location != model.Location)
                 {
                     var (latitude, longitude) = await GetCoordinatesAsync(model.Location);
-                    article.Lat = latitude ?? 0.0;
-                    article.Lng = longitude ?? 0.0;
+                    article.Lat = latitude ?? 0;
+                    article.Lng = longitude ?? 0;
                 }
 
                 article.Title = model.Title;
