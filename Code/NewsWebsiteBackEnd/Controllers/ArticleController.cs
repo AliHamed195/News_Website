@@ -8,11 +8,14 @@ using NewsWebsiteBackEnd.Classes.Names;
 using NewsWebsiteBackEnd.Context;
 using NewsWebsiteBackEnd.DTO.Article;
 using NewsWebsiteBackEnd.DTO.Category;
+using NewsWebsiteBackEnd.DTO.Location;
 using NewsWebsiteBackEnd.DTO.Pagination;
 using NewsWebsiteBackEnd.DTO.Solr;
 using NewsWebsiteBackEnd.Models;
 using NewsWebsiteBackEnd.SOLR;
+using Newtonsoft.Json;
 using System.Data;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Xml.Linq;
 
@@ -25,11 +28,15 @@ namespace NewsWebsiteBackEnd.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUsers> _userManager;
         //private readonly IHubContext<ArticleHub> _hubContext;
+        private readonly HttpClient _httpClient;
+        private readonly string _apiKey;
 
         public ArticleController(ApplicationDbContext context, UserManager<ApplicationUsers> userManager)
         {
             _context = context;
             _userManager = userManager;
+            _httpClient = new HttpClient();
+            _apiKey = "3e41dba41eae4304a8f814fe7c21b677";
         }
 
         [Authorize(Roles = DefaultSystemRoles.Admin)]
@@ -54,7 +61,9 @@ namespace NewsWebsiteBackEnd.Controllers
                     CreatedAt = a.CreatedAt,
                     Summary = a.Summary,
                     Location = a.Location,
-                    IsPublished = a.IsPublished
+                    IsPublished = a.IsPublished,
+                    Lat = a.Lat,
+                    Lng = a.Lng
 
                 });
 
@@ -90,7 +99,9 @@ namespace NewsWebsiteBackEnd.Controllers
                     CreatedById = a.CreatedById,
                     CreatedByFullName = a.CreatedBy.FullName,
                     Location = a.Location,
-                    IsPublished = a.IsPublished
+                    IsPublished = a.IsPublished,
+                    Lat = a.Lat,
+                    Lng = a.Lng
                 });
 
                 articlesQuery = articlesQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
@@ -126,7 +137,9 @@ namespace NewsWebsiteBackEnd.Controllers
                     CreatedById = a.CreatedById,
                     CreatedByFullName = a.CreatedBy.FullName,
                     Location = a.Location,
-                    IsPublished = a.IsPublished
+                    IsPublished = a.IsPublished,
+                    Lat = a.Lat,
+                    Lng = a.Lng
                 });
 
                 articlesQuery = articlesQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
@@ -161,7 +174,9 @@ namespace NewsWebsiteBackEnd.Controllers
                     CreatedById = a.CreatedById,
                     CreatedByFullName = a.CreatedBy.FullName,
                     Location = a.Location,
-                    IsPublished = a.IsPublished
+                    IsPublished = a.IsPublished,
+                    Lat = a.Lat,
+                    Lng = a.Lng
                 });
 
                 articlesQuery = articlesQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
@@ -203,7 +218,9 @@ namespace NewsWebsiteBackEnd.Controllers
                     CreatedById = a.Article.CreatedById,
                     CreatedByFullName = a.Article.CreatedBy.FullName,
                     Location = a.Article.Location,
-                    IsPublished = a.Article.IsPublished
+                    IsPublished = a.Article.IsPublished,
+                    Lat = a.Article.Lat,
+                    Lng = a.Article.Lng
                 });
 
                 articlesQuery = articlesQuery.Skip(pagination.StartRow).Take(pagination.EndRow - pagination.StartRow);
@@ -257,7 +274,9 @@ namespace NewsWebsiteBackEnd.Controllers
                     CreatedByFullName = a.CreatedBy.FullName,
                     CategoryId = a.CategoryId,
                     CategoryName = a.Categories.Name,
-                    IsRatedByCurrentUser = a.Ratings.Any(r => r.CreatedById == userId)
+                    IsRatedByCurrentUser = a.Ratings.Any(r => r.CreatedById == userId),
+                    Lat = a.Lat,
+                    Lng = a.Lng
                 })
                 .FirstOrDefaultAsync();
 
@@ -313,7 +332,9 @@ namespace NewsWebsiteBackEnd.Controllers
                     CreatedByFullName = a.CreatedBy.FullName,
                     CategoryId = a.CategoryId,
                     CategoryName = a.Categories.Name,
-                    IsRatedByCurrentUser = a.Ratings.Any(r => r.CreatedById == userId)
+                    IsRatedByCurrentUser = a.Ratings.Any(r => r.CreatedById == userId),
+                    Lat = a.Lat,
+                    Lng = a.Lng
                 })
                 .FirstOrDefaultAsync();
 
@@ -349,6 +370,8 @@ namespace NewsWebsiteBackEnd.Controllers
                     return Ok(new { success = false, message = "Category not found." });
                 }
 
+                var (latitude, longitude) = await GetCoordinatesAsync(model.Location);
+
                 var article = new Article
                 {
                     Title = model.Title,
@@ -362,7 +385,9 @@ namespace NewsWebsiteBackEnd.Controllers
                     CreatedBy = user,
                     CategoryId = category.Id,
                     Categories = category,
-                    Location = model.Location
+                    Location = model.Location,
+                    Lat = latitude ?? 0.0,
+                    Lng = longitude ?? 0.0
                 };
 
                 await _context.Articles.AddAsync(article);
@@ -421,6 +446,13 @@ namespace NewsWebsiteBackEnd.Controllers
                 if (article.Title != model.Title)
                 {
                     article.UrlAsText = GenerateUrlAsText(model.Title);
+                }
+
+                if(article.Location != model.Location)
+                {
+                    var (latitude, longitude) = await GetCoordinatesAsync(model.Location);
+                    article.Lat = latitude ?? 0.0;
+                    article.Lng = longitude ?? 0.0;
                 }
 
                 article.Title = model.Title;
@@ -821,7 +853,9 @@ namespace NewsWebsiteBackEnd.Controllers
                                     CreatedById = a.CreatedById,
                                     CreatedByFullName = a.CreatedBy.FullName,
                                     Location = a.Location,
-                                    IsPublished = a.IsPublished
+                                    IsPublished = a.IsPublished,
+                                    Lat = a.Lat,
+                                    Lng = a.Lng
                                 })
                                 .ToListAsync();
 
@@ -831,6 +865,33 @@ namespace NewsWebsiteBackEnd.Controllers
             {
                 return Ok(new { success = false, message = "Exception Error" });
             }
+        }
+
+        [AllowAnonymous]
+        [HttpGet("coordinates")] // api/article/coordinates
+        public async Task<(double? Latitude, double? Longitude)> GetCoordinatesAsync(string query)
+        {
+            try
+            {
+                var requestUri = $"https://api.opencagedata.com/geocode/v1/json?q={Uri.EscapeDataString(query)}&key={_apiKey}";
+                var response = await _httpClient.GetAsync(requestUri);
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<GeocodeResponse>(content);
+
+                    if (result != null && result.Results != null && result.Results.Length > 0)
+                    {
+                        var location = result.Results[0].Geometry;
+                        return (location.Lat, location.Lng);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting coordinates: {ex.Message}");
+            }
+            return (null, null);
         }
 
 

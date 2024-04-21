@@ -14,5 +14,7 @@
         public double RatingAvg { get; set; }
         public DateTime CreatedAt { get; set; }
         public bool IsPublished { get; set; }
+        public double Lat { get; set; }
+        public double Lng { get; set; }
     }
 }

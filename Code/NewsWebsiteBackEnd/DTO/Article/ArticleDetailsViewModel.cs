@@ -24,5 +24,7 @@
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
         public bool IsRatedByCurrentUser { get; set; }
+        public double Lat { get; set; }
+        public double Lng { get; set; }
     }
 }

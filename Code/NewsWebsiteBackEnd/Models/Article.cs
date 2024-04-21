@@ -19,6 +19,8 @@
         public string Location { get; set; }
         public string BodyStructureAsHtmlCode { get; set; }
         public string BodyStructureAsText { get; set; }
+        public double Lat { get; set; }
+        public double Lng { get; set; }
         public string CreatedById { get; set; }
         public ApplicationUsers CreatedBy { get; set; }
 
