@@ -1,3 +1,12 @@
+.small-news {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.small-news:hover {
+    transform: scale(1.05);
+}
+
 .card__heading--small {
     font-size: smaller;
 }
@@ -13,8 +22,4 @@
 
 .card__heading--small {
     overflow: hidden;
-}
-
-.small-news {
-    cursor: pointer;
 }

@@ -1,0 +1,15 @@
+.larg-add {
+    margin-top: 10px auto;
+    height: 500px;
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(211, 211, 211, 0.39);
+}
+
+.interested-in {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}

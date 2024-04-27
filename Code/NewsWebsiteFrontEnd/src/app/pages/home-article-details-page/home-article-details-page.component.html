@@ -1,0 +1,16 @@
+<div class="row mt-2">
+    <div class="col-md-9">
+        <div *ngIf="article">
+            <app-article-for-read [articleBody]="article.bodyStructureAsHtmlCode"></app-article-for-read>
+        </div>
+    </div>
+    <div class="col-md-3 d-flex flex-column align-items-center justify-content-start">
+        <div class="larg-add">
+            <app-adds [ads]="['../../../assets/images/adds/addThree.gif','../../../assets/images/adds/addfore.gif']"
+                [intervalSec]="3"></app-adds>
+        </div>
+        <div class="interested-in">
+            <h1>You may be interested in</h1>
+        </div>
+    </div>
+</div>

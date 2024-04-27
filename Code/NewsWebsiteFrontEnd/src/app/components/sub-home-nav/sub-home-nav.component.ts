@@ -5,6 +5,7 @@ import { ArticlesService } from './../../Services/Articles/articles.service';
 import { CategoryService } from './../../Services/Category/category.service';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { NgFor, NgIf, isPlatformBrowser } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sub-home-nav',
@@ -21,7 +22,8 @@ export class SubHomeNavComponent implements OnInit {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private categoryService: CategoryService,
-    private articlesService: ArticlesService
+    private articlesService: ArticlesService,
+    private router: Router
   ) {
     this.currentDate = new Date().toLocaleDateString('en-US', {
       weekday: 'long',
@@ -46,7 +48,9 @@ export class SubHomeNavComponent implements OnInit {
 
     this.categoryService.getAllCategories(PaginationModel).subscribe(
       (res) => {
-        this.generalCategories = res.data;
+        this.generalCategories = res.data.filter(
+          (x: GeneralCategoryDetailsViewModel) => x.articlesCount > 0
+        );
       },
       (error) => {
         console.log(error);
@@ -63,5 +67,9 @@ export class SubHomeNavComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  goToPage(pagePath: string) {
+    this.router.navigate([`Home/${pagePath}`]);
   }
 }

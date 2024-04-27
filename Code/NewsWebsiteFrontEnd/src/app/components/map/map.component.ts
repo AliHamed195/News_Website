@@ -17,6 +17,7 @@ import Style from 'ol/style/Style';
 import CircleStyle from 'ol/style/Circle';
 import Fill from 'ol/style/Fill';
 import Icon from 'ol/style/Icon';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-map',
@@ -32,7 +33,8 @@ export class MapComponent implements OnInit {
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    private articlesService: ArticlesService
+    private articlesService: ArticlesService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -45,7 +47,9 @@ export class MapComponent implements OnInit {
     const paginationModel = { startRow: 0, endRow: 1000 };
     this.articlesService.getAllArticles(paginationModel).subscribe({
       next: (response) => {
-        this.articles = response.data;
+        this.articles = response.data.filter(
+          (x: GeneralArticleDetailsViewModel) => x.lat != 0 && x.lng != 0
+        );
         console.log('this.articles', this.articles);
         this.initMap();
       },
@@ -82,6 +86,7 @@ export class MapComponent implements OnInit {
     this.map.addLayer(vectorLayer);
 
     this.map.on('pointermove', this.pointerMoveHandler.bind(this));
+    this.map.on('singleclick', this.pointerClickHandler.bind(this));
   }
 
   createFeaturesFromArticles(): Feature[] {
@@ -134,6 +139,17 @@ export class MapComponent implements OnInit {
     } else {
       this.popup.setPosition(undefined);
       (this.popup.getElement() as HTMLElement).style.display = 'none';
+    }
+  }
+
+  pointerClickHandler(event: any) {
+    console.log('pointerClickHandler', event);
+    const feature = this.map.forEachFeatureAtPixel(event.pixel, (feat) => feat);
+    if (feature) {
+      const article: GeneralArticleDetailsViewModel = feature.get('article');
+      if (article && article.urlAsText) {
+        this.router.navigate(['/Home/article-details-home', article.urlAsText]);
+      }
     }
   }
 }

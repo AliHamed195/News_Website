@@ -1,0 +1,22 @@
+.large-card {
+    cursor: pointer;
+}
+
+.article-title-big-card {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #34495e;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 20px;
+    text-transform: uppercase;
+    border-bottom: 3px solid black;
+    background-color: #ecf0f1;
+}
+
+.article-title-big-card:hover {
+    color: #344b63;
+    border-bottom-color: #3498db;
+}

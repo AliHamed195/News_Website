@@ -20,6 +20,8 @@ import { AllUsersComponent } from './pages/user/all-users/all-users.component';
 import { EditUserComponent } from './pages/user/edit-user/edit-user.component';
 import { CreateUserComponent } from './pages/user/create-user/create-user.component';
 import { UserDetailsComponent } from './pages/user/user-details/user-details.component';
+import { MapPageComponent } from './pages/map-page/map-page.component';
+import { HomeArticleDetailsPageComponent } from './pages/home-article-details-page/home-article-details-page.component';
 
 export const routes: Routes = [
   {
@@ -38,7 +40,15 @@ export const routes: Routes = [
   {
     path: 'Home',
     component: HomeLayoutComponent,
-    children: [{ path: '', component: HomeLandingPageComponent }],
+    children: [
+      { path: '', component: HomeLandingPageComponent },
+      { path: 'home-all', component: HomeLandingPageComponent },
+      { path: 'map', component: MapPageComponent },
+      {
+        path: 'article-details-home/:url',
+        component: HomeArticleDetailsPageComponent,
+      },
+    ],
   },
   {
     path: 'Admin',

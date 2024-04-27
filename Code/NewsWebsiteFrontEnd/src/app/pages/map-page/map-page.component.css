@@ -1,0 +1,8 @@
+.larg-add {
+    margin-top: 10px;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(211, 211, 211, 0.39);
+}

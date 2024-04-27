@@ -1,3 +1,8 @@
-<div class="col-md-12 large-card" *ngIf="article">
-    <img src="{{ article.coverImagePath }}" alt="news" class="news-image" width="100%">
+<div class="col-md-12 large-card" *ngIf="article" (click)="get(article.urlAsText)">
+    <img src="{{ article.coverImagePath }}" alt="{{ article.title }}" class="news-image" width="100%">
+</div>
+<div class="mt-2" *ngIf="article" (click)="get(article.urlAsText)">
+    <h3 class="article-title-big-card">
+        {{article.title}}
+    </h3>
 </div>

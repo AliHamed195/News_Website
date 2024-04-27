@@ -1,0 +1,7 @@
+<div *ngIf="article" class="article-card" (click)="get(article.urlAsText)">
+    <img [src]="article.coverImagePath" alt="Cover image of {{article.title}}" class="article-image">
+    <div class="article-info">
+        <h3 class="article-title">{{article.title}}</h3>
+        <p class="article-date">{{article.createdAt | date: 'longDate'}}</p>
+    </div>
+</div>
