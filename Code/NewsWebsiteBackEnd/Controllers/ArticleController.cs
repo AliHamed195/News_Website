@@ -303,7 +303,7 @@ namespace NewsWebsiteBackEnd.Controllers
                 var user = await _userManager.FindByIdAsync(userId);
                 if (user is null || user.IsDeleted || user.IsBlocked)
                 {
-                    return Ok(new { success = false, message = "User not found." });
+                    userId = "";
                 }
 
                 var article = await _context.Articles

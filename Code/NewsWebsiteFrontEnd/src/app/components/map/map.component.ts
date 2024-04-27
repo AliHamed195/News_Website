@@ -45,7 +45,7 @@ export class MapComponent implements OnInit {
 
   loadArticles() {
     const paginationModel = { startRow: 0, endRow: 1000 };
-    this.articlesService.getAllArticles(paginationModel).subscribe({
+    this.articlesService.getAllPublicationsArticles(paginationModel).subscribe({
       next: (response) => {
         this.articles = response.data.filter(
           (x: GeneralArticleDetailsViewModel) => x.lat != 0 && x.lng != 0

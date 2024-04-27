@@ -85,6 +85,27 @@ export class ArticlesService {
     );
   }
 
+  getAllPublicationsArticles(
+    model: PaginationModel
+  ): Observable<ResponseStructure> {
+    const params = new HttpParams({
+      fromObject: {
+        startRow: model.startRow.toString(),
+        endRow: model.endRow.toString(),
+      },
+    });
+
+    const headers = this.headerUtil.generateHeaders();
+
+    return this.http.get<ResponseStructure>(
+      articleEndpoints.getAllPublishedArticles,
+      {
+        params,
+        headers,
+      }
+    );
+  }
+
   getPublishedArticlesCount(): Observable<ResponseStructure> {
     const headers = this.headerUtil.generateHeaders();
     return this.http.get<ResponseStructure>(
