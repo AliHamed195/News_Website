@@ -69,7 +69,7 @@ export class HomeArticleDetailsPageComponent implements OnInit, OnDestroy {
 
     const paginationModel: PaginationModel = {
       startRow: 0,
-      endRow: 3,
+      endRow: 4,
     };
 
     this.articlesService
@@ -80,6 +80,10 @@ export class HomeArticleDetailsPageComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (response: any) => {
           this.someArticles = response.data;
+          if (this.thearticle != null)
+            this.someArticles = this.someArticles.filter(
+              (article) => article.id != this.thearticle?.id
+            );
         },
         error: (err) => console.error('Error fetching related articles:', err),
       });
