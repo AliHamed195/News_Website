@@ -1,16 +1,18 @@
 <div class="row mt-2">
     <div class="col-md-9">
-        <div *ngIf="article">
-            <app-article-for-read [articleBody]="article.bodyStructureAsHtmlCode"></app-article-for-read>
+        <div *ngIf="thearticle">
+            <app-article-for-read [articleBody]="thearticle.bodyStructureAsHtmlCode"></app-article-for-read>
         </div>
     </div>
     <div class="col-md-3 d-flex flex-column align-items-center justify-content-start">
         <div class="larg-add">
-            <app-adds [ads]="['../../../assets/images/adds/addThree.gif','../../../assets/images/adds/addfore.gif']"
-                [intervalSec]="3"></app-adds>
+            <app-adds [addSecPath]="'../../../assets/images/adds/addfore.gif'"></app-adds>
         </div>
         <div class="interested-in">
-            <h1>You may be interested in</h1>
+            <h1><b>You may be interested in</b></h1>
+            <div *ngFor="let art of someArticles" class="interested-in-article">
+                <app-medioum-article-card [article]="art"></app-medioum-article-card>
+            </div>
         </div>
     </div>
 </div>
