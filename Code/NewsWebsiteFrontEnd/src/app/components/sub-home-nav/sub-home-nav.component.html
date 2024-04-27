@@ -1,10 +1,22 @@
 <div class="container-flued">
     <nav>
         <ul class="nav" *ngIf="generalCategories">
-            <li class="nav__item"><a class="nav__link" (click)="goToPage('home-all')">Home</a></li>
-            <li class="nav__item"><a class="nav__link" (click)="goToPage('map')">Map</a></li>
+            <li class="nav__item">
+                <a class="nav__link" (click)="goToPage('home-all')"
+                    [class.nav__link--selected]="selectedNavItem === 'home-all'">
+                    Home
+                </a>
+            </li>
+            <li class="nav__item">
+                <a class="nav__link" (click)="goToPage('map')" [class.nav__link--selected]="selectedNavItem === 'map'">
+                    Map
+                </a>
+            </li>
             <li class="nav__item" *ngFor="let category of generalCategories">
-                <a class="nav__link" (click)="goToPageById(category.id)">{{ category.name }}</a>
+                <a class="nav__link" (click)="goToPageById(category.id)"
+                    [class.nav__link--selected]="selectedNavItem === 'carigory-articles/' + category.id">
+                    {{ category.name }}
+                </a>
             </li>
         </ul>
     </nav>

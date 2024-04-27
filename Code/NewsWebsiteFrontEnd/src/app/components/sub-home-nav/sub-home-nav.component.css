@@ -23,6 +23,11 @@
     color: #027efa;
 }
 
+.nav__link--selected {
+    font-weight: bold;
+    color: #027efa;
+}
+
 .news-header {
     display: flex;
     justify-content: end;

@@ -18,6 +18,7 @@ export class SubHomeNavComponent implements OnInit {
   generalCategories: GeneralCategoryDetailsViewModel[] = [];
   generalArticles: GeneralArticleDetailsViewModel[] = [];
   currentDate: string = '';
+  selectedNavItem: string = 'home-all';
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -70,10 +71,12 @@ export class SubHomeNavComponent implements OnInit {
   }
 
   goToPage(pagePath: string) {
+    this.selectedNavItem = pagePath;
     this.router.navigate([`Home/${pagePath}`]);
   }
 
   goToPageById(id: number): void {
+    this.selectedNavItem = `carigory-articles/${id}`;
     this.router.navigate([`Home/carigory-articles/${id}`]);
   }
 }
