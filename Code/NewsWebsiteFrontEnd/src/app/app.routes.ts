@@ -22,6 +22,7 @@ import { CreateUserComponent } from './pages/user/create-user/create-user.compon
 import { UserDetailsComponent } from './pages/user/user-details/user-details.component';
 import { MapPageComponent } from './pages/map-page/map-page.component';
 import { HomeArticleDetailsPageComponent } from './pages/home-article-details-page/home-article-details-page.component';
+import { CarigoryArticlesComponent } from './pages/carigory-articles/carigory-articles.component';
 
 export const routes: Routes = [
   {
@@ -47,6 +48,10 @@ export const routes: Routes = [
       {
         path: 'article-details-home/:url',
         component: HomeArticleDetailsPageComponent,
+      },
+      {
+        path: 'carigory-articles/:id',
+        component: CarigoryArticlesComponent,
       },
     ],
   },

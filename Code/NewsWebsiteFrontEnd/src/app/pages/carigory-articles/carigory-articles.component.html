@@ -1,0 +1,5 @@
+<div class="row mt-3" *ngIf="categoryId">
+    <div *ngFor="let article of articles" class="col-xl-3 d-flex justify-content-center">
+        <app-medioum-article-card [article]="article"></app-medioum-article-card>
+    </div>
+</div>

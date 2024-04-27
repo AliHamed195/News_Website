@@ -4,7 +4,7 @@
             <li class="nav__item"><a class="nav__link" (click)="goToPage('home-all')">Home</a></li>
             <li class="nav__item"><a class="nav__link" (click)="goToPage('map')">Map</a></li>
             <li class="nav__item" *ngFor="let category of generalCategories">
-                <a class="nav__link">{{ category.name }}</a>
+                <a class="nav__link" (click)="goToPageById(category.id)">{{ category.name }}</a>
             </li>
         </ul>
     </nav>

@@ -72,4 +72,8 @@ export class SubHomeNavComponent implements OnInit {
   goToPage(pagePath: string) {
     this.router.navigate([`Home/${pagePath}`]);
   }
+
+  goToPageById(id: number): void {
+    this.router.navigate([`Home/carigory-articles/${id}`]);
+  }
 }
