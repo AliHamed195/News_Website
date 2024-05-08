@@ -1,11 +1,11 @@
-<div class="container mt-2">
+<!-- <div class="container-fluid mt-2">
     <div class="row hero">
         <h1 class="site-title">Insight Dispatch</h1>
     </div>
-</div>
+</div> -->
 
 <!-- In home-landing-page.component.html -->
-<div class="container mt-2 mb-3" *ngFor="let category of allCategories; let i = index">
+<div class="container-fluid mt-2 mb-3" *ngFor="let category of allCategories; let i = index">
     <div class="row" *ngIf="articlesByCategory.get(category.id) as articles">
         <div class="row mb-2">
             <h1 class="category-name-title" *ngIf="articles.length > 0"><i>{{ category.name }}</i></h1>

@@ -9,7 +9,7 @@
     max-height: 100vh;
     overflow-y: hidden;
     position: fixed;
-    background-color: #3949ab;
+    background-color: rgb(53, 53, 53);
 }
 
 .title-logout {
@@ -41,11 +41,11 @@ hr {
 }
 
 .example-sidenav .ul-pages-menu::-webkit-scrollbar-track {
-    background: #3949ab;
+    background: rgb(53, 53, 53);
 }
 
 .example-sidenav .ul-pages-menu::-webkit-scrollbar-thumb {
-    background: #3949ab;
+    background: rgb(53, 53, 53);
     border-radius: 4px;
 }
 
@@ -69,7 +69,7 @@ hr {
 }
 
 .custom-toolbar {
-    background-color: #3949ab;
+    background-color: rgb(53, 53, 53);
     color: whitesmoke;
 }
 
@@ -105,5 +105,5 @@ hr {
 
 .auth-buttons:hover {
     background-color: whitesmoke;
-    color: #3949ab !important;
+    color: rgb(53, 53, 53) !important;
 }

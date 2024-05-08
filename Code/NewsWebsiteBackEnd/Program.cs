@@ -64,6 +64,9 @@ builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"))
 //builder.Services.AddSingleton<SolrService>();
 //builder.Services.AddSolrNet("http://localhost:8983/solr/mycore");
 
+
+builder.Services.AddSolrNet("http://localhost:8983/solr/articles");
+
 // ==============================================================================================
 
 //JWT

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using NewsWebsiteBackEnd.Classes.Names;
 using NewsWebsiteBackEnd.Context;
 using NewsWebsiteBackEnd.DTO.Article;
@@ -14,6 +15,7 @@ using NewsWebsiteBackEnd.DTO.Solr;
 using NewsWebsiteBackEnd.Models;
 using NewsWebsiteBackEnd.SOLR;
 using Newtonsoft.Json;
+using SolrNet;
 using System.Data;
 using System.Net.Http;
 using System.Security.Claims;
@@ -30,13 +32,15 @@ namespace NewsWebsiteBackEnd.Controllers
         //private readonly IHubContext<ArticleHub> _hubContext;
         private readonly HttpClient _httpClient;
         private readonly string _apiKey;
+        private readonly ISolrOperations<Article> solr;
 
-        public ArticleController(ApplicationDbContext context, UserManager<ApplicationUsers> userManager)
+        public ArticleController(ApplicationDbContext context, UserManager<ApplicationUsers> userManager, IServiceProvider serviceProvider)
         {
             _context = context;
             _userManager = userManager;
             _httpClient = new HttpClient();
             _apiKey = "3e41dba41eae4304a8f814fe7c21b677";
+            solr = serviceProvider.GetRequiredService<ISolrOperations<Article>>();
         }
 
         [Authorize(Roles = DefaultSystemRoles.Admin)]
@@ -894,6 +898,19 @@ namespace NewsWebsiteBackEnd.Controllers
             return (null, null);
         }
 
+        [AllowAnonymous]
+        [HttpPost("search")] // api/article/search
+        public IActionResult Search(string searchText)
+        {
+            var results = SearchArticles(searchText);
+            return Ok(results);
+        }
+
+        private List<Article> SearchArticles(string searchText)
+        {
+            var results = solr.Query(new SolrQueryByField("BodyStructureAsText", searchText));
+            return results.ToList();
+        }
 
 
         //[HttpPost("search")] // api/article/search

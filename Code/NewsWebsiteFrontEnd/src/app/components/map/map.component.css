@@ -18,3 +18,8 @@
     display: none;
     /* Initially hidden */
 }
+
+.map-container-div {
+    padding: 10px 20px;
+    background-color: #cccccc3f;
+}
