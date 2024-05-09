@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:newswebsitemobile/pages/article_details_page.dart';
 import '../models/article.dart';
 
 class ArticleTile extends StatelessWidget {
