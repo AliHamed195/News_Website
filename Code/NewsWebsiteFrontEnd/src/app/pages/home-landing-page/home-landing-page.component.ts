@@ -8,6 +8,8 @@ import { SmallArticleCardComponent } from '../../components/small-article-card/s
 import { NgFor, NgIf, NgStyle, isPlatformBrowser } from '@angular/common';
 import { forkJoin } from 'rxjs';
 import { MapComponent } from '../../components/map/map.component';
+import { NewsCardComponent } from '../../components/news-card/news-card.component';
+import { GeneralArticleDetailsViewModel } from '../../models/article/general-article-details-view-model';
 
 @Component({
   selector: 'app-home-landing-page',
@@ -19,6 +21,7 @@ import { MapComponent } from '../../components/map/map.component';
     LargeArticleCardComponent,
     SmallArticleCardComponent,
     MapComponent,
+    NewsCardComponent,
   ],
   templateUrl: './home-landing-page.component.html',
   styleUrl: './home-landing-page.component.css',
@@ -36,6 +39,23 @@ export class HomeLandingPageComponent implements OnInit {
   ];
   allCategories: GeneralCategoryDetailsViewModel[] = [];
   articlesByCategory: Map<number, any[]> = new Map();
+
+  testArticleDetails: GeneralArticleDetailsViewModel = {
+    createdById: '12345',
+    createdByFullName: 'John Doe',
+    urlAsText: 'https://example.com/article/12345',
+    id: 12345,
+    title: 'A Comprehensive Guide to TypeScript',
+    summary:
+      'This article provides a comprehensive guide to TypeScript, including its features, benefits, and best practices.',
+    coverImagePath: '../../../assets/images/avatars/avatar1.jpeg',
+    totalNumberOfViews: 2500,
+    ratingAvg: 4.5,
+    createdAt: new Date('2023-05-12T07:00:00Z'),
+    isPublished: true,
+    lat: 37.7749,
+    lng: -122.4194,
+  };
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,

@@ -1,0 +1,15 @@
+<div class="news-card" [ngStyle]="{'width': width, 'height': height}">
+    <div class="image-container">
+        <img [src]="imageUrl" alt="{{title}}">
+        <div class="category">{{category}}</div>
+    </div>
+    <div class="info-container">
+        <h2 class="news-title">{{title}}</h2>
+        <div class="details-meta">
+            <span class="creator">{{creator}}</span>
+            <span class="date">{{date}}</span>
+            <span class="views">{{views}} <i class="fa fa-eye card-small-icon"></i></span>
+            <span class="rating">{{rating}} <i class="fa fa-star card-small-icon"></i></span>
+        </div>
+    </div>
+</div>

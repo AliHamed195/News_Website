@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="">
     <nav>
         <ul class="nav" *ngIf="generalCategories">
             <li class="nav__item">
@@ -17,6 +17,9 @@
                     [class.nav__link--selected]="selectedNavItem === 'carigory-articles/' + category.id">
                     {{ category.name }}
                 </a>
+            </li>
+            <li class="nav__item">
+                <i class="fa fa-search search-icon-home-page" aria-hidden="true"></i>
             </li>
         </ul>
     </nav>

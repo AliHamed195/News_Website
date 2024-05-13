@@ -32,7 +32,7 @@
     display: flex;
     justify-content: end;
     align-items: center;
-    margin-top: -10px;
+    margin-top: -6px;
 }
 
 .news-header__date {
@@ -56,14 +56,18 @@
     position: relative;
     overflow: hidden;
     white-space: nowrap;
-    background-color: #aad4fd;
+    background-color: #aad3fd5b;
     padding: 1rem;
     font-size: large;
     color: black;
 }
 
 .icon {
-    color: #027efa;
+    color: #4b4b4b;
     font-size: 1.3rem;
     margin-left: 20px;
+}
+
+.search-icon-home-page {
+    cursor: pointer;
 }

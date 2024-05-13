@@ -71,6 +71,8 @@ hr {
 .custom-toolbar {
     background-color: rgb(53, 53, 53);
     color: whitesmoke;
+    height: fit-content;
+    padding: 5px;
 }
 
 .example-spacer {
@@ -100,10 +102,16 @@ hr {
     border-color: whitesmoke;
     background-color: transparent;
     margin: 0 5px;
-    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.auth-buttons-login {
+    background-color: whitesmoke;
+    color: rgb(53, 53, 53) !important;
 }
 
 .auth-buttons:hover {
     background-color: whitesmoke;
     color: rgb(53, 53, 53) !important;
+    scale: 1.1;
 }

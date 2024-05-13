@@ -5,7 +5,7 @@
 </div> -->
 
 <!-- In home-landing-page.component.html -->
-<div class="container-fluid mt-2 mb-3" *ngFor="let category of allCategories; let i = index">
+<!-- <div class="my-container-fluid mt-1 mb-3" *ngFor="let category of allCategories; let i = index">
     <div class="row" *ngIf="articlesByCategory.get(category.id) as articles">
         <div class="row mb-2">
             <h1 class="category-name-title" *ngIf="articles.length > 0"><i>{{ category.name }}</i></h1>
@@ -21,6 +21,141 @@
                     <app-small-article-card [article]="article"></app-small-article-card>
                 </div>
             </div>
+        </div>
+    </div> 
+
+
+</div> -->
+
+
+<div class="my-container-fluid">
+    <div class="row">
+        <div class="col-xl-5">
+            <app-news-card imageUrl="../../../assets/images/default-article-cover.webp"
+                title="Capturing the essence of the natural world" creator="dailynews" date="Apr 18, 2024" [views]="33"
+                [rating]="0" category="Photography">
+            </app-news-card>
+        </div>
+        <div class="col-xl-7">
+            <div class="row">
+                <div class="col-xl-5 d-flex flex-column">
+                    <app-news-card imageUrl="../../../assets/images/default-article-cover.webp"
+                        title="Capturing the essence of the natural world" creator="dailynews" date="Apr 18, 2024"
+                        [views]="33" [rating]="0" category="Photography" width="100%" height="300px">
+                    </app-news-card>
+                    <app-news-card class="mt-2" imageUrl="../../../assets/images/default-article-cover.webp"
+                        title="Capturing the essence of the natural world" creator="dailynews" date="Apr 18, 2024"
+                        [views]="33" [rating]="0" category="Photography" width="100%" height="300px">
+                    </app-news-card>
+                </div>
+                <div class="col-xl-7">
+                    <div class="row">
+                        <div class="col-12">
+                            <h1 class="top-headlines-title"><b>Top Headlines</b></h1>
+                        </div>
+                        <div class="col-12">
+                            <div class="items">
+                                <div class="item">
+                                    <h3 class="item-title">
+                                        Wildlife flourishes in the ecosystem of the river
+                                    </h3>
+                                    <span class="item-category">Travel</span>
+                                    <span class="item-date">Apr 18, 2024</span>
+                                </div>
+                                <hr />
+                                <div class="item">
+                                    <h3 class="item-title">
+                                        Wildlife flourishes in the ecosystem of the river
+                                    </h3>
+                                    <span class="item-category">Travel</span>
+                                    <span class="item-date">Apr 18, 2024</span>
+                                </div>
+                                <hr />
+                                <div class="item">
+                                    <h3 class="item-title">
+                                        Wildlife flourishes in the ecosystem of the river
+                                    </h3>
+                                    <span class="item-category">Travel</span>
+                                    <span class="item-date">Apr 18, 2024</span>
+                                </div>
+                                <hr />
+                                <div class="item">
+                                    <h3 class="item-title">
+                                        Wildlife flourishes in the ecosystem of the river
+                                    </h3>
+                                    <span class="item-category">Travel</span>
+                                    <span class="item-date">Apr 18, 2024</span>
+                                </div>
+                                <hr />
+                                <div class="item">
+                                    <h3 class="item-title">
+                                        Wildlife flourishes in the ecosystem of the river
+                                    </h3>
+                                    <span class="item-category">Travel</span>
+                                    <span class="item-date">Apr 18, 2024</span>
+                                </div>
+                                <hr />
+                                <div class="item">
+                                    <h3 class="item-title">
+                                        Wildlife flourishes in the ecosystem of the river
+                                    </h3>
+                                    <span class="item-category">Travel</span>
+                                    <span class="item-date">Apr 18, 2024</span>
+                                </div>
+                                <hr />
+                                <div class="item">
+                                    <h3 class="item-title">
+                                        Wildlife flourishes in the ecosystem of the river
+                                    </h3>
+                                    <span class="item-category">Travel</span>
+                                    <span class="item-date">Apr 18, 2024</span>
+                                </div>
+                                <hr />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="add-section">
+            <img src="../../../assets/images/homeAdd.png" alt="adds">
+        </div>
+    </div>
+    <div class="row">
+        <div class="row mb-2">
+            <h1 class="category-name-title"><i> category.name </i></h1>
+            <div class="topLine" [ngStyle]="{'--triangle-color': categoryColors[0]}"></div>
+        </div>
+        <div class="row">
+            <div class="col-xl-3">
+                <app-news-card imageUrl="../../../assets/images/default-article-cover.webp"
+                    title="Capturing the essence of the natural world" creator="dailynews" date="Apr 18, 2024"
+                    [views]="33" [rating]="0" category="Photography">
+                </app-news-card>
+            </div>
+            <div class="col-xl-3">
+                <app-news-card imageUrl="../../../assets/images/default-article-cover.webp"
+                    title="Capturing the essence of the natural world" creator="dailynews" date="Apr 18, 2024"
+                    [views]="33" [rating]="0" category="Photography">
+                </app-news-card>
+            </div>
+            <div class="col-xl-3">
+                <app-news-card imageUrl="../../../assets/images/default-article-cover.webp"
+                    title="Capturing the essence of the natural world" creator="dailynews" date="Apr 18, 2024"
+                    [views]="33" [rating]="0" category="Photography">
+                </app-news-card>
+            </div>
+            <div class="col-xl-3">
+                <app-news-card imageUrl="../../../assets/images/default-article-cover.webp"
+                    title="Capturing the essence of the natural world" creator="dailynews" date="Apr 18, 2024"
+                    [views]="33" [rating]="0" category="Photography">
+                </app-news-card>
+            </div>
+        </div>
+        <div class="row">
+            <app-small-article-card [article]="testArticleDetails"></app-small-article-card>
         </div>
     </div>
 </div>

@@ -1,12 +1,12 @@
 <mat-drawer-container class="example-container" autosize>
     <mat-toolbar class="custom-toolbar">
         <img src="../../../assets/images/newsIconImage.webp" alt="News Website Logo"
-            style="height: 40px; margin-right: 10px; border-radius: 10px;">
+            style="height: 20px; margin-right: 10px; border-radius: 10px;">
         <span>News</span>
         <span class="example-spacer"></span>
         <div>
             <div *ngIf="!UserFullName" class="d-flex">
-                <button mat-button (click)="goToLogin()" class="auth-buttons">Login</button>
+                <button mat-button (click)="goToLogin()" class="auth-buttons auth-buttons-login">Login</button>
                 <button mat-button (click)="goToRegister()" class="auth-buttons">Register</button>
             </div>
 

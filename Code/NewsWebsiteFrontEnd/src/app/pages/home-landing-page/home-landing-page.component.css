@@ -69,3 +69,40 @@
         font-size: 4rem;
     }
 }
+
+.my-container-fluid {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.top-headlines-title {
+    margin-bottom: 15px;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 1;
+}
+
+.item-title {
+    font-weight: bold;
+    margin: 0;
+}
+
+.item-category {
+    color: blue;
+    font-size: small;
+}
+
+.item-date {
+    color: gray;
+    font-size: small;
+    margin-left: 10px;
+}
+
+.add-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
