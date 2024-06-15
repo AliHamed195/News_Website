@@ -83,11 +83,20 @@ export class HomeLandingPageComponent implements OnInit {
       },
       error: (err) => console.error('Failed to load categories:', err),
     });
+
+    setTimeout(() => {
+      console.log(this.allCategories);
+      console.log(this.articlesByCategory);
+      console.log(
+        'this.articlesByCategory.get(1)',
+        this.articlesByCategory.get(1)![0].id ?? 'null'
+      );
+    }, 2000);
   }
 
   fetchArticlesForCategories(): void {
     if (this.allCategories.length > 0) {
-      const paginationModel: PaginationModel = { startRow: 0, endRow: 5 };
+      const paginationModel: PaginationModel = { startRow: 0, endRow: 100 };
       const observables = this.allCategories.map((category) =>
         this.articlesService.getPublishedArticlesByCategoryId(
           category.id,

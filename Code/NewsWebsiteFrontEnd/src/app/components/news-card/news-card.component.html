@@ -1,18 +1,18 @@
-<div class="news-card" [ngStyle]="{'width': width, 'height': height}">
+<div *ngIf="article" class="news-card" [ngStyle]="{'width': width, 'height': height}">
     <div class="image-container">
         <div class="gradient-img">
         </div>
-        <img [src]="imageUrl" alt="{{title}}">
+        <img [src]="article.coverImagePath" alt="{{article.title}}">
 
-        <div class="category">{{category}}</div>
+        <div *ngIf="categoryName" [style.backgroundColor]="categoryColor" class="category">{{categoryName}}</div>
     </div>
     <div class="info-container">
-        <h2 class="news-title">{{title}}</h2>
+        <h2 class="news-title">{{article.title}}</h2>
         <div class="details-meta">
-            <span class="creator">{{creator}}</span>
-            <span class="date">{{date}}</span>
-            <span class="views">{{views}} <i class="fa fa-eye card-small-icon"></i></span>
-            <span class="rating">{{rating}} <i class="fa fa-star card-small-icon"></i></span>
+            <span class="creator">{{article.createdByFullName}}</span>
+            <span class="date">{{article.createdAt | date:'MMM d, y'}}</span>
+            <span class="views">{{article.totalNumberOfViews}} <i class="fa fa-eye card-small-icon"></i></span>
+            <span class="rating">{{article.ratingAvg}} <i class="fa fa-star card-small-icon"></i></span>
         </div>
     </div>
 </div>

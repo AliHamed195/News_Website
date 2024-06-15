@@ -134,11 +134,11 @@ export class MapComponent implements OnInit {
 
       const element = this.popup.getElement() as HTMLElement;
       element.innerHTML = `
-        <div>
-          <strong>${article.title}</strong>
-          <img src="${article.coverImagePath}" alt="${article.title}" style="width: 100px; height: auto;"/>
-        </div>
-      `;
+      <div style="background-color: #f9f9f9; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.3);">
+        <strong style="color: #333; display: block; margin-bottom: 8px;">${article.title}</strong>
+        <img src="${article.coverImagePath}" alt="${article.title}" style="width: 100%; height: auto; border-radius: 4px;"/>
+      </div>
+    `;
       element.style.display = 'block';
       this.popup.setPosition(coordinate);
     } else {
