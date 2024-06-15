@@ -18,6 +18,7 @@ import CircleStyle from 'ol/style/Circle';
 import Fill from 'ol/style/Fill';
 import Icon from 'ol/style/Icon';
 import { Router } from '@angular/router';
+import { StadiaMaps } from 'ol/source';
 
 @Component({
   selector: 'app-map',
@@ -60,7 +61,11 @@ export class MapComponent implements OnInit {
   initMap() {
     this.map = new Map({
       target: 'map',
-      layers: [new TileLayer({ source: new OSM() })],
+      layers: [
+        new TileLayer({
+          source: new StadiaMaps({ layer: 'alidade_smooth_dark' }), //stamen_watercolor // alidade_smooth/
+        }),
+      ],
       view: new View({
         center: fromLonLat([0, 0]),
         zoom: 2,

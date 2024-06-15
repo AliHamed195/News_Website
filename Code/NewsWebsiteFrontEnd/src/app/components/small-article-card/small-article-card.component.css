@@ -1,10 +1,28 @@
 .small-news {
+    width: 100%;
+    height: 150px;
     cursor: pointer;
     transition: transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
 }
 
 .small-news:hover {
     transform: scale(1.05);
+}
+
+.my-col-right {
+    padding: 0;
+    width: 40%;
+    height: 100%;
+}
+
+.my-col-left {
+    padding: 0;
+    width: 60%;
+    height: 100%;
 }
 
 .card__heading--small {
@@ -18,8 +36,30 @@
 
 .small-news-image {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .card__heading--small {
     overflow: hidden;
+}
+
+.details-meta {
+    font-size: 12px;
+    display: flex;
+    justify-content: start;
+    margin-top: 5px;
+}
+
+.details-meta span {
+    display: flex;
+    align-items: center;
+}
+
+.details-meta i {
+    margin-right: 5px;
+}
+
+.card-small-icon {
+    margin: 0 5px;
 }

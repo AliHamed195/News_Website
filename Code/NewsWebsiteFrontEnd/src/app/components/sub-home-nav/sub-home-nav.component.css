@@ -17,16 +17,18 @@
     text-decoration: none;
     color: black;
     cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-.nav__link:hover {
-    color: #027efa;
-}
-
+.nav__link:hover,
 .nav__link--selected {
+    background-color: #808080;
+    color: white;
     font-weight: bold;
-    color: #027efa;
 }
+
 
 .news-header {
     display: flex;
@@ -52,18 +54,80 @@
     margin-right: 1rem;
 }
 
-.marquee {
+.marquee-container .marquee {
     position: relative;
     overflow: hidden;
     white-space: nowrap;
-    background-color: #aad3fd5b;
+    background-color: #000000;
     padding: 1rem;
     font-size: large;
-    color: black;
+    font-weight: bold;
+    color: white;
 }
 
 .icon {
-    color: #4b4b4b;
+    color: #ffffff;
+    font-size: 1.3rem;
+    margin-left: 20px;
+}
+
+.search-icon-home-page {
+    cursor: pointer;
+}
+
+.marquee-container {
+    position: relative;
+}
+
+.news-header__date {
+    position: absolute;
+    right: -15px;
+    top: 0;
+    margin-top: 6px;
+    color: whitesmoke;
+    background-color: rgba(255, 0, 0, 0.87);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.box {
+    position: absolute;
+    z-index: 1000;
+    content: "";
+    left: 10px;
+    top: 0;
+    margin-top: 13px;
+    background-color: red;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    animation: colorChange 0.7s infinite alternate;
+}
+
+@keyframes colorChange {
+    from {
+        background-color: red;
+    }
+
+    to {
+        background-color: black;
+    }
+}
+
+
+.marquee-container .marquee {
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    background-color: #000000;
+    padding: 1rem;
+    font-size: large;
+    font-weight: bold;
+    color: white;
+}
+
+.icon {
+    color: #ffffff;
     font-size: 1.3rem;
     margin-left: 20px;
 }

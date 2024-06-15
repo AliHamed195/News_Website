@@ -1,0 +1,15 @@
+<div class="news-card" [ngStyle]="{'width': width, 'height': height}" *ngIf="article" (click)="get(article.urlAsText)">
+    <div class="news-card-image-wrapper">
+        <img [src]="article.coverImagePath" alt="news" class="news-card-image">
+    </div>
+    <div class="news-card-content">
+        <p class="news-card-title">{{ article.title }}</p>
+        <div class="news-card-meta">
+            <span class="creator">{{article.createdByFullName}}</span>
+            <span class="date">{{article.createdAt}}</span>
+            <span class="views">{{article.totalNumberOfViews}} <i class="fa fa-eye"></i></span>
+            <span class="comments">2 <i class="fa fa-comments"></i></span>
+        </div>
+        <p class="news-card-description">{{ article.description }}</p>
+    </div>
+</div>

@@ -10,6 +10,8 @@ import { forkJoin } from 'rxjs';
 import { MapComponent } from '../../components/map/map.component';
 import { NewsCardComponent } from '../../components/news-card/news-card.component';
 import { GeneralArticleDetailsViewModel } from '../../models/article/general-article-details-view-model';
+import { NewsCardTwoComponent } from '../../components/news-card-two/news-card-two.component';
+import { SocialMediaCardComponent } from '../../components/social-media-card/social-media-card.component';
 
 @Component({
   selector: 'app-home-landing-page',
@@ -22,6 +24,8 @@ import { GeneralArticleDetailsViewModel } from '../../models/article/general-art
     SmallArticleCardComponent,
     MapComponent,
     NewsCardComponent,
+    NewsCardTwoComponent,
+    SocialMediaCardComponent,
   ],
   templateUrl: './home-landing-page.component.html',
   styleUrl: './home-landing-page.component.css',

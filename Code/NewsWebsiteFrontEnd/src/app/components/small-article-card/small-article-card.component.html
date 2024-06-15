@@ -1,9 +1,18 @@
-<hr />
-<div class="row small-news" *ngIf="article" (click)="get(article.urlAsText)">
-    <div class="col-md-4">
+<div class="small-news" *ngIf="article" (click)="get(article.urlAsText)">
+    <div class="my-col-right">
         <img src="{{ article.coverImagePath }}" alt="news" class="small-news-image">
     </div>
-    <div class="col-md-8">
+    <div class="my-col-left">
         <p class="card__heading--small">{{ article.title }}</p>
+        <div class="details-meta">
+            <span class="creator">{{article.createdByFullName}}</span>
+        </div>
+        <div class="details-meta">
+            <span class="date">{{article.createdAt}}</span>
+        </div>
+        <div class="details-meta">
+            <span class="views">{{article.totalNumberOfViews}} <i class="fa fa-eye card-small-icon"></i></span>
+            <span class="rating">{{article.ratingAvg}} <i class="fa fa-star card-small-icon"></i></span>
+        </div>
     </div>
 </div>

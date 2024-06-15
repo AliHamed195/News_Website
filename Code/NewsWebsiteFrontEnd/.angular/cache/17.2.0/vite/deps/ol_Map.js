@@ -1,16 +1,16 @@
 import {
   BaseVector_default
-} from "./chunk-J5MSZ2JZ.js";
-import "./chunk-SHFK76WV.js";
-import "./chunk-RMZOSCNN.js";
+} from "./chunk-UJBGTRE5.js";
+import "./chunk-TL5S7N33.js";
 import {
   checkedFonts
-} from "./chunk-LUAOLWWU.js";
+} from "./chunk-GJFLXBZQ.js";
+import "./chunk-I2LGRIZD.js";
+import "./chunk-5WBKXYYL.js";
+import "./chunk-MXAX3Z2X.js";
 import {
-  CollectionEventType_default,
-  Collection_default
-} from "./chunk-OYNRLCOM.js";
-import "./chunk-CF6XR2R4.js";
+  shared
+} from "./chunk-HY72VL37.js";
 import {
   MapEventType_default
 } from "./chunk-JTQJNZKN.js";
@@ -21,65 +21,27 @@ import {
   CLASS_UNSELECTABLE
 } from "./chunk-AOCMNJQ2.js";
 import {
+  TileQueue_default,
+  getTilePriority
+} from "./chunk-II4UG6MY.js";
+import {
+  CollectionEventType_default,
+  Collection_default
+} from "./chunk-OYNRLCOM.js";
+import "./chunk-CF6XR2R4.js";
+import {
   Base_default,
   EventType_default as EventType_default2,
   Event_default as Event_default2,
   Layer_default,
   inView
-} from "./chunk-DN246REF.js";
-import {
-  ViewHint_default,
-  View_default,
-  disable
-} from "./chunk-KAXBWXBE.js";
-import {
-  Polygon_default
-} from "./chunk-DKLETEZL.js";
-import {
-  apply,
-  compose,
-  create,
-  makeInverse
-} from "./chunk-EJIAE6HW.js";
-import {
-  TileState_default
-} from "./chunk-FNRXX6A4.js";
-import {
-  easeOut,
-  linear
-} from "./chunk-4RPUYXPJ.js";
-import "./chunk-3HJ44V5Z.js";
-import {
-  fromUserCoordinate,
-  rotate,
-  scale,
-  toUserCoordinate,
-  warn,
-  wrapX
-} from "./chunk-VJ64STUD.js";
-import {
-  ObjectEventType_default,
-  Object_default
-} from "./chunk-Q5IUJ3VE.js";
-import {
-  clone,
-  createOrUpdateEmpty,
-  equals as equals2,
-  getForViewAndSize,
-  getIntersection,
-  getWidth,
-  isEmpty
-} from "./chunk-NYYRWQT7.js";
-import "./chunk-IPKI6BIV.js";
-import "./chunk-5WBKXYYL.js";
-import {
-  shared
-} from "./chunk-O223SYAA.js";
-import "./chunk-SYQZHX5E.js";
+} from "./chunk-22ORG6P2.js";
+import "./chunk-CUCRWL7W.js";
+import "./chunk-FNRXX6A4.js";
 import {
   hasArea
 } from "./chunk-2EXQVXDY.js";
-import "./chunk-TNFVUHYW.js";
+import "./chunk-P57QHLMB.js";
 import {
   DEVICE_PIXEL_RATIO,
   FIREFOX,
@@ -90,13 +52,33 @@ import {
   removeNode,
   replaceChildren,
   replaceNode
-} from "./chunk-PWMHVQAW.js";
+} from "./chunk-S2UHECPU.js";
+import {
+  ViewHint_default,
+  View_default,
+  disable
+} from "./chunk-TKKSJMNO.js";
+import {
+  Polygon_default
+} from "./chunk-OJULS5LJ.js";
+import {
+  apply,
+  compose,
+  create,
+  makeInverse
+} from "./chunk-PDQIYSXA.js";
+import {
+  easeOut,
+  linear
+} from "./chunk-WWXGU6XZ.js";
+import "./chunk-BLIDZUGQ.js";
 import {
   assert
 } from "./chunk-POFDOD5T.js";
 import {
-  clamp
-} from "./chunk-FSQBRNLD.js";
+  ObjectEventType_default,
+  Object_default
+} from "./chunk-Q5IUJ3VE.js";
 import {
   abstract,
   getUid
@@ -109,17 +91,37 @@ import {
   TRUE,
   Target_default,
   VOID,
-  equals,
+  equals as equals2,
   listen,
   toPromise,
   unlistenByKey
 } from "./chunk-JCPBGFB6.js";
 import {
+  fromUserCoordinate,
+  rotate,
+  scale,
+  toUserCoordinate,
+  warn,
+  wrapX
+} from "./chunk-3UNQIZNA.js";
+import {
+  clamp
+} from "./chunk-FQPEUPYV.js";
+import {
+  clone,
+  createOrUpdateEmpty,
+  equals,
+  getForViewAndSize,
+  getIntersection,
+  getWidth,
+  isEmpty
+} from "./chunk-NHFFGMQO.js";
+import {
   clear
 } from "./chunk-R4H2WGEG.js";
 import {
   __async
-} from "./chunk-ASLTLD6L.js";
+} from "./chunk-CPNXOV62.js";
 
 // node_modules/ol/renderer/Map.js
 var MapRenderer = class extends Disposable_default {
@@ -1071,312 +1073,6 @@ var MapProperty_default = {
   VIEW: "view"
 };
 
-// node_modules/ol/structs/PriorityQueue.js
-var DROP = Infinity;
-var PriorityQueue = class {
-  /**
-   * @param {function(T): number} priorityFunction Priority function.
-   * @param {function(T): string} keyFunction Key function.
-   */
-  constructor(priorityFunction, keyFunction) {
-    this.priorityFunction_ = priorityFunction;
-    this.keyFunction_ = keyFunction;
-    this.elements_ = [];
-    this.priorities_ = [];
-    this.queuedElements_ = {};
-  }
-  /**
-   * FIXME empty description for jsdoc
-   */
-  clear() {
-    this.elements_.length = 0;
-    this.priorities_.length = 0;
-    clear(this.queuedElements_);
-  }
-  /**
-   * Remove and return the highest-priority element. O(log N).
-   * @return {T} Element.
-   */
-  dequeue() {
-    const elements = this.elements_;
-    const priorities = this.priorities_;
-    const element = elements[0];
-    if (elements.length == 1) {
-      elements.length = 0;
-      priorities.length = 0;
-    } else {
-      elements[0] = /** @type {T} */
-      elements.pop();
-      priorities[0] = /** @type {number} */
-      priorities.pop();
-      this.siftUp_(0);
-    }
-    const elementKey = this.keyFunction_(element);
-    delete this.queuedElements_[elementKey];
-    return element;
-  }
-  /**
-   * Enqueue an element. O(log N).
-   * @param {T} element Element.
-   * @return {boolean} The element was added to the queue.
-   */
-  enqueue(element) {
-    assert(
-      !(this.keyFunction_(element) in this.queuedElements_),
-      "Tried to enqueue an `element` that was already added to the queue"
-    );
-    const priority = this.priorityFunction_(element);
-    if (priority != DROP) {
-      this.elements_.push(element);
-      this.priorities_.push(priority);
-      this.queuedElements_[this.keyFunction_(element)] = true;
-      this.siftDown_(0, this.elements_.length - 1);
-      return true;
-    }
-    return false;
-  }
-  /**
-   * @return {number} Count.
-   */
-  getCount() {
-    return this.elements_.length;
-  }
-  /**
-   * Gets the index of the left child of the node at the given index.
-   * @param {number} index The index of the node to get the left child for.
-   * @return {number} The index of the left child.
-   * @private
-   */
-  getLeftChildIndex_(index) {
-    return index * 2 + 1;
-  }
-  /**
-   * Gets the index of the right child of the node at the given index.
-   * @param {number} index The index of the node to get the right child for.
-   * @return {number} The index of the right child.
-   * @private
-   */
-  getRightChildIndex_(index) {
-    return index * 2 + 2;
-  }
-  /**
-   * Gets the index of the parent of the node at the given index.
-   * @param {number} index The index of the node to get the parent for.
-   * @return {number} The index of the parent.
-   * @private
-   */
-  getParentIndex_(index) {
-    return index - 1 >> 1;
-  }
-  /**
-   * Make this a heap. O(N).
-   * @private
-   */
-  heapify_() {
-    let i;
-    for (i = (this.elements_.length >> 1) - 1; i >= 0; i--) {
-      this.siftUp_(i);
-    }
-  }
-  /**
-   * @return {boolean} Is empty.
-   */
-  isEmpty() {
-    return this.elements_.length === 0;
-  }
-  /**
-   * @param {string} key Key.
-   * @return {boolean} Is key queued.
-   */
-  isKeyQueued(key) {
-    return key in this.queuedElements_;
-  }
-  /**
-   * @param {T} element Element.
-   * @return {boolean} Is queued.
-   */
-  isQueued(element) {
-    return this.isKeyQueued(this.keyFunction_(element));
-  }
-  /**
-   * @param {number} index The index of the node to move down.
-   * @private
-   */
-  siftUp_(index) {
-    const elements = this.elements_;
-    const priorities = this.priorities_;
-    const count = elements.length;
-    const element = elements[index];
-    const priority = priorities[index];
-    const startIndex = index;
-    while (index < count >> 1) {
-      const lIndex = this.getLeftChildIndex_(index);
-      const rIndex = this.getRightChildIndex_(index);
-      const smallerChildIndex = rIndex < count && priorities[rIndex] < priorities[lIndex] ? rIndex : lIndex;
-      elements[index] = elements[smallerChildIndex];
-      priorities[index] = priorities[smallerChildIndex];
-      index = smallerChildIndex;
-    }
-    elements[index] = element;
-    priorities[index] = priority;
-    this.siftDown_(startIndex, index);
-  }
-  /**
-   * @param {number} startIndex The index of the root.
-   * @param {number} index The index of the node to move up.
-   * @private
-   */
-  siftDown_(startIndex, index) {
-    const elements = this.elements_;
-    const priorities = this.priorities_;
-    const element = elements[index];
-    const priority = priorities[index];
-    while (index > startIndex) {
-      const parentIndex = this.getParentIndex_(index);
-      if (priorities[parentIndex] > priority) {
-        elements[index] = elements[parentIndex];
-        priorities[index] = priorities[parentIndex];
-        index = parentIndex;
-      } else {
-        break;
-      }
-    }
-    elements[index] = element;
-    priorities[index] = priority;
-  }
-  /**
-   * FIXME empty description for jsdoc
-   */
-  reprioritize() {
-    const priorityFunction = this.priorityFunction_;
-    const elements = this.elements_;
-    const priorities = this.priorities_;
-    let index = 0;
-    const n = elements.length;
-    let element, i, priority;
-    for (i = 0; i < n; ++i) {
-      element = elements[i];
-      priority = priorityFunction(element);
-      if (priority == DROP) {
-        delete this.queuedElements_[this.keyFunction_(element)];
-      } else {
-        priorities[index] = priority;
-        elements[index++] = element;
-      }
-    }
-    elements.length = index;
-    priorities.length = index;
-    this.heapify_();
-  }
-};
-var PriorityQueue_default = PriorityQueue;
-
-// node_modules/ol/TileQueue.js
-var TileQueue = class extends PriorityQueue_default {
-  /**
-   * @param {PriorityFunction} tilePriorityFunction Tile priority function.
-   * @param {function(): ?} tileChangeCallback Function called on each tile change event.
-   */
-  constructor(tilePriorityFunction, tileChangeCallback) {
-    super(
-      /**
-       * @param {Array} element Element.
-       * @return {number} Priority.
-       */
-      function(element) {
-        return tilePriorityFunction.apply(null, element);
-      },
-      /**
-       * @param {Array} element Element.
-       * @return {string} Key.
-       */
-      function(element) {
-        return (
-          /** @type {import("./Tile.js").default} */
-          element[0].getKey()
-        );
-      }
-    );
-    this.boundHandleTileChange_ = this.handleTileChange.bind(this);
-    this.tileChangeCallback_ = tileChangeCallback;
-    this.tilesLoading_ = 0;
-    this.tilesLoadingKeys_ = {};
-  }
-  /**
-   * @param {Array} element Element.
-   * @return {boolean} The element was added to the queue.
-   */
-  enqueue(element) {
-    const added = super.enqueue(element);
-    if (added) {
-      const tile = element[0];
-      tile.addEventListener(EventType_default.CHANGE, this.boundHandleTileChange_);
-    }
-    return added;
-  }
-  /**
-   * @return {number} Number of tiles loading.
-   */
-  getTilesLoading() {
-    return this.tilesLoading_;
-  }
-  /**
-   * @param {import("./events/Event.js").default} event Event.
-   * @protected
-   */
-  handleTileChange(event) {
-    const tile = (
-      /** @type {import("./Tile.js").default} */
-      event.target
-    );
-    const state = tile.getState();
-    if (state === TileState_default.LOADED || state === TileState_default.ERROR || state === TileState_default.EMPTY) {
-      if (state !== TileState_default.ERROR) {
-        tile.removeEventListener(EventType_default.CHANGE, this.boundHandleTileChange_);
-      }
-      const tileKey = tile.getKey();
-      if (tileKey in this.tilesLoadingKeys_) {
-        delete this.tilesLoadingKeys_[tileKey];
-        --this.tilesLoading_;
-      }
-      this.tileChangeCallback_();
-    }
-  }
-  /**
-   * @param {number} maxTotalLoading Maximum number tiles to load simultaneously.
-   * @param {number} maxNewLoads Maximum number of new tiles to load.
-   */
-  loadMoreTiles(maxTotalLoading, maxNewLoads) {
-    let newLoads = 0;
-    let state, tile, tileKey;
-    while (this.tilesLoading_ < maxTotalLoading && newLoads < maxNewLoads && this.getCount() > 0) {
-      tile = /** @type {import("./Tile.js").default} */
-      this.dequeue()[0];
-      tileKey = tile.getKey();
-      state = tile.getState();
-      if (state === TileState_default.IDLE && !(tileKey in this.tilesLoadingKeys_)) {
-        this.tilesLoadingKeys_[tileKey] = true;
-        ++this.tilesLoading_;
-        ++newLoads;
-        tile.load();
-      }
-    }
-  }
-};
-var TileQueue_default = TileQueue;
-function getTilePriority(frameState, tile, tileSourceKey, tileCenter, tileResolution) {
-  if (!frameState || !(tileSourceKey in frameState.wantedTiles)) {
-    return DROP;
-  }
-  if (!frameState.wantedTiles[tileSourceKey][tile.getKey()]) {
-    return DROP;
-  }
-  const center = frameState.viewState.center;
-  const deltaX = tileCenter[0] - center[0];
-  const deltaY = tileCenter[1] - center[1];
-  return 65536 * Math.log(tileResolution) + Math.sqrt(deltaX * deltaX + deltaY * deltaY) / tileResolution;
-}
-
 // node_modules/ol/control/Control.js
 var Control = class extends Object_default {
   /**
@@ -1566,7 +1262,7 @@ var Attribution = class extends Control_default {
         this.element.style.display = visible ? "" : "none";
         this.renderedVisible_ = visible;
       }
-      if (equals(attributions, this.renderedAttributions_)) {
+      if (equals2(attributions, this.renderedAttributions_)) {
         return;
       }
       removeChildren(this.ulElement_);
@@ -4359,7 +4055,7 @@ var Map = class extends Object_default {
         frameState.postRenderFunctions
       );
       if (previousFrameState) {
-        const moveStart = !this.previousExtent_ || !isEmpty(this.previousExtent_) && !equals2(frameState.extent, this.previousExtent_);
+        const moveStart = !this.previousExtent_ || !isEmpty(this.previousExtent_) && !equals(frameState.extent, this.previousExtent_);
         if (moveStart) {
           this.dispatchEvent(
             new MapEvent_default(MapEventType_default.MOVESTART, this, previousFrameState)
@@ -4367,7 +4063,7 @@ var Map = class extends Object_default {
           this.previousExtent_ = createOrUpdateEmpty(this.previousExtent_);
         }
       }
-      const idle = this.previousExtent_ && !frameState.viewHints[ViewHint_default.ANIMATING] && !frameState.viewHints[ViewHint_default.INTERACTING] && !equals2(frameState.extent, this.previousExtent_);
+      const idle = this.previousExtent_ && !frameState.viewHints[ViewHint_default.ANIMATING] && !frameState.viewHints[ViewHint_default.INTERACTING] && !equals(frameState.extent, this.previousExtent_);
       if (idle) {
         this.dispatchEvent(
           new MapEvent_default(MapEventType_default.MOVEEND, this, frameState)
@@ -4458,7 +4154,7 @@ var Map = class extends Object_default {
       }
     }
     const oldSize = this.getSize();
-    if (size && (!oldSize || !equals(size, oldSize))) {
+    if (size && (!oldSize || !equals2(size, oldSize))) {
       this.setSize(size);
       this.updateViewportSize_(size);
     }
