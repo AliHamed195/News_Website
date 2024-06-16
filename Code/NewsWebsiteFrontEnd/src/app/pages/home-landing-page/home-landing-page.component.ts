@@ -12,6 +12,7 @@ import { NewsCardComponent } from '../../components/news-card/news-card.componen
 import { GeneralArticleDetailsViewModel } from '../../models/article/general-article-details-view-model';
 import { NewsCardTwoComponent } from '../../components/news-card-two/news-card-two.component';
 import { SocialMediaCardComponent } from '../../components/social-media-card/social-media-card.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home-landing-page',
@@ -64,7 +65,8 @@ export class HomeLandingPageComponent implements OnInit {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private categoryService: CategoryService,
-    private articlesService: ArticlesService
+    private articlesService: ArticlesService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -114,5 +116,9 @@ export class HomeLandingPageComponent implements OnInit {
         console.log(this.articlesByCategory);
       });
     }
+  }
+
+  goToQuestionAnswers(): void {
+    this.router.navigate(['/Home/website-information']);
   }
 }

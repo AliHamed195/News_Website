@@ -1,0 +1,123 @@
+.qa-container {
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+}
+
+.questions-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.questions-list li {
+    border-bottom: 1px solid #e1e1e1;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.questions-list li:last-child {
+    border-bottom: none;
+}
+
+details {
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    border-left: 5px solid #007bff69;
+}
+
+summary {
+    font-size: 20px;
+    color: #2c3e50;
+    cursor: pointer;
+    outline: none;
+    position: relative;
+    padding-right: 30px;
+    font-weight: bold;
+}
+
+summary::-webkit-details-marker {
+    display: none;
+}
+
+summary:before {
+    content: '▼';
+    font-size: 16px;
+    color: black;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: transform 0.3s ease;
+}
+
+details[open] summary:before {
+    transform: rotate(-180deg);
+}
+
+.questions-list p {
+    font-size: 16px;
+    color: #34495e;
+    padding-left: 20px;
+    padding-top: 5px;
+    margin: 0;
+    line-height: 1.6;
+}
+
+details[open] p {
+    display: block;
+}
+
+summary:focus,
+details:hover summary {
+    background-color: #ecf0f1;
+}
+
+.questionAnswerlistli {
+    margin-bottom: 20px;
+}
+
+.questionAnswerlistli:hover {
+    background-color: #ecf0f1;
+}
+
+.fa-question,
+.fa-reply {
+    color: #6c757d;
+    margin-right: 10px;
+}
+
+summary i.fa-question {
+    float: left;
+    margin-right: 5px;
+    position: relative;
+    top: 2px;
+}
+
+.answer-details {
+    background-color: #f9f9f9;
+    border-left: 5px solid #28a745;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.fa-reply {
+    float: left;
+    margin-right: 5px;
+    position: relative;
+    top: 2px;
+}
+
+.cm-answers-success {
+    color: #28a745;
+}
+
+.title-home-question-answer-page {
+    font-weight: bold;
+    font-size: xx-large;
+    border-bottom: 1px solid #6c757d;
+    margin-bottom: 30px;
+    width: fit-content;
+}

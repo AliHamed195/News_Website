@@ -1,0 +1,15 @@
+<div class="qa-container">
+    <h1 class="title-home-question-answer-page">Questions and Answers</h1>
+    <ul class="questions-list">
+        <li class="questionAnswerlistli" *ngFor="let qa of questionsAnswers">
+            <details>
+                <summary>
+                    {{ qa.question }}
+                </summary>
+                <h2 class="answer mt-3"><strong><i class="fa-solid fa-reply cm-answers-success"></i></strong> {{
+                    qa.answer }}
+                </h2>
+            </details>
+        </li>
+    </ul>
+</div>

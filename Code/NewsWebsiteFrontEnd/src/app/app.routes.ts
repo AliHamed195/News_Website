@@ -23,6 +23,7 @@ import { UserDetailsComponent } from './pages/user/user-details/user-details.com
 import { MapPageComponent } from './pages/map-page/map-page.component';
 import { HomeArticleDetailsPageComponent } from './pages/home-article-details-page/home-article-details-page.component';
 import { CarigoryArticlesComponent } from './pages/carigory-articles/carigory-articles.component';
+import { QuestionsAnswersComponent } from './pages/questions-answers/questions-answers.component';
 
 export const routes: Routes = [
   {
@@ -52,6 +53,10 @@ export const routes: Routes = [
       {
         path: 'carigory-articles/:id',
         component: CarigoryArticlesComponent,
+      },
+      {
+        path: 'website-information',
+        component: QuestionsAnswersComponent,
       },
     ],
   },
