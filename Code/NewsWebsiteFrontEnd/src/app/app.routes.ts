@@ -24,6 +24,7 @@ import { MapPageComponent } from './pages/map-page/map-page.component';
 import { HomeArticleDetailsPageComponent } from './pages/home-article-details-page/home-article-details-page.component';
 import { CarigoryArticlesComponent } from './pages/carigory-articles/carigory-articles.component';
 import { QuestionsAnswersComponent } from './pages/questions-answers/questions-answers.component';
+import { SearchHomeComponent } from './pages/search-home/search-home.component';
 
 export const routes: Routes = [
   {
@@ -57,6 +58,10 @@ export const routes: Routes = [
       {
         path: 'website-information',
         component: QuestionsAnswersComponent,
+      },
+      {
+        path: 'search',
+        component: SearchHomeComponent,
       },
     ],
   },

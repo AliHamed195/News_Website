@@ -1,4 +1,6 @@
-﻿namespace NewsWebsiteBackEnd.Models
+﻿using SolrNet.Attributes;
+
+namespace NewsWebsiteBackEnd.Models
 {
     public class Article
     {

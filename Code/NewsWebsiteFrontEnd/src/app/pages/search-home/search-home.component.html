@@ -1,0 +1,20 @@
+<div class="row mt-3">
+    <div class="col-xl-3"></div>
+    <div class="col-md-6">
+        <div class="input-group mb-3">
+            <input [(ngModel)]="textForSearch" type="text" class="form-control p-2" placeholder="Search"
+                aria-label="Search" aria-describedby="button-addon2">
+            <button (click)="startSearch()" class="btn btn-outline-primary" type="button"
+                id="button-addon2">Search</button>
+        </div>
+    </div>
+    <div class="col-xl-3"></div>
+</div>
+
+<div class="my-container-fluid">
+    <div class="row mt-3" *ngIf="articles.length > 0">
+        <div *ngFor="let article of articles" class="col d-flex justify-content-center">
+            <app-medioum-article-card [article]="article"></app-medioum-article-card>
+        </div>
+    </div>
+</div>

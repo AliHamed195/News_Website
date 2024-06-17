@@ -32,7 +32,7 @@ namespace NewsWebsiteBackEnd.Controllers
         //private readonly IHubContext<ArticleHub> _hubContext;
         private readonly HttpClient _httpClient;
         private readonly string _apiKey;
-        private readonly ISolrOperations<Article> solr;
+        private readonly ISolrOperations<SolrArticle> solr;
 
         public ArticleController(ApplicationDbContext context, UserManager<ApplicationUsers> userManager, IServiceProvider serviceProvider)
         {
@@ -40,7 +40,7 @@ namespace NewsWebsiteBackEnd.Controllers
             _userManager = userManager;
             _httpClient = new HttpClient();
             _apiKey = "3e41dba41eae4304a8f814fe7c21b677";
-            solr = serviceProvider.GetRequiredService<ISolrOperations<Article>>();
+            solr = serviceProvider.GetRequiredService<ISolrOperations<SolrArticle>>();
         }
 
         [Authorize(Roles = DefaultSystemRoles.Admin)]
@@ -247,10 +247,6 @@ namespace NewsWebsiteBackEnd.Controllers
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var user = await _userManager.FindByIdAsync(userId);
-                if (user is null || user.IsDeleted || user.IsBlocked)
-                {
-                    return Ok(new { success = false, message = "User not found." });
-                }
 
                 var article = await _context.Articles
                 .AsNoTracking()
@@ -906,12 +902,68 @@ namespace NewsWebsiteBackEnd.Controllers
             return Ok(results);
         }
 
-        private List<Article> SearchArticles(string searchText)
+        private List<SolrArticle> SearchArticles(string searchText)
         {
             var results = solr.Query(new SolrQueryByField("BodyStructureAsText", searchText));
             return results.ToList();
         }
 
+        [AllowAnonymous]
+        [HttpGet("all-articles-solr")] // api/article/all-articles-solr
+        public IActionResult GetAllArticles()
+        {
+            var results = FetchAllArticles();
+            return Ok(results);
+        }
+
+        private List<SolrArticle> FetchAllArticles()
+        {
+            var results = solr.Query(new SolrQuery("*:*"));
+            return results.ToList();
+        }
+
+
+        //[HttpPost("index-all-articles")]
+        //public async Task<IActionResult> IndexAllArticles()
+        //{
+        //    try
+        //    {
+        //        var articles = await _context.Articles
+        //            .Where(a => !a.IsDeleted)
+        //            .Select(a => new SolrArticle { Id = a.Id, BodyStructureAsText = a.BodyStructureAsText })
+        //            .ToListAsync();
+
+        //        foreach (var solrArticle in articles)
+        //        {
+        //            await solr.AddAsync(solrArticle);
+        //        }
+
+        //        await solr.CommitAsync();
+
+        //        return Ok(new { success = true, message = "All articles have been indexed successfully." });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, new { success = false, message = "An error occurred while indexing articles.", error = ex.Message });
+        //    }
+        //}
+
+        [HttpPost("delete-all-articles-solr")] // api/article/delete-all-articles-solr
+        public async Task<IActionResult> DeleteAllArticlesFromSolr()
+        {
+            try
+            {
+                // This command deletes all documents from the Solr index
+                await solr.DeleteAsync(SolrQuery.All);
+                await solr.CommitAsync();
+
+                return Ok(new { success = true, message = "All articles have been deleted from Solr successfully." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = "An error occurred while deleting articles from Solr.", error = ex.Message });
+            }
+        }
 
         //[HttpPost("search")] // api/article/search
         //public async Task<IActionResult> Search([FromBody] SolrSearchModel model)

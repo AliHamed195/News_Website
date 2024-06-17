@@ -196,4 +196,11 @@ export class ArticlesService {
       { headers }
     );
   }
+
+  searchArticles(searchText: string): Observable<ResponseStructure> {
+    return this.http.post<ResponseStructure>(
+      `${articleEndpoints.searchArticles}?searchText=${searchText}`,
+      {}
+    );
+  }
 }
