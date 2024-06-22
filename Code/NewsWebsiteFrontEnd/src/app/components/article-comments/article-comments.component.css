@@ -1,0 +1,80 @@
+.comments-section {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+}
+
+.comments-section h3 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.comments-section textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+    resize: vertical;
+}
+
+.comments-section button {
+    padding: 10px 15px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.comments-section button:hover {
+    background-color: #0056b3;
+}
+
+.comment {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+.comment p {
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+    color: #555;
+}
+
+.comment small {
+    display: block;
+    margin-top: 5px;
+    color: #999;
+}
+
+.comment div {
+    margin-top: 10px;
+}
+
+.comment div button {
+    margin-right: 5px;
+    padding: 5px 10px;
+    font-size: 0.9em;
+    color: #007bff;
+    background-color: transparent;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.comment div button:hover {
+    color: #fff;
+    background-color: #007bff;
+}

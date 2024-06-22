@@ -83,3 +83,11 @@ export const rateEndpoints = {
   rateArticle: `${baseUrl}/Rates/rate-article`,
   userRating: `${baseUrl}/Rates/user-rating`,
 };
+
+// src/app/URL/url.ts
+export const commentEndpoints = {
+  getComments: (urlAsText: string) => `${baseUrl}/Comments/${urlAsText}`,
+  addComment: (urlAsText: string) => `${baseUrl}/Comments/${urlAsText}`,
+  updateComment: (commentId: number) => `${baseUrl}/Comments/${commentId}`,
+  deleteComment: (commentId: number) => `${baseUrl}/Comments/${commentId}`,
+};

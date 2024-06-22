@@ -1,0 +1,21 @@
+<!-- src/app/components/article-comments/article-comments.component.html -->
+<div class="comments-section">
+    <h3>Comments</h3>
+    <div *ngIf="isLoggedIn">
+        <textarea [(ngModel)]="newCommentText" placeholder="Add a comment"></textarea>
+        <button class="mb-2" (click)="addComment()">Submit</button>
+    </div>
+    <div *ngIf="comments.length === 0">
+        <p>No comments yet.</p>
+    </div>
+    <div *ngFor="let comment of comments">
+        <div class="comment">
+            <p>{{ comment.text }}</p>
+            <small>by {{ comment.fullName }} on {{ comment.createdAt | date }}</small>
+            <div *ngIf="isLoggedIn && comment.createdById === authService.getUserInfo()?.userId">
+                <button (click)="promptUpdate(comment)">Edit</button>
+                <button (click)="deleteComment(comment.id)">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>

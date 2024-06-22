@@ -2,9 +2,17 @@
     <div class="col-md-9">
         <div *ngIf="thearticle">
             <app-article-for-read [articleBody]="thearticle.bodyStructureAsHtmlCode"></app-article-for-read>
-            <div *ngIf="isLoggedIn">
-                <app-rating-input [maxRating]="5" (ratingSelected)="handleRatingSelected($event)"
-                    [rating]="userRating"></app-rating-input>
+            <div *ngIf="isLoggedIn" class="p-5">
+                <hr style="height: 5px; background-color: rgb(102, 97, 97);" />
+                <div class="interaction-section">
+                    <div class="rating-section">
+                        <app-rating-input [maxRating]="5" (ratingSelected)="handleRatingSelected($event)"
+                            [rating]="userRating"></app-rating-input>
+                    </div>
+                    <div class="comments-section-wrapper">
+                        <app-article-comments></app-article-comments>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

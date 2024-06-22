@@ -19,6 +19,7 @@ import { AuthServiceService } from '../../Services/Auth/auth-service.service';
 import { RateArticleDTO } from '../../models/rate/rate';
 import { RateService } from '../../Services/Rate/rate.service';
 import { RatingInputComponent } from '../../components/rating-input/rating-input.component';
+import { ArticleCommentsComponent } from '../../components/article-comments/article-comments.component';
 
 @Component({
   selector: 'app-home-article-details-page',
@@ -30,6 +31,7 @@ import { RatingInputComponent } from '../../components/rating-input/rating-input
     AddsComponent,
     MedioumArticleCardComponent,
     RatingInputComponent,
+    ArticleCommentsComponent,
   ],
   templateUrl: './home-article-details-page.component.html',
   styleUrl: './home-article-details-page.component.css',

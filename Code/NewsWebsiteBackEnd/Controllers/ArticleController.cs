@@ -342,6 +342,13 @@ namespace NewsWebsiteBackEnd.Controllers
                 {
                     return Ok(new { success = false, message = "Article not found." });
                 }
+                else
+                {
+                    var articleToUpdate = await _context.Articles.FirstOrDefaultAsync(a => a.Id == article.Id);
+                    articleToUpdate.TotalNumberOfViews++;
+                    _context.Articles.Update(articleToUpdate);
+                    await _context.SaveChangesAsync();
+                }
 
                 return Ok(new { success = true, message = "Done.", data = article });
             }
