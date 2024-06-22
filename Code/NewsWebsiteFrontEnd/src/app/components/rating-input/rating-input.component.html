@@ -1,0 +1,8 @@
+<!-- src/app/components/rating-input/rating-input.component.html -->
+<div class="rating">
+    <ng-container *ngFor="let star of [].constructor(maxRating); let i = index">
+        <span class="star" [class.filled]="i < currentRating" (click)="selectRating(i + 1)">
+            ★
+        </span>
+    </ng-container>
+</div>

@@ -2,6 +2,10 @@
     <div class="col-md-9">
         <div *ngIf="thearticle">
             <app-article-for-read [articleBody]="thearticle.bodyStructureAsHtmlCode"></app-article-for-read>
+            <div *ngIf="isLoggedIn">
+                <app-rating-input [maxRating]="5" (ratingSelected)="handleRatingSelected($event)"
+                    [rating]="userRating"></app-rating-input>
+            </div>
         </div>
     </div>
     <div class="col-md-3 d-flex flex-column align-items-center justify-content-start">

@@ -20,6 +20,7 @@ export interface ArticleDetailsViewModel {
   categoryId: number;
   categoryName: string;
   isRatedByCurrentUser: boolean;
+  userRating?: number;
   Lat: number;
   Lng: number;
 }

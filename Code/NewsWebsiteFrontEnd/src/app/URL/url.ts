@@ -78,3 +78,8 @@ export const userEndpoints = {
   getUserTypesCount: `${baseUrl}/User/types/count`,
   getUsersByType: `${baseUrl}/User/by-type/`,
 };
+
+export const rateEndpoints = {
+  rateArticle: `${baseUrl}/Rates/rate-article`,
+  userRating: `${baseUrl}/Rates/user-rating`,
+};

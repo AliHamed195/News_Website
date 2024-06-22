@@ -15,6 +15,10 @@ import { AddsComponent } from '../../components/adds/adds.component';
 import { MedioumArticleCardComponent } from '../../components/medioum-article-card/medioum-article-card.component';
 import { GeneralArticleDetailsViewModel } from '../../models/article/general-article-details-view-model';
 import { Subscription } from 'rxjs';
+import { AuthServiceService } from '../../Services/Auth/auth-service.service';
+import { RateArticleDTO } from '../../models/rate/rate';
+import { RateService } from '../../Services/Rate/rate.service';
+import { RatingInputComponent } from '../../components/rating-input/rating-input.component';
 
 @Component({
   selector: 'app-home-article-details-page',
@@ -25,6 +29,7 @@ import { Subscription } from 'rxjs';
     ArticleForReadComponent,
     AddsComponent,
     MedioumArticleCardComponent,
+    RatingInputComponent,
   ],
   templateUrl: './home-article-details-page.component.html',
   styleUrl: './home-article-details-page.component.css',
@@ -34,11 +39,15 @@ export class HomeArticleDetailsPageComponent implements OnInit, OnDestroy {
   thearticle: ArticleDetailsViewModel | null = null;
   someArticles: GeneralArticleDetailsViewModel[] = [];
   private paramMapSubscription: Subscription | undefined;
+  isLoggedIn: boolean = false;
+  userRating: number = 0;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private route: ActivatedRoute,
-    private articlesService: ArticlesService
+    private articlesService: ArticlesService,
+    private authService: AuthServiceService,
+    private rateService: RateService
   ) {}
 
   ngOnInit(): void {
@@ -49,6 +58,7 @@ export class HomeArticleDetailsPageComponent implements OnInit, OnDestroy {
         this.thearticle = null;
         this.loadArticleDetails();
       });
+      this.isLoggedIn = !!this.authService.getUserInfo();
     }
   }
 
@@ -58,6 +68,9 @@ export class HomeArticleDetailsPageComponent implements OnInit, OnDestroy {
     this.articlesService.getArticleByUrlAsText(this.articleUrl).subscribe({
       next: (response) => {
         this.thearticle = response.data;
+        if (this.isLoggedIn) {
+          this.loadUserRating();
+        }
         this.loadSomeArticles();
       },
       error: (err) => console.error('Error fetching article:', err),
@@ -87,6 +100,47 @@ export class HomeArticleDetailsPageComponent implements OnInit, OnDestroy {
         },
         error: (err) => console.error('Error fetching related articles:', err),
       });
+  }
+
+  loadUserRating(): void {
+    if (!this.thearticle) return;
+
+    const userInfo = this.authService.getUserInfo();
+    if (!userInfo) return;
+
+    this.rateService
+      .getUserRating(userInfo.userId, this.thearticle.urlAsText)
+      .subscribe({
+        next: (response: any) => {
+          this.userRating = response.rate;
+          console.log('this.userRating', response);
+        },
+        error: (error: any) => {
+          console.error('Error fetching user rating:', error);
+        },
+      });
+  }
+
+  handleRatingSelected(rating: number): void {
+    if (!this.thearticle) return;
+
+    const userInfo = this.authService.getUserInfo();
+    if (!userInfo) return;
+
+    const rateArticleDTO: RateArticleDTO = {
+      userId: userInfo.userId,
+      urlAsText: this.thearticle.urlAsText,
+      rate: rating,
+    };
+
+    this.rateService.rateArticle(rateArticleDTO).subscribe({
+      next: (response) => {
+        console.log('Article rated successfully', response);
+      },
+      error: (error) => {
+        console.error('Error rating article:', error);
+      },
+    });
   }
 
   ngOnDestroy(): void {
