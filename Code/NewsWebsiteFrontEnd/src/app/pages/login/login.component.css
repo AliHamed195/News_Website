@@ -1,6 +1,8 @@
 .login-page-bg {
-    background: url('../../Images/11a8d9b7-c3a0-4cba-8bd9-2e3d354fcefc.webp') no-repeat center center fixed;
-    background-size: cover;
+    background: rgb(2, 0, 36);
+    background: linear-gradient(336deg, rgba(2, 0, 36, 1) 0%, rgba(166, 169, 171, 1) 40%, rgba(40, 60, 64, 1) 100%);
+    /* background: url('../../Images/11a8d9b7-c3a0-4cba-8bd9-2e3d354fcefc.webp') no-repeat center center fixed;
+    background-size: cover; */
     height: 100vh;
     display: flex;
     align-items: center;

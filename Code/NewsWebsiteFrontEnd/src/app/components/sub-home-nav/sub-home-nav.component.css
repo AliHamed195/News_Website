@@ -90,6 +90,27 @@
     border-radius: 10px;
 }
 
+.box-word {
+    position: absolute;
+    z-index: 1000;
+    content: "";
+    left: 40px;
+    top: 0;
+    margin-top: 15px;
+    animation: colorChangeTwo 0.7s infinite alternate;
+    font-size: 20px;
+}
+
+@keyframes colorChangeTwo {
+    from {
+        color: red;
+    }
+
+    to {
+        color: #808080;
+    }
+}
+
 .box {
     position: absolute;
     z-index: 1000;

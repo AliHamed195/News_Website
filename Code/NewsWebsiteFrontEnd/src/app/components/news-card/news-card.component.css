@@ -5,8 +5,7 @@
     overflow: hidden;
     font-family: Arial, sans-serif;
     background: linear-gradient(#0001, #000);
-    /* gradient background */
-
+    cursor: pointer;
 }
 
 .gradient-img {

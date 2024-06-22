@@ -49,7 +49,8 @@ export class MapComponent implements OnInit {
     this.articlesService.getAllPublicationsArticles(paginationModel).subscribe({
       next: (response) => {
         this.articles = response.data.filter(
-          (x: GeneralArticleDetailsViewModel) => x.lat != 0 && x.lng != 0
+          (x: GeneralArticleDetailsViewModel) =>
+            x.lat != 0 && x.lng != 0 && x.lat != 1.11 && x.lng != 1.11
         );
         console.log('this.articles', this.articles);
         this.initMap();
@@ -68,7 +69,7 @@ export class MapComponent implements OnInit {
       ],
       view: new View({
         center: fromLonLat([0, 0]),
-        zoom: 2,
+        zoom: 3,
       }),
     });
 

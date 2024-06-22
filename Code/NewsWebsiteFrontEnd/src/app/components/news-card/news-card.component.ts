@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { GeneralArticleDetailsViewModel } from '../../models/article/general-article-details-view-model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-news-card',
@@ -15,4 +16,10 @@ export class NewsCardComponent {
   @Input() categoryColor: string = '#007bff';
   @Input() width: string = '100%';
   @Input() height: string = 'auto';
+
+  constructor(private router: Router) {}
+
+  get(url: string): void {
+    this.router.navigate(['/Home/article-details-home', url]);
+  }
 }

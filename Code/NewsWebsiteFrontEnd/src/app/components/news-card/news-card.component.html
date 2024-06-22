@@ -1,4 +1,4 @@
-<div *ngIf="article" class="news-card" [ngStyle]="{'width': width, 'height': height}">
+<div *ngIf="article" class="news-card" [ngStyle]="{'width': width, 'height': height}" (click)="get(article.urlAsText)">
     <div class="image-container">
         <div class="gradient-img">
         </div>

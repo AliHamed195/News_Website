@@ -121,4 +121,8 @@ export class HomeLandingPageComponent implements OnInit {
   goToQuestionAnswers(): void {
     this.router.navigate(['/Home/website-information']);
   }
+
+  get(url: string): void {
+    this.router.navigate(['/Home/article-details-home', url]);
+  }
 }

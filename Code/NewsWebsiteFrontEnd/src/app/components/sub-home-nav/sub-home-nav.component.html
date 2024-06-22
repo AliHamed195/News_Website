@@ -25,6 +25,7 @@
     </nav>
     <div class="marquee-container">
         <span class="box"></span>
+        <span class="box-word">Live</span>
         <marquee class="marquee" *ngIf="generalArticles">
             <ng-container *ngFor="let article of generalArticles">
                 <i class="fa-regular fa-newspaper icon"></i> {{ article.title }}
