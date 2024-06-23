@@ -7,31 +7,43 @@ import {
   geoKeyNames,
   globals_exports,
   photometricInterpretations
-} from "./chunk-YSZXQCMV.js";
-import "./chunk-JCX666RU.js";
+} from "./chunk-BEIUMUN6.js";
+import "./chunk-QJEPB4DJ.js";
 import {
   Vector_default,
   loadFeaturesXhr
-} from "./chunk-2JBUUHLW.js";
+} from "./chunk-NDTYQGA2.js";
 import "./chunk-FNHHZFJP.js";
 import {
   Feature_default
-} from "./chunk-HXDRDNTZ.js";
-import {
-  Tile_default as Tile_default3
-} from "./chunk-M7XGZLTD.js";
-import {
-  Layer_default as Layer_default2
-} from "./chunk-2QNY3RQL.js";
+} from "./chunk-ENUOLVZ5.js";
 import {
   TileQueue_default
-} from "./chunk-II4UG6MY.js";
-import "./chunk-OYNRLCOM.js";
+} from "./chunk-UWDFUXTF.js";
+import "./chunk-5TMPXHTT.js";
 import "./chunk-CF6XR2R4.js";
 import {
+  Tile_default as Tile_default2
+} from "./chunk-STK4ZY4P.js";
+import {
+  Layer_default as Layer_default2
+} from "./chunk-NGHDECVX.js";
+import {
   Layer_default
-} from "./chunk-22ORG6P2.js";
+} from "./chunk-OVCS2QVL.js";
 import "./chunk-CUCRWL7W.js";
+import {
+  ViewHint_default
+} from "./chunk-SJQZ2OLO.js";
+import "./chunk-APMMOYUQ.js";
+import {
+  Point_default,
+  apply,
+  compose,
+  create,
+  makeInverse,
+  toString
+} from "./chunk-FOHW3J3E.js";
 import {
   ATTRIBUTION,
   LRUCache_default,
@@ -41,7 +53,7 @@ import {
   TileGrid_default,
   TileImage_default,
   TileSourceEvent,
-  Tile_default as Tile_default2,
+  Tile_default as Tile_default3,
   UrlTile_default,
   XYZ_default,
   createFromTemplates,
@@ -56,10 +68,10 @@ import {
   getKeyZXY,
   hash,
   nullTileUrlFunction
-} from "./chunk-L6RRTYAF.js";
+} from "./chunk-T5D4U2XZ.js";
 import {
   Source_default
-} from "./chunk-L423WQ5L.js";
+} from "./chunk-3SQJVWPI.js";
 import {
   ERROR_THRESHOLD,
   ImageTile_default,
@@ -69,7 +81,7 @@ import {
   calculateSourceResolution,
   canvasPool,
   render
-} from "./chunk-RD5HU4GF.js";
+} from "./chunk-KTQ5Y2PS.js";
 import {
   TileState_default
 } from "./chunk-FNRXX6A4.js";
@@ -81,32 +93,20 @@ import {
   ImageState_default,
   Image_default,
   decode
-} from "./chunk-P57QHLMB.js";
+} from "./chunk-QC4ON3FN.js";
 import {
   createCanvasContext2D,
   releaseCanvas
 } from "./chunk-S2UHECPU.js";
 import {
-  ViewHint_default
-} from "./chunk-TKKSJMNO.js";
-import "./chunk-OJULS5LJ.js";
-import {
-  Point_default,
-  apply,
-  compose,
-  create,
-  makeInverse,
-  toString
-} from "./chunk-PDQIYSXA.js";
-import {
   DEFAULT_MAX_ZOOM,
   DEFAULT_TILE_SIZE
-} from "./chunk-WWXGU6XZ.js";
+} from "./chunk-4RPUYXPJ.js";
 import "./chunk-BLIDZUGQ.js";
+import "./chunk-VTTORVAC.js";
 import {
   assert
 } from "./chunk-POFDOD5T.js";
-import "./chunk-Q5IUJ3VE.js";
 import {
   getUid
 } from "./chunk-HO3FJEXZ.js";
@@ -119,7 +119,7 @@ import {
   listenOnce,
   toPromise,
   unlistenByKey
-} from "./chunk-JCPBGFB6.js";
+} from "./chunk-6DHAOGH5.js";
 import {
   Projection_default,
   add,
@@ -135,14 +135,7 @@ import {
   toUserCoordinate,
   toUserExtent,
   transform
-} from "./chunk-3UNQIZNA.js";
-import {
-  ceil,
-  clamp,
-  floor,
-  modulo,
-  round
-} from "./chunk-FQPEUPYV.js";
+} from "./chunk-VOU7BGB4.js";
 import {
   applyTransform,
   buffer,
@@ -161,11 +154,18 @@ import {
   getTopRight,
   getWidth,
   intersects,
-  isEmpty,
+  isEmpty as isEmpty2,
   scaleFromCenter
 } from "./chunk-NHFFGMQO.js";
 import {
-  isEmpty as isEmpty2
+  ceil,
+  clamp,
+  floor,
+  modulo,
+  round
+} from "./chunk-FQPEUPYV.js";
+import {
+  isEmpty
 } from "./chunk-R4H2WGEG.js";
 import {
   __async,
@@ -174,7 +174,7 @@ import {
   __spreadProps,
   __spreadValues,
   __toESM
-} from "./chunk-CPNXOV62.js";
+} from "./chunk-EHLZM3EC.js";
 
 // node_modules/xml-utils/get-attribute.js
 var require_get_attribute = __commonJS({
@@ -1325,7 +1325,7 @@ var ReprojDataTile = class extends DataTile_default {
 var DataTile_default2 = ReprojDataTile;
 
 // node_modules/ol/source/DataTile.js
-var DataTileSource = class extends Tile_default2 {
+var DataTileSource = class extends Tile_default3 {
   /**
    * @param {Options} options DataTile source options.
    */
@@ -3081,22 +3081,22 @@ function getDecoder(fileDirectory) {
     return new Decoder(fileDirectory);
   });
 }
-addDecoder([void 0, 1], () => import("./raw-ZXHE5ATX.js").then((m) => m.default));
-addDecoder(5, () => import("./lzw-5E5BAE45.js").then((m) => m.default));
+addDecoder([void 0, 1], () => import("./raw-NO5MWNWU.js").then((m) => m.default));
+addDecoder(5, () => import("./lzw-O2ZLNULH.js").then((m) => m.default));
 addDecoder(6, () => {
   throw new Error("old style JPEG compression is not supported.");
 });
-addDecoder(7, () => import("./jpeg-ENJ5PPDK.js").then((m) => m.default));
-addDecoder([8, 32946], () => import("./deflate-YAILRLUV.js").then((m) => m.default));
-addDecoder(32773, () => import("./packbits-YQQNONDK.js").then((m) => m.default));
+addDecoder(7, () => import("./jpeg-MDL4B5JG.js").then((m) => m.default));
+addDecoder([8, 32946], () => import("./deflate-JOHWFDG3.js").then((m) => m.default));
+addDecoder(32773, () => import("./packbits-XN7CSGOD.js").then((m) => m.default));
 addDecoder(
   34887,
-  () => import("./lerc-2A46SYGN.js").then((m) => __async(void 0, null, function* () {
+  () => import("./lerc-LYAHQFJH.js").then((m) => __async(void 0, null, function* () {
     yield m.zstd.init();
     return m;
   })).then((m) => m.default)
 );
-addDecoder(50001, () => import("./webimage-HYYGYMI7.js").then((m) => m.default));
+addDecoder(50001, () => import("./webimage-45ON5SIY.js").then((m) => m.default));
 
 // node_modules/geotiff/dist-module/resample.js
 function copyNewSize(array, width, height, samplesPerPixel = 1) {
@@ -4303,7 +4303,7 @@ var Pool = class {
     this.messageId = 0;
     if (size) {
       this._awaitingDecoder = createWorker2 ? Promise.resolve(createWorker2) : new Promise((resolve) => {
-        import("./decoder-SLFJGFYX.js").then((module) => {
+        import("./decoder-JSOQELTR.js").then((module) => {
           resolve(module.create);
         });
       });
@@ -7470,7 +7470,7 @@ var ReprojImage = class extends Image_default {
       targetResolution
     );
     const sourceExtent = triangulation.calculateSourceExtent();
-    const sourceImage = isEmpty(sourceExtent) ? null : getImageFunction(sourceExtent, sourceResolution, pixelRatio);
+    const sourceImage = isEmpty2(sourceExtent) ? null : getImageFunction(sourceExtent, sourceResolution, pixelRatio);
     const state = sourceImage ? ImageState_default.IDLE : ImageState_default.EMPTY;
     const sourcePixelRatio = sourceImage ? sourceImage.getPixelRatio() : 1;
     super(targetExtent, targetResolution, sourcePixelRatio, state);
@@ -9328,7 +9328,7 @@ var VectorTile2 = class extends UrlTile_default {
               }
               if (tile.loadingSourceTiles === 0) {
                 tile.setState(
-                  isEmpty2(tile.errorTileKeys) ? TileState_default.LOADED : TileState_default.ERROR
+                  isEmpty(tile.errorTileKeys) ? TileState_default.LOADED : TileState_default.ERROR
                 );
               }
             }
@@ -9595,7 +9595,7 @@ var CanvasImageLayerRenderer = class extends Layer_default2 {
         fromUserExtent(layerState.extent, viewState.projection)
       );
     }
-    if (!hints[ViewHint_default.ANIMATING] && !hints[ViewHint_default.INTERACTING] && !isEmpty(renderedExtent)) {
+    if (!hints[ViewHint_default.ANIMATING] && !hints[ViewHint_default.INTERACTING] && !isEmpty2(renderedExtent)) {
       if (imageSource) {
         const projection = viewState.projection;
         const image = imageSource.getImage(
@@ -10429,8 +10429,8 @@ function createLayers(sources) {
 function createLayer(layerOrSource) {
   let layer;
   if (layerOrSource instanceof Source_default) {
-    if (layerOrSource instanceof Tile_default2) {
-      layer = new Tile_default3({ source: layerOrSource });
+    if (layerOrSource instanceof Tile_default3) {
+      layer = new Tile_default2({ source: layerOrSource });
     } else if (layerOrSource instanceof Image_default3) {
       layer = new Image_default4({ source: layerOrSource });
     }
@@ -11308,7 +11308,7 @@ var CustomTile2 = class extends Tile_default {
     }
   }
 };
-var UTFGrid = class extends Tile_default2 {
+var UTFGrid = class extends Tile_default3 {
   /**
    * @param {Options} options Source options.
    */
@@ -11748,7 +11748,7 @@ export {
   Raster_default as Raster,
   Source_default as Source,
   StadiaMaps_default as StadiaMaps,
-  Tile_default2 as Tile,
+  Tile_default3 as Tile,
   TileArcGISRest_default as TileArcGISRest,
   TileDebug_default as TileDebug,
   TileImage_default as TileImage,

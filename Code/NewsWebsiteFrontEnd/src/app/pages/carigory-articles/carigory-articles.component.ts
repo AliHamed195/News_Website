@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ArticlesService } from '../../Services/Articles/articles.service';
 import { MedioumArticleCardComponent } from '../../components/medioum-article-card/medioum-article-card.component';
 import { Subscription } from 'rxjs';
+import { SignalrService } from '../../Services/SignalR/signalr.service';
 
 @Component({
   selector: 'app-carigory-articles',
@@ -28,7 +29,8 @@ export class CarigoryArticlesComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private route: ActivatedRoute,
-    private articlesService: ArticlesService
+    private articlesService: ArticlesService,
+    private signalRService: SignalrService
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +44,14 @@ export class CarigoryArticlesComponent implements OnInit, OnDestroy {
           }
         }
       });
+
+      this.signalRService.startConnection();
+      this.signalRService.addReceiveNewArticleListener(
+        (article: GeneralArticleDetailsViewModel) => {
+          this.articles.unshift(article);
+          console.log(article);
+        }
+      );
     }
   }
 

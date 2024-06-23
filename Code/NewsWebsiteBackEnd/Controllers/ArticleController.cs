@@ -12,6 +12,7 @@ using NewsWebsiteBackEnd.DTO.Category;
 using NewsWebsiteBackEnd.DTO.Location;
 using NewsWebsiteBackEnd.DTO.Pagination;
 using NewsWebsiteBackEnd.DTO.Solr;
+using NewsWebsiteBackEnd.Hubs;
 using NewsWebsiteBackEnd.Models;
 using NewsWebsiteBackEnd.SOLR;
 using Newtonsoft.Json;
@@ -29,18 +30,19 @@ namespace NewsWebsiteBackEnd.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUsers> _userManager;
-        //private readonly IHubContext<ArticleHub> _hubContext;
+        private readonly IHubContext<ArticleHub> _hubContext;
         private readonly HttpClient _httpClient;
         private readonly string _apiKey;
         private readonly ISolrOperations<SolrArticle> solr;
 
-        public ArticleController(ApplicationDbContext context, UserManager<ApplicationUsers> userManager, IServiceProvider serviceProvider)
+        public ArticleController(ApplicationDbContext context, UserManager<ApplicationUsers> userManager, IServiceProvider serviceProvider, IHubContext<ArticleHub> hubContext)
         {
             _context = context;
             _userManager = userManager;
             _httpClient = new HttpClient();
             _apiKey = "3e41dba41eae4304a8f814fe7c21b677";
             solr = serviceProvider.GetRequiredService<ISolrOperations<SolrArticle>>();
+            _hubContext = hubContext;
         }
 
         [Authorize(Roles = DefaultSystemRoles.Admin)]
@@ -771,6 +773,9 @@ namespace NewsWebsiteBackEnd.Controllers
         [HttpPost("publish/{id}")]
         public async Task<IActionResult> PublishArticle(int id)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+
             var article = await _context.Articles.FindAsync(id);
             if (article == null)
             {
@@ -781,7 +786,41 @@ namespace NewsWebsiteBackEnd.Controllers
             _context.Articles.Update(article);
             await _context.SaveChangesAsync();
 
-            // await _hubContext.Clients.All.SendAsync("ArticlePublished", article.Title, Url.Action("GetArticleById", new { id = article.Id }));
+            // get the article [ArticleDetailsViewModel] and send it to the client
+            var articleDetails = await _context.Articles
+                .AsNoTracking()
+                .Where(a => a.Id == id)
+                .Select(a => new ArticleDetailsViewModel
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    CoverImagePath = a.CoverImagePath,
+                    Summary = a.Summary,
+                    CreatedAt = a.CreatedAt,
+                    UpdatedAt = a.UpdatedAt,
+                    IsDeleted = a.IsDeleted,
+                    IsPublished = a.IsPublished,
+                    TotalNumberOfComments = a.TotalNumberOfComments,
+                    RatingAvg = a.RatingAvg,
+                    TotalNumberOfRatings = a.TotalNumberOfRatings,
+                    TotalNumberOfViews = a.TotalNumberOfViews,
+                    Tags = a.Tags,
+                    UrlAsText = a.UrlAsText,
+                    Location = a.Location,
+                    BodyStructureAsHtmlCode = a.BodyStructureAsHtmlCode,
+                    BodyStructureAsText = a.BodyStructureAsText,
+                    CreatedById = a.CreatedById,
+                    CreatedByFullName = a.CreatedBy.FullName,
+                    CategoryId = a.CategoryId,
+                    CategoryName = a.Categories.Name,
+                    IsRatedByCurrentUser = a.Ratings.Any(r => r.CreatedById == userId),
+                    Lat = a.Lat,
+                    Lng = a.Lng
+                })
+                .FirstOrDefaultAsync();
+
+            await _hubContext.Clients.All.SendAsync("ArticlePublished", articleDetails);
+
 
             return Ok(new { success = true, message = "Article published successfully." });
         }

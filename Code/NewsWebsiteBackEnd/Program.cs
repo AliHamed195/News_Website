@@ -43,11 +43,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // ==============================================================================================
 
-// SignalR
-builder.Services.AddSignalR();
-
-// ==============================================================================================
-
 //Services
 builder.Services.AddScoped<IFoldersServices, FoldersServices>();
 builder.Services.AddScoped<IFileServices, FileServices>();
@@ -92,14 +87,15 @@ builder.Services.AddAuthentication(x =>
 
 // ==============================================================================================
 
-// CORS policy for the client app
+builder.Services.AddSignalR();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("EnableCORS", builder =>
     {
-        builder.AllowAnyOrigin()
+        builder.WithOrigins("http://localhost:4200")
                .AllowAnyHeader()
-               .AllowAnyMethod();
+               .AllowAnyMethod()
+               .AllowCredentials();
     });
 });
 
@@ -142,7 +138,7 @@ app.UseAuthorization();
 
 //Hubs
 app.MapHub<RoleManagementHub>("/ws/Actions/roleEvents");
-//app.MapHub<ArticleHub>("/articleHub");
+app.MapHub<ArticleHub>("/api/articleHub");
 
 // ==============================================================================================
 
